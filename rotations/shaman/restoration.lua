@@ -5,14 +5,14 @@ PossiblyEngine.library.register('coreHealing', {
 	needsHealing = function(percent, count)
 		return PossiblyEngine.raid.needsHealing(tonumber(percent)) >= count
 	end,
-	needsDispelled = function(spell)
-		for _, unit in pairs(PossiblyEngine.raid.roster) do
-			if UnitDebuff(unit.unit, spell) then
-				PossiblyEngine.dsl.parsedTarget = unit.unit
-				return true
-			end
-		end
-	end,
+	--needsDispelled = function(spell)
+	--	for _, unit in pairs(PossiblyEngine.raid.roster) do
+	--		if UnitDebuff(unit.unit, spell) then
+	--			PossiblyEngine.dsl.parsedTarget = unit.unit
+	--			return true
+	--		end
+	--	end
+	--end,
 })
 
 PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
@@ -77,7 +77,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Greater Healing Wave", { "tank.health < 65", "player.buff(Unleash Life)" }, "tank" },
 
 	-- Dispel
-	{ "Purify Spirit", "@coreHealing.needsDispelled('Aqua Bomb')" },
+	--{ "Purify Spirit", "@coreHealing.needsDispelled('Aqua Bomb')" },
 	
 	-- Interrupt
 	{ "Quaking Palm", "modifier.interrupts" }, -- Pandaren Racial
@@ -90,7 +90,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Ancestral Swiftness", "lowest.health < 25" },
 	{ "Greater Healing Wave", { "lowest.health < 25", "player.buff(Ancestral Swiftness)" }, "lowest" },
 	{ "Healing Surge", "lowest.health < 30", "lowest" }, -- only if you feel that the target will die before you have a chance to complete a Greater Healing Wave
-	{ "Greater Healing Wave", "@coreHealing.needsDispelled(Chomp)" },
+	--{ "Greater Healing Wave", "@coreHealing.needsDispelled(Chomp)" },
 	{ "Greater Healing Wave", "lowest.health < 40", "lowest" },
 	{ "Chain Heal", { "modifier.multitarget", "@coreHealing.needsHealing(80, 3)" }, "lowest" },
 	{ "Greater Healing Wave", { "lowest.health < 65", "player.buff(Tidal Waves).count = 2" }, "lowest" },

@@ -9,8 +9,8 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 -- COMBAT
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "@bbLib.bossMods" },
-	{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
+	--{ "pause", "@bbLib.bossMods" },
+	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 	
