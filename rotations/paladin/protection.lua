@@ -29,7 +29,7 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 	{ "Shield of the Righteous", { "target.spell(Crusader Strike).range", "player.buff(Divine Purpose)" } },
   
 	-- Seals
-	{ "Seal of Insight", "player.seal != 3" },
+	{ "Seal of Insight", "player.seal != 3" }, -- No mana cost now
 
 	-- Interrupts
 	{ "Avenger's Shield", "modifier.interrupts" }, 
@@ -39,7 +39,6 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 	{{
 		{ "Ardent Defender", "player.health < 25" },
 		{ "Lay on Hands", { "player.health < 25", "!player.buff(Ardent Defender)" } },
-		{ "Avenging Wrath", "target.boss" },
 		{ "Holy Avenger", { "player.holypower < 2", "target.boss" } },  -- T5
 		{ "Divine Protection", { "player.health < 70", "target.casting.time > 0", "!player.buff(Ardent Defender)", "!player.buff(Guardian of Ancient Kings)" } },
 		-- TODO: Use Survival Trinkets
@@ -50,14 +49,14 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 	-- Survivability
 	{ "Hand of Freedom", { "toggle.usehands", "!modifier.last(Cleanse)", "!player.buff", "player.state.root" }, "player" },
 	{ "Hand of Freedom", { "toggle.usehands", "!modifier.last(Cleanse)", "!player.buff", "player.state.snare" }, "player" },
-	{ "Eternal Flame", "player.buff(Eternal Flame).duration < 3" }, -- T3
+	{ "Eternal Flame", "player.buff(Eternal Flame).duration < 3" }, -- T3 -- Nerfed
 	{ "Sacred Shield", "player.buff(Sacred Shield).duration < 3" }, -- T3
 	{ "#5512", { "modifier.cooldowns", "player.health < 30" } }, -- Healthstone (5512)
 	{ "Cleanse", { "!modifier.last(Cleanse)", "player.dispellable(Cleanse)" }, "player" }, -- Cleanse Poison or Disease
 	
 	-- BossMods
 	{ "Reckoning", { "toggle.autotaunt", "@bbLib.bossTaunt" } },
-	{ "Hand of Sacrifice", { "toggle.usehands", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "mouseover.debuff(Assassin's Mark)" }, "mouseover" },
+	{ "Hand of Sacrifice", { "toggle.usehands", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "mouseover.debuff(Assassin's Mark)" }, "mouseover" }, -- Off GCD now
 	
 	-- Raid Survivability
 	{ "Hand of Protection", { "toggle.usehands", "lowest.exists", "lowest.alive", "lowest.friend", "lowest.isPlayer", "!lowest.role(tank)", "!lowest.immune.melee", "lowest.health <= 15" }, "lowest" },
@@ -90,17 +89,16 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 	
 	-- DPS Rotation
 	{ "Avenger's Shield", { "modifier.multitarget", "modifier.enemies > 9" } },
-	{ "Judgment", "player.spell(Sanctified Wrath).exists" },
 	{ "Hammer of the Righteous", "modifier.multitarget" },
 	{ "Crusader Strike", "!modifier.multitarget" },
-	{ "Judgment" },
+	{ "Judgment" }, -- Now free cast.
 	{ "Consecration", { "modifier.multitarget", "target.spell(Crusader Strike).range", "!player.buff(Grand Crusader)" } },
 	{ "Avenger's Shield" },
 	{ "Holy Prism" }, --T6
 	{ "Execution Sentence", "player.health < 70", "player" }, --T6
 	{ "Execution Sentence", "player.health > 70", "target" }, --T6
 	{ "Hand of Purity", true, "player" },  -- T4
-	{ "Holy Wrath", { "target.spell(Crusader Strike).range", "!toggle.limitaoe" } },
+	{ "Holy Wrath", { "target.spell(Crusader Strike).range", "!toggle.limitaoe" } }, -- Now buffed by Sanctified Wrath
 	{ "Hammer of Wrath", "!toggle.limitaoe" },
 	{ "Consecration", { "target.spell(Crusader Strike).range", "!toggle.limitaoe", "!player.moving" } },
 	

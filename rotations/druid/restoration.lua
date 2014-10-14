@@ -15,6 +15,9 @@ PossiblyEngine.library.register('coreHealing', {
 -- Custom Resto Druid Rotation v0.1
 -- Updated on Nov 29th
 
+-- Barkskin added
+
+
 PossiblyEngine.rotation.register_custom(105, "bbDruidRestoration", {
 
 -- Pause Rotation
@@ -35,8 +38,6 @@ PossiblyEngine.rotation.register_custom(105, "bbDruidRestoration", {
 -- Incarnation Modifier
 { "106731", "modifier.rcontrol" },
 
--- Innervate
-{ "29166", "player.mana < 80", "player" },
 
 -- Dispel - Click Toggle To Enable - 5.4 Content
 { "88423", {
@@ -85,20 +86,14 @@ PossiblyEngine.rotation.register_custom(105, "bbDruidRestoration", {
 	"!lowest.range > 40"
 }, "lowest" },
 
--- Incarnation Wildgrowth
-{ "48438", {
+-- Incarnation Rejuvenation
+{ "Rejuvenation", {
 	"player.buff(33891)",
 	"@coreHealing.needsHealing(85, 3)",
 	"!lowest.range > 40"
 }, "lowest" },
 
--- Incarnation Lifebloom Spam
-{ "33763", { 
-	"player.buff(33891)",
-	"!lowest.buff(33763)",
-	"lowest.health < 100",
-	"!lowest.range > 40"
-}, "lowest" },
+
 
 -- Regrowth Clearcasting
 { "8936", { 
@@ -130,7 +125,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruidRestoration", {
 
 -- Lifebloom Tank
 { "33763", { 
-	"tank.buff(33763).count < 3",
+	"!tank.buff(33763)",
 	"!tank.range > 40"
 }, "tank" },
 
@@ -215,13 +210,6 @@ PossiblyEngine.rotation.register_custom(105, "bbDruidRestoration", {
 	"!lowest.range > 40"
 }, "lowest" },
 
-
--- Nourish For Harmony
-{ "50464", {
-	"player.buff(100977).duration <= 2",
-	"lowest.health < 99",
-	"!lowest.range > 40"
-}, "lowest" },
 
 }, {
 -- Focus Macro - Out Of Combat

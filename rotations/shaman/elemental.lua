@@ -32,9 +32,10 @@ PossiblyEngine.rotation.register_custom(262, "bbElementalShaman", {
 
 	-- Moving Rotation
 	{ "Flame Shock", { "player.moving", "target.debuff(Flame Shock).duration <= 3", "!player.buff(Spiritwalker's Grace)" } },
-	{ "Lava Burst", { "player.moving", "player.buff(Lava Surge)", "!player.buff(Spiritwalker's Grace)" } },
 	{ "Earth Shock", { "player.moving", "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count >= 6", "!player.buff(Spiritwalker's Grace)" } },
-	{ "Lightning Bolt", { "player.moving", "!player.buff(Spiritwalker's Grace)" } },
+	{ "Lightning Bolt", { "player.moving", "player.buff(Spiritwalker's Grace)" } },
+	--Unleash Weapon
+	--Lava Burst (instant)
 
 	-- Cooldowns
 	{ "Stormlash Totem", { "modifier.cooldowns", "target.boss" } },
@@ -48,6 +49,7 @@ PossiblyEngine.rotation.register_custom(262, "bbElementalShaman", {
 	-- AoE
 	{ "Chain Lightning", { "modifier.enemies >= 4", "modifier.multitarget" } },
 	{ "Thunderstorm", { "modifier.enemies >= 6", "modifier.multitarget" } },
+	--Earthquake was buffed
 
 	-- Totems
 	{ "Searing Totem", { "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } },
@@ -56,7 +58,6 @@ PossiblyEngine.rotation.register_custom(262, "bbElementalShaman", {
 	-- Rotation
 	{ "Flame Shock", "target.debuff(Flame Shock).duration <= 3" },
 	{ "Lava Beam", "modifier.multitarget" },
-	{ "Lava Burst", "!modifier.multitarget" },
 	{ "Elemental Blast" },
 	{ "Earth Shock", { "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count >= 6" } },
 	{ "Chain Lightning", { "modifier.enemies > 2", "modifier.multitarget" } },
@@ -70,7 +71,6 @@ PossiblyEngine.rotation.register_custom(262, "bbElementalShaman", {
 	{ "pause", "modifier.lcontrol" },
 	
 	-- Buffs
-	{ "Flametongue Weapon", "!player.enchant.mainhand" },
 	{ "Lightning Shield", "!player.buff(Lightning Shield)" },
 
 	-- Heal

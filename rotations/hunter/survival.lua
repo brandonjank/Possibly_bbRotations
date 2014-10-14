@@ -27,16 +27,16 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Feign Death", { "player.debuff(Aim)", "player.debuff(Aim).duration > 3" } },
 
 	-- Interrupts
-	{ "Counter Shot", "modifier.interrupts" },
+	{ "Counter Shot", { "modifier.interruptAt(70)", "player.range < 40" } },
 
 	-- Tranq Shot
 	{ "Tranquilizing Shot", "target.dispellable", "target" },
-	--{ "Tranquilizing Shot", "mouseover.dispellable", "mouseover" },
+	{ "Tranquilizing Shot", "mouseover.dispellable", "mouseover" },
 
 	-- Pet
-	--{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
-	{ "Heart of the Phoenix", { "pet.exists", "!pet.alive" } },
-	{ "Mend Pet", { "pet.health <= 50", "pet.exists", "!pet.buff", "pet.range < 40" } },
+	{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
+	{ "Heart of the Phoenix", "!pet.alive" },
+	{ "Mend Pet", { "pet.health <= 50", "pet.exists", "!pet.buff", "pet.range < 40" } }, -- Mend Pet and Revive Pet on same button now
 	
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
@@ -48,27 +48,27 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- PvP Abilities
 	-- TODO: Automatic PvP mode isPlayer isPvP
 	-- TODO: Proactive Deterrence
-	--{ "Scatter Shot", { "toggle.mouseovers", "mouseover.isPlayer", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
-	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
-	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.disorient" }, "mouseover" },
-	--{ "Scatter Shot", { "modifier.rcontrol", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
-	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
-	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.disorient" }, "mouseover" },
+	{ "Scatter Shot", { "toggle.mouseovers", "mouseover.isPlayer", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
+		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.disorient" }, "mouseover" },
+	{ "Scatter Shot", { "modifier.rcontrol", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
+		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.disorient" }, "mouseover" },
 	--{ "Wyvern Sting", { "toggle.mouseovers", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
 	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
 	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
 	--{ "Wyvern Sting", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", -- 
 	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
 	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
-	--{ "Binding Shot", { "toggle.mouseovers", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
-	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
-	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
-	--{ "Binding Shot", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", -- 
-	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
-	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "ground" }, 
-	--{ "Ice Trap", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "mouseover.status.disorient", -- Ice Trap on Scatter Shot targets
-	--	"!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" }, 
-	--{ "Scare Beast", { "toggle.mouseovers", "toggle.pvpmode", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.debuff(Scare Beast)", "mouseover.creatureType(Beast)" }, "mouseover" },
+	{ "Binding Shot", { "toggle.mouseovers", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
+		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
+	{ "Binding Shot", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", -- 
+		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
+		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "ground" }, 
+	{ "Ice Trap", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "mouseover.status.disorient", -- Ice Trap on Scatter Shot targets
+		"!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" }, 
+	{ "Scare Beast", { "toggle.mouseovers", "toggle.pvpmode", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.debuff(Scare Beast)", "mouseover.creatureType(Beast)" }, "mouseover" },
 	--{ "Scare Beast", { "toggle.pvpmode", "target.exists", "target.enemy", "target.alive", "!target.debuff(Scare Beast)", "target.creatureType(Beast)" } },
 	
 	-- Flare
@@ -84,8 +84,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	}},
 
 	-- Stances
-	{ "Aspect of the Iron Hawk", { "!player.buff(Aspect of the Hawk)", "!player.buff(Aspect of the Iron Hawk)", "!player.moving" } },
-	{ "Aspect of the Hawk", { "!player.buff(Aspect of the Hawk)", "!player.buff(Aspect of the Iron Hawk)", "!player.moving" } },
+	{ "Iron Hawk", { "!player.buff(Iron Hawk)", "!player.moving" } },
 	
 	-- Defensive Racials
 	--{ "20594", "player.health <= 70" }, 
@@ -106,7 +105,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "Exhilaration", { "modifier.cooldowns", "player.health < 40" } },
 	--{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit
 	{ "#5512", { "modifier.cooldowns", "player.health < 30" } }, -- Healthstone (5512)
-	--{ "#76097", { "toggle.consume", "player.health < 15", "@bbLib.useHealthPot", "target.boss" } }, -- Master Healing Potion (76097)	
+	{ "#76097", { "toggle.consume", "player.health < 15", "@bbLib.useHealthPot", "target.boss" } }, -- Master Healing Potion (76097)	
 	{ "Master's Call", "player.state.disorient" },
 	{ "Master's Call", "player.state.stun" },
 	{ "Master's Call", "player.state.root" },
@@ -126,13 +125,10 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "107079", "modifier.interrupts" }, 
 	
 	-- Offensive Cooldowns
-	--{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
+	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
 	{ "Blood Fury", "modifier.cooldowns" },
 	{ "#gloves", { "modifier.cooldowns", "pet.exists", "target.exists" } }, -- Synapse Springs
-	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists" } },
-
-	-- Dual Use
-	--{ "Fervor", "player.focus <= 50" }, -- TIER 4 Talent
+	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
 	
 	-- Multi Target
 	{{
@@ -143,37 +139,32 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Explosive Trap", true, "target.ground" },
 	{ "Black Arrow", { "!target.debuff", "target.deathin >= 15", "!target.state.charm" } },
 	{ "Explosive Shot", "player.buff(Lock and Load)" },
-	{ "Kill Shot", "target.health <= 20" },
 	{ "Cobra Shot", "player.focus < 40" },
 	}, {
 		"modifier.multitarget"
 	}},
 	
-	-- Single Target -- 227.1k @ 120M || 238.4 @ 50M 3:31
+	-- Steady Focus?
+	
+	-- Single Target
 	{ "Explosive Shot", "player.buff(Lock and Load)" },
-	{ "Serpent Sting", { "!target.debuff(Serpent Sting)", "target.deathin >= 15", "!target.state.charm" } },
 	{ "Black Arrow", { "!target.debuff", "target.deathin >= 15", "!target.state.charm" } },
-	{ "Kill Shot" },
 	{ "Explosive Shot" },
-	--{ "pause", "player.spell(Kill Shot).cooldown <= 0.3" },
 	--{ "pause", "player.spell(Explosive Shot).cooldown <= 0.3" },
-	{ "Serpent Sting", { "!modifier.pvpmode", "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.debuff", "!mouseover.state.charm", "mouseover.deathin >= 15" }, "mouseover" },
 	{ "Glaive Toss" }, -- T6 Talent
 	--{ "Powershot" }, -- T6 Talent
 	--{ "Barrage" }, -- T6 Talent
 	{ "A Murder of Crows" }, -- T5 Talent
-	--{ "Lynx Rush" }, -- T5 Talent
 	{ "Dire Beast" }, -- T4 Talent
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "player.hashero" } },
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "player.buff(Rapid Fire)" } },
-	{ "Rapid Fire", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
+	{ "Stampede", { "modifier.cooldowns", "pet.exists", "player.hashero" } }, --Talent Now
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
 	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
 	{ "Explosive Trap", { "toggle.cleavemode", "modifier.enemies > 2", "target.enemy" }, "target.ground" },
-	{ "Multi-Shot", { "toggle.cleavemode", "player.focus >= 60", "modifier.enemies > 2" } },
-	{ "Arcane Shot", "player.focus >= 60" },
+	{ "Multi-Shot", { "toggle.cleavemode", "player.focus >= 60", "modifier.enemies > 2" } }, --Applies Serpent Sting Now
+	{ "Arcane Shot", "player.focus >= 60" }, --Applies Serpent Sting Now
 	{ "Cobra Shot", "player.focus < 40" },
 	{ "Cobra Shot", "player.spell(Explosive Shot).cooldown > 0.5" },
+	
 },
 {
 	-- Pauses
@@ -182,13 +173,13 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	-- Stances
 	-- TODO: player.moving(seconds)
-	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, 
+	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	{ "Camouflage", { "toggle.camomode", "!player.buff", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- Pet
-	--{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
-	{ "Revive Pet", { "!player.moving", "!pet.alive" } },
-	{ "Mend Pet", { "pet.health <= 90", "pet.exists", "pet.alive", "!pet.buff(Mend Pet)" } },
+	{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
+	{ "Revive Pet", { "!player.moving", "!pet.alive" } }, -- Mend Pet and Revive Pet on same button now
+	{ "Mend Pet", { "pet.health <= 90", "pet.exists", "pet.alive", "!pet.buff(Mend Pet)" } }, -- Mend Pet and Revive Pet on same button now
 
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
@@ -196,9 +187,6 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Ice Trap", "modifier.lalt", "ground" },
 	{ "Snake Trap", "modifier.lalt", "ground" },
 	{ "Freezing Trap", "modifier.ralt", "ground" },
-
-	-- Mark
-	{ "Hunter's Mark", { "target.exists", "target.alive", "!target.debuff(Hunter's Mark).any" }, "target" },
 
 	-- Food / Flask
 	-- TODO: flask of spring blossoms

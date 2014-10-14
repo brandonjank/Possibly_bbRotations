@@ -21,6 +21,10 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 -- CONTROLS: Pause - Left Control, Healing Rain - Left Shift
 -- NOTE: Set Focus target to tank, for: Earth Shield, Riptide, Lightning Bolt
 
+--TODO: Echo of the Elements, causing their next short-cooldown spell or ability to not trigger a cooldown. Restoration: It may be used on Unleash Life, Purify Spirit, or Riptide.
+--TODO: Elemental Blast now also grants increased Spirit for Restoration Shaman, in addition to the random secondary stat. Spirit amount granted is equal to double the random secondary stat amount.
+--TODO: Earthliving Weapon now increases healing done by 5% (instead of increasing healing Spell Power by a flat amount).
+
 -- COMBAT
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
@@ -47,11 +51,9 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1" } },
 	
 	-- Healing Rain Mouseover
-	{ "Unleash Elements", "modifier.lshift" },
 	{ "Healing Rain", "modifier.lshift", "ground" },
 	
 	-- Buffs
-	{ "Earthliving Weapon", "!player.enchant.mainhand" },
 	{ "Water Shield", "!player.buff" },
 	
 	-- Cooldowns
@@ -60,20 +62,19 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "#gloves", { "modifier.cooldowns", "player.totem(Spirit Link Totem)" } },
 	{ "#gloves", { "modifier.cooldowns", "player.buff(Ascendance)" } },
 	{ "Spirit Walker's Grace", { "modifier.cooldowns", "player.buff(Ascendance)", "player.moving" } },
-	{ "Healing Stream Totem", { "!player.totem(Healing Tide Totem)", "!player.totem(Mana Tide Totem)" } },
-	{ "Mana Tide Totem", { "modifier.cooldowns", "!player.totem(Healing Tide Totem)", "!player.totem(Healing Stream Totem)", "player.mana < 30" } },
-	{ "Healing Tide Totem", { "modifier.cooldowns", "!player.totem(Mana Tide Totem)", "!player.totem(Spirit Link Totem)", "!player.buff(Ascendance)", "@coreHealing.needsHealing(50, 5)" } },
+	{ "Healing Stream Totem", "!player.totem(Healing Tide Totem)" },
+	{ "Healing Tide Totem", { "modifier.cooldowns", "!player.totem(Spirit Link Totem)", "!player.buff(Ascendance)", "@coreHealing.needsHealing(50, 5)" } }, -- heals raid now no range requirement
 	{ "Spirit Link Totem", { "modifier.cooldowns", "!player.totem(Healing Tide Totem)", "!player.buff(Ascendance)", "@coreHealing.needsHealing(45, 4)" } },
 	{ "Ascendance", { "modifier.cooldowns", "!player.totem(Spirit Link Totem)", "!player.totem(Healing Tide Totem)", "@coreHealing.needsHealing(40, 5)" } },
 	
 	-- Focus / Tank Healing
-	{ "Earth Shield", "!focus.buff(Earth Shield).any", "focus" },
-	{ "Earth Shield", { "!focus.buff(Earth Shield)", "!tank.buff(Earth Shield).any" }, "tank" },
+	{ "Earth Shield", "!focus.buff(Earth Shield)", "focus" },
+	{ "Earth Shield", { "!focus.buff(Earth Shield)", "!tank.buff(Earth Shield)" }, "tank" },
 	{ "Riptide", "!focus.buff(Riptide)", "focus" },
 	{ "Riptide", "!tank.buff(Riptide)", "tank" },
-	{ "Unleash Elements", "focus.health < 65" },
+	{ "Unleash Life", "focus.health < 65" }, --Unleash Life has been made into a separate ability available only to Restoration Shaman, and now heals an ally and increases the effect of the Shaman’s next direct heal by 30%.
 	{ "Greater Healing Wave", { "focus.health < 65", "player.buff(Unleash Life)" }, "focus" },
-	{ "Unleash Elements", "tank.health < 65" },
+	{ "Unleash Life", "tank.health < 65" },
 	{ "Greater Healing Wave", { "tank.health < 65", "player.buff(Unleash Life)" }, "tank" },
 
 	-- Dispel
@@ -104,7 +105,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 		{ "Wind Shear", { "focus.friend", "focustarget.casting", "focustarget.range <= 25" }, "focustarget" }, -- Interrupt focustarget
 		{ "Fire Elemental Totem", { "modifier.cooldowns", "focustarget.boss", "focustarget.range < 40"  } },
 		{ "Stormlash Totem", { "modifier.cooldowns", "player.hashero", "focustarget.boss", "focustarget.range < 40" } },
-		{ "Searing Totem", { "!player.totem(Magma Totem)", "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } },
+		{ "Searing Totem", { "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } },
 		{ "Flame Shock", { "focustarget.exists", "!focustarget.debuff(Flame Shock)", "focustarget.deathin > 20" }, "focustarget" },
 		{ "Lava Burst", { "focustarget.exists", "focustarget.debuff(Flame Shock)" }, "focustarget" },
 	}, {
@@ -113,7 +114,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	}},
 	
 	-- Auto Follow
-	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing()
+	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal Strike was replaced by Lava Burst.
 	
 }, {
 -- OUT OF COMBAT ROTATION
@@ -121,7 +122,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "pause", "modifier.lcontrol" },
 
 	-- Buffs
-	{ "Earthliving Weapon", "!player.enchant.mainhand" },
 	{ "Water Shield", "!player.buff" },
 	
 	-- Pull us into combat and out of Ghost Wolf
@@ -129,14 +129,13 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	
 	-- Heal
 	{ "Healing Stream Totem", "player.health < 80" },
-	--{ "Healing Wave", "@coreHealing.needsHealing(80, 1)", "lowest" },
-	{ "Healing Wave", "lowest.health < 85", "lowest" },
+	{ "Greater Healing Wave", "lowest.health < 85", "lowest" },
 	
 	-- Ghost Wolf
 	{ "Ghost Wolf", { "!player.buff(Ghost Wolf)", "player.moving", "!modifier.last(Ghost Wolf)" } },
 	
 	-- Auto Follow
-	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing()
+	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal strike was replaced withLava Burst
 	
 },
 function()
