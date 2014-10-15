@@ -44,11 +44,11 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Tremor Totem", "player.state.fear" },
 	{ "Tremor Totem", "player.state.charm" },
 	{ "Tremor Totem", "player.state.sleep" },
-	{ "Call of the Elements", { "player.state.root", "player.spell(Wind Walk Totem).cooldown > 1" } },
-	{ "Call of the Elements", { "player.state.snare", "player.spell(Wind Walk Totem).cooldown > 1" } },
-	{ "Call of the Elements", { "player.state.fear", "player.spell(Tremor Totem).cooldown > 1" } },
-	{ "Call of the Elements", { "player.state.charm", "player.spell(Tremor Totem).cooldown > 1" } },
-	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1" } },
+	{ "Call of the Elements", { "player.state.root", "player.spell(Wind Walk Totem).cooldown > 1", "talent(3, 1)" } },
+	{ "Call of the Elements", { "player.state.snare", "player.spell(Wind Walk Totem).cooldown > 1", "talent(3, 1)" } },
+	{ "Call of the Elements", { "player.state.fear", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
+	{ "Call of the Elements", { "player.state.charm", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
+	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	
 	-- Healing Rain Mouseover
 	{ "Healing Rain", "modifier.lshift", "ground" },
@@ -57,10 +57,10 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Water Shield", "!player.buff" },
 	
 	-- Defensive Cooldowns
-	{ "Astral Shift", "player.health < 30" },
+	{ "Astral Shift", { "player.health < 30", "talent(1, 3)" } },
 	
 	-- Cooldowns
-	--{ "Elemental Mastery", { "modifier.cooldowns", "focustarget.boss" } }, -- T4	
+	--{ "Elemental Mastery", { "modifier.cooldowns", "focustarget.boss", "talent(4, 1)" } }, -- T4	
 	{ "#gloves", { "modifier.cooldowns", "player.totem(Healing Tide Totem)" } },
 	{ "#gloves", { "modifier.cooldowns", "player.totem(Spirit Link Totem)" } },
 	{ "#gloves", { "modifier.cooldowns", "player.buff(Ascendance)" } },
@@ -117,10 +117,10 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Wave", { "lowest.health < 100" }, "lowest" }, -- Do not use on tank, use greater
 
 	-- DPS Rotation
-	{ "Lightning Bolt", { "toggle.dpsmode", "focus.exists", "focustarget.exists", "focustarget.enemy", "focustarget.range < 40", "player.glyph(Glyph of Telluric Currents)", "!modifier.last(Lightning Bolt)" }, "focustarget" },
+	{ "Lightning Bolt", { "toggle.dpsmode", "focus.exists", "focustarget.exists", "focustarget.enemy", "focustarget.distance < 40", "player.glyph(Glyph of Telluric Currents)", "!modifier.last(Lightning Bolt)" }, "focustarget" },
 	{{
-		{ "Wind Shear", { "focus.friend", "focustarget.casting", "focustarget.range <= 25" }, "focustarget" }, -- Interrupt focustarget
-		{ "Fire Elemental Totem", { "modifier.cooldowns", "focustarget.boss", "focustarget.range < 40"  } },
+		{ "Wind Shear", { "focus.friend", "focustarget.casting", "focustarget.distance <= 25" }, "focustarget" }, -- Interrupt focustarget
+		{ "Fire Elemental Totem", { "modifier.cooldowns", "focustarget.boss", "focustarget.distance < 40"  } },
 		{ "Flame Shock", { "focustarget.exists", "!focustarget.debuff(Flame Shock)", "focustarget.deathin > 20" }, "focustarget" },
 		{ "Lava Burst", { "focustarget.exists", "focustarget.debuff(Flame Shock)" }, "focustarget" },
 	}, {
