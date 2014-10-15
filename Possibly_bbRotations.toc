@@ -7,6 +7,8 @@ libs\library.lua
 rotations\hunter\survival.lua
 rotations\hunter\beastmastery.lua
 rotations\druid\restoration.lua
+rotations\druid\guardian.lua
+rotations\druid\feral.lua
 rotations\paladin\protection.lua
 rotations\warrior\protection.lua
 rotations\monk\windwalker.lua

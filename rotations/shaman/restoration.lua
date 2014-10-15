@@ -1,4 +1,4 @@
--- PossiblyEngine Rotation Packager
+-- PossiblyEngine Rotation
 -- Custom Restoration Shaman Rotation
 -- Created on Dec 25th 2013 1:00 am
 PossiblyEngine.library.register('coreHealing', {
@@ -28,15 +28,15 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 -- COMBAT
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "@bbLib.bossMods" },
-	{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
+	--{ "pause", "@bbLib.bossMods" },
+	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 	
 	-- Racials 
-	{ "Stoneform", "player.health <= 65" },
-	{ "Gift of the Naaru", "player.health <= 70", "player" },
-	{ "Lifeblood", { "modifier.cooldowns", "player.spell(Lifeblood).cooldown < 1" }, "player" },
+	--{ "Stoneform", "player.health <= 65" },
+	--{ "Gift of the Naaru", "player.health <= 70", "player" },
+	--{ "Lifeblood", { "modifier.cooldowns", "player.spell(Lifeblood).cooldown < 1" }, "player" },
 	
 	-- PvP
 	{ "Wind Walk Totem", "player.state.root" },
@@ -51,7 +51,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	
 	-- Healing Rain Mouseover
-	{ "Healing Rain", "modifier.lshift", "ground" },
+	{ "Healing Rain", { "modifier.lshift", (function() return GetCurrentKeyBoardFocus() == nil end) } "ground" },
 	
 	-- Buffs
 	{ "Water Shield", "!player.buff" },
@@ -67,25 +67,25 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Spirit Walker's Grace", { "modifier.cooldowns", "player.buff(Ascendance)", "player.moving" } },
 	
 
-	--Use  Healing Tide Totem,  Spirit Link Totem, or Ascendance during heavy raid damage.  Healing Tide Totem is particularly good when players are spread out, while Ascendance and  Spirit Link Totem benefit from a stacked raid.
+	--Use Healing Tide Totem,  Spirit Link Totem, or Ascendance during heavy raid damage.  Healing Tide Totem is particularly good when players are spread out, while Ascendance and  Spirit Link Totem benefit from a stacked raid.
 	{ "Healing Tide Totem", { "modifier.cooldowns", "!player.totem(Spirit Link Totem)", "!player.buff(Ascendance)", "@coreHealing.needsHealing(50, 5)" } }, -- heals raid now no range requirement
 	{ "Spirit Link Totem", { "modifier.cooldowns", "!player.totem(Healing Tide Totem)", "!player.buff(Ascendance)", "@coreHealing.needsHealing(45, 4)" } },
 	{ "Ascendance", { "modifier.cooldowns", "!player.totem(Spirit Link Totem)", "!player.totem(Healing Tide Totem)", "@coreHealing.needsHealing(40, 5)" } },
 	
 	--Keep Earth Shield on the active tank.
-	{ "Earth Shield", "!focus.buff(Earth Shield)", "focus" },
-	{ "Earth Shield", { "!focus.buff(Earth Shield)", "!tank.buff(Earth Shield)" }, "tank" },
+	{ "Earth Shield", { "focus.exists", "focus.alive", "!focus.buff(Earth Shield)" }, "focus" },
+	{ "Earth Shield", { "tank.exists", "tank.alive", "!focus.exists", "!focus.buff(Earth Shield)", "!tank.buff(Earth Shield)" }, "tank" },
 	
-	--Use  Healing Stream Totem on CD.
+	--Use Healing Stream Totem on CD.
 	{ "Healing Stream Totem" },
 	
-	--Use  Unleash Life to empower Chain Heals (particularly if taking the  High Tide talent), Riptides, or Healing Surges.
+	--Use Unleash Life to empower Chain Heals (particularly if taking the  High Tide talent), Riptides, or Healing Surges.
 	{ "Unleash Life", "lowest.health < 65" },
 	
 	--Keep Riptide on 3 players at all times.
-	{ "Riptide", "!focus.buff(Riptide)", "focus" },
-	{ "Riptide", "!tank.buff(Riptide)", "tank" },
-	{ "Riptide", { "!lowest.buff(Riptide)", "lowest.health < 99" }, "lowest" },
+	{ "Riptide", { "focus.exists", "focus.alive", "!focus.buff(Riptide)" }, "focus" },
+	{ "Riptide", { "tank.exists", "tank.alive", "!tank.buff(Riptide)" }, "tank" },
+	{ "Riptide", { "lowest.exists", "lowest.alive", "!lowest.buff(Riptide)" }, "lowest" }, --, "lowest.health < 100" 
 	
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.
 	
@@ -114,14 +114,14 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	--Cast  Healing Wave on injured targets during periods of low damage.
 	{ "Healing Wave", { "focus.health < 80" }, "focus" },
 	{ "Healing Wave", { "tank.health < 80" }, "tank" },
-	{ "Healing Wave", { "lowest.health < 100" }, "lowest" }, -- Do not use on tank, use greater
+	{ "Healing Wave", { "lowest.health < 100" }, "lowest" },
 
 	-- DPS Rotation
 	{ "Lightning Bolt", { "toggle.dpsmode", "focus.exists", "focustarget.exists", "focustarget.enemy", "focustarget.distance < 40", "player.glyph(Glyph of Telluric Currents)", "!modifier.last(Lightning Bolt)" }, "focustarget" },
 	{{
 		{ "Wind Shear", { "focus.friend", "focustarget.casting", "focustarget.distance <= 25" }, "focustarget" }, -- Interrupt focustarget
 		{ "Fire Elemental Totem", { "modifier.cooldowns", "focustarget.boss", "focustarget.distance < 40"  } },
-		{ "Flame Shock", { "focustarget.exists", "!focustarget.debuff(Flame Shock)", "focustarget.deathin > 20" }, "focustarget" },
+		{ "Flame Shock", { "focustarget.exists", "!focustarget.debuff(Flame Shock)" }, "focustarget" }, --, "focustarget.deathin > 20"
 		{ "Lava Burst", { "focustarget.exists", "focustarget.debuff(Flame Shock)" }, "focustarget" },
 	}, {
 		"toggle.dpsmode",

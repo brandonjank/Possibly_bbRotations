@@ -1,4 +1,4 @@
--- PossiblyEngine Rotation Packager
+-- PossiblyEngine Rotation
 -- Custom Survival Hunter Rotation
 -- Created on Dec 25th 2013 1:00 am
 -- PLAYER CONTROLLED: Rabid MUST be on Auto-Cast for Stampede pets to use them :)
