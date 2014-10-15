@@ -118,39 +118,20 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "Blood Fury",      "modifier.cooldowns" },
 	{ "#gloves",         { "modifier.cooldowns", "pet.exists", "target.exists" } }, -- Synapse Springs
 	{ "Berserking",      { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
-	
-	-- Multi Target
-	{{
-	{ "Multi-Shot" },
-	{ "Glaive Toss" }, -- TIER 6 Talent
-	--{ "Powershot" }, -- TIER 6 Talent
-	--{ "Barrage" }, -- TIER 6 Talent
-	{ "Explosive Trap",  true, "target.ground" },
-	{ "Black Arrow",     "!target.debuff" }, -- About to die?
-	{ "Explosive Shot",  "player.buff(Lock and Load)" },
-	{ "Cobra Shot" }, --,"player.focus < 40" 
-	}, {
-		"modifier.multitarget", (function() return UnitsAroundUnit('target', 10) > 3 or false end)
-	}},
-	
-	-- Steady Focus?
-	
-	-- Single Target
-	{ "Explosive Shot",  "player.buff(Lock and Load)" },
-	{ "Black Arrow",     "!target.debuff" }, -- About to die?
+
+	-- Rotation
 	{ "Explosive Shot" },
-	--{ "pause", "player.spell(Explosive Shot).cooldown <= 0.3" },
+	{ "Black Arrow" },
 	{ "Glaive Toss" }, -- T6 Talent
-	--{ "Powershot" }, -- T6 Talent
 	--{ "Barrage" }, -- T6 Talent
 	{ "A Murder of Crows" }, -- T5 Talent
 	--{ "Stampede",        { "modifier.cooldowns", "pet.exists", "player.hashero" } }, -- T5 Talent
 	{ "Dire Beast" }, -- T4 Talent
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
 	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 8) > 2 or false end) }, "target.ground" }, -- UAU only counts neutral/hostile, no good for healing.
+	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 8) > 3 or false end) }, "target.ground" }, -- UAU only counts neutral/hostile, no good for healing.
 	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) > 2 or false end) } }, --Applies Serpent Sting Now
-	{ "Arcane Shot",     "player.focus >= 60" }, --Applies Serpent Sting Now
+	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) < 3 or false end) } }, --Applies Serpent Sting Now
 	{ "Cobra Shot",      "player.focus < 40" },
 	{ "Cobra Shot",      "player.spell(Explosive Shot).cooldown > 0.5" },
 	
