@@ -60,7 +60,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Astral Shift", "player.health < 30" },
 	
 	-- Cooldowns
-	{ "Elemental Mastery", { "modifier.cooldowns", "focustarget.boss" } }, -- T4	
+	--{ "Elemental Mastery", { "modifier.cooldowns", "focustarget.boss" } }, -- T4	
 	{ "#gloves", { "modifier.cooldowns", "player.totem(Healing Tide Totem)" } },
 	{ "#gloves", { "modifier.cooldowns", "player.totem(Spirit Link Totem)" } },
 	{ "#gloves", { "modifier.cooldowns", "player.buff(Ascendance)" } },
@@ -87,7 +87,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Riptide", "!tank.buff(Riptide)", "tank" },
 	{ "Riptide", { "!lowest.buff(Riptide)", "lowest.health < 99" }, "lowest" },
 	
-	
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.
 	
 	
@@ -113,7 +112,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Wind Shear", "modifier.interrupt" },
 	
 	--Cast  Healing Wave on injured targets during periods of low damage.
-	{ "Healing Wave", { "tank.health < 80" }, "focus" },
+	{ "Healing Wave", { "focus.health < 80" }, "focus" },
 	{ "Healing Wave", { "tank.health < 80" }, "tank" },
 	{ "Healing Wave", { "lowest.health < 100" }, "lowest" }, -- Do not use on tank, use greater
 
