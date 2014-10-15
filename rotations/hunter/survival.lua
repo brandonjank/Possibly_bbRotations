@@ -16,6 +16,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "player.buff(Obsidian Nightwing)" }, -- Trying to cast when mounted!
 	--{ "pause", "@bbLib.bossMods" },
 	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
@@ -34,7 +35,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- Pet
 	{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
 	{ "Heart of the Phoenix", "!pet.alive" },
-	{ "Mend Pet", { "pet.health <= 50", "pet.exists", "!pet.buff", "pet.range < 40" } }, -- Mend Pet and Revive Pet on same button now
+	{ "Mend Pet", { "pet.health <= 50", "pet.exists", "!pet.buff" } }, -- Mend Pet and Revive Pet on same button now , "pet.distance < 40"
 	
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
@@ -46,18 +47,18 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- PvP Abilities
 	-- TODO: Automatic PvP mode isPlayer isPvP
 	-- TODO: Proactive Deterrence
-	--{ "Wyvern Sting", { "toggle.mouseovers", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+	--{ "Wyvern Sting", { "toggle.mouseovers", "talent(2, 2)", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
 	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
 	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
-	--{ "Wyvern Sting", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", -- 
+	--{ "Wyvern Sting", { "modifier.rcontrol", "talent(2, 2)", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", -- 
 	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
 	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
-	--{ "Binding Shot", { "toggle.mouseovers", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+	--{ "Binding Shot", { "toggle.mouseovers", "talent(2, 1)", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
 	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
 	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
 	--{ "Ice Trap", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "mouseover.status.disorient", -- Ice Trap on Scatter Shot targets
 	--	"!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
-	{ "Binding Shot", { "modifier.rcontrol", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", 
+	{ "Binding Shot", { "modifier.rcontrol", "talent(2, 1)", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", 
 	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
 	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" }, 
 	
@@ -66,11 +67,11 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
     -- Misdirect ( focus -> tank -> pet )
 	{{
-		{ "Misdirection", { "focus.exists", "focus.alive", "focus.range < 100"  }, "focus" },
-		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.range < 100" }, "tank" },
-		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.range < 100" }, "pet" },
+		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
+		--{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
+		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "pet" },
 	}, {
-		"toggle.misdirect", "!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 60"--, "@bbLib.canMisdirect"
+		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 60" -- "@bbLib.canMisdirect",  
 	}},
 
 	-- Stances
@@ -122,16 +123,16 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- Rotation
 	{ "Explosive Shot" },
 	{ "Black Arrow" },
-	{ "Glaive Toss" }, -- T6 Talent
-	--{ "Barrage" }, -- T6 Talent
-	{ "A Murder of Crows" }, -- T5 Talent
-	--{ "Stampede",        { "modifier.cooldowns", "pet.exists", "player.hashero" } }, -- T5 Talent
-	{ "Dire Beast" }, -- T4 Talent
+	{ "Glaive Toss", "talent(6, 1)" },
+	--{ "Barrage", "talent(6, 3)" },
+	{ "A Murder of Crows", "talent(5, 1)" },
+	--{ "Stampede",        { "modifier.cooldowns", "pet.exists", "player.hashero", "talent(5, 3)" } },
+	{ "Dire Beast", "talent(4, 2)" },
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
 	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 8) > 3 or false end) }, "target.ground" }, -- UAU only counts neutral/hostile, no good for healing.
-	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) > 2 or false end) } }, --Applies Serpent Sting Now
-	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) < 3 or false end) } }, --Applies Serpent Sting Now
+	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 8) > 3 end) }, "target.ground" }, -- UAU only counts neutral/hostile, no good for healing.
+	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, --Applies Serpent Sting Now
+	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) < 3 end) } }, --Applies Serpent Sting Now
 	{ "Cobra Shot",      "player.focus < 40" },
 	{ "Cobra Shot",      "player.spell(Explosive Shot).cooldown > 0.5" },
 	
@@ -140,7 +141,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- Pauses
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
-	{ "pause", "player.buff(Obsidian Nightwing)" }, -- Trying to cast when mounted!
+	--{ "pause", "player.buff(Obsidian Nightwing)" }, -- Trying to cast when mounted!
 	
 	-- Stances
 	-- TODO: player.moving(seconds)
@@ -150,7 +151,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- Pet
 	{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
 	{ "Revive Pet", { "!player.moving", "!pet.alive" } }, -- Mend Pet and Revive Pet on same button now
-	{ "Feed Pet", { "pet.exists", "pet.alive", "pet.health <= 90", "!pet.buff(Mend Pet)", "pet.range < 10" } }, -- OOC only
+	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health <= 90", "!pet.buff(Mend Pet)" } }, -- OOC only -- "pet.distance < 45"
 
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
