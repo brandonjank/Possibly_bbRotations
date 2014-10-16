@@ -51,7 +51,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	
 	-- Healing Rain Mouseover
-	{ "Healing Rain", { "modifier.lshift", (function() return GetCurrentKeyBoardFocus() == nil end) }, "ground" },
+	{ "Healing Rain", "modifier.lshift", "ground" },
 	
 	-- Buffs
 	{ "Water Shield", "!player.buff" },
@@ -131,7 +131,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Wave", "lowest.health < 85", "lowest" },
 	
 	-- Ghost Wolf
-	{ "Ghost Wolf", { "!player.buff(Ghost Wolf)", "player.moving", "!modifier.last(Ghost Wolf)" } },
+	{ "Ghost Wolf", { "!player.buff(Ghost Wolf)", "player.moving", "!player.casting", "!modifier.last(Ghost Wolf)" } },
 	
 	-- Auto Follow
 	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal strike was replaced withLava Burst

@@ -12,7 +12,6 @@
 
 --enemies: (function() return UnitsAroundUnit('target', 10) > 2 end)
 --IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
---SynapseSprings: (function() for i=1,9 do if select(7,GetProfessionInfo(i)) == 202 then hasEngi = true break end end if hasEngi and GetItemCooldown(GetInventoryItemID("player", 10)) == 0 then return true end return false end)
 --LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
 --HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
 --Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) != nil end)
@@ -132,7 +131,6 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- Offensive Cooldowns
 	{ "#76089",          { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
 	--{ "Blood Fury",      "modifier.cooldowns" },
-	{ "#gloves",         { "modifier.cooldowns", "pet.exists", "target.exists" } }, -- Synapse Springs
 	{ "Berserking",      { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
 
 	-- Rotation
@@ -145,7 +143,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Dire Beast", "talent(4, 2)" },
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
 	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 8) > 3 end) }, "target.ground" }, -- UAU only counts neutral/hostile, no good for healing.
+	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 10) > 3 end) }, "target.ground" }, -- UAU only counts neutral/hostile, no good for healing.
 	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, --Applies Serpent Sting Now
 	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) < 3 end) } }, --Applies Serpent Sting Now
 	{ "Cobra Shot",      "player.focus < 40" },
