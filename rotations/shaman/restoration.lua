@@ -61,9 +61,9 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	
 	-- Cooldowns
 	--{ "Elemental Mastery", { "modifier.cooldowns", "focustarget.boss", "talent(4, 1)" } }, -- T4	
-	{ "#gloves", { "modifier.cooldowns", "player.totem(Healing Tide Totem)" } },
-	{ "#gloves", { "modifier.cooldowns", "player.totem(Spirit Link Totem)" } },
-	{ "#gloves", { "modifier.cooldowns", "player.buff(Ascendance)" } },
+	--{ "#gloves", { "modifier.cooldowns", "player.totem(Healing Tide Totem)" } },
+	--{ "#gloves", { "modifier.cooldowns", "player.totem(Spirit Link Totem)" } },
+	--{ "#gloves", { "modifier.cooldowns", "player.buff(Ascendance)" } },
 	{ "Spirit Walker's Grace", { "modifier.cooldowns", "player.buff(Ascendance)", "player.moving" } },
 	
 
@@ -93,10 +93,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	--Cast Chain Heal on  Riptided targets for additional AoE healing.
 	{ "Chain Heal", { "lowest.buff(Riptide)", "@coreHealing.needsHealing(80, 3)" }, "lowest" },
 	
-	--Unleashed Fury is excellent for tank healing.
-	{ "Unleashed Fury", "tank.health < 65" },
-	{ "Unleashed Fury", "focus.health < 65" },
-	
 	--Spend Tidal Waves procs on Healing Surges for tank healing.
 	{ "Healing Surge", { "focus.health < 95", "player.buff(Tidal Waves)" }, "focus" },
 	{ "Healing Surge", { "tank.health < 95", "player.buff(Tidal Waves)" }, "tank" },
@@ -115,18 +111,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Wave", { "focus.health < 80" }, "focus" },
 	{ "Healing Wave", { "tank.health < 80" }, "tank" },
 	{ "Healing Wave", { "lowest.health < 100" }, "lowest" },
-
-	-- DPS Rotation
-	{ "Lightning Bolt", { "toggle.dpsmode", "focus.exists", "focustarget.exists", "focustarget.enemy", "focustarget.distance < 40", "player.glyph(Glyph of Telluric Currents)", "!modifier.last(Lightning Bolt)" }, "focustarget" },
-	{{
-		{ "Wind Shear", { "focus.friend", "focustarget.casting", "focustarget.distance <= 25" }, "focustarget" }, -- Interrupt focustarget
-		{ "Fire Elemental Totem", { "modifier.cooldowns", "focustarget.boss", "focustarget.distance < 40"  } },
-		{ "Flame Shock", { "focustarget.exists", "!focustarget.debuff(Flame Shock)" }, "focustarget" }, --, "focustarget.deathin > 20"
-		{ "Lava Burst", { "focustarget.exists", "focustarget.debuff(Flame Shock)" }, "focustarget" },
-	}, {
-		"toggle.dpsmode",
-		"player.mana > 70",
-	}},
 	
 	-- Auto Follow
 	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal Strike was replaced by Lava Burst.
@@ -155,7 +139,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 },
 function()
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'PvP', 'Toggle the usage of PvP abilities.')
-	PossiblyEngine.toggle.create('dpsmode', 'Interface\\Icons\\ability_dualwield', 'DPS Mode', 'Toggle the usage of damage dealing abilities.')
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_fire_flameshock', 'Toggle Mouseovers', 'Automatically cast spells on mouseover targets')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automaticaly target the nearest enemy when target dies or does not exist.')
 	PossiblyEngine.toggle.create('autofollow', 'Interface\\Icons\\achievement_guildperk_everybodysfriend', 'Auto Follow', 'Automaticaly follows your focus target. Must be another player.')

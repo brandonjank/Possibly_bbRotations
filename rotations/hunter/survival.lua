@@ -10,6 +10,21 @@
 -- TODO: Pet's Range to the target
 -- TODO: How to check if target has incoming heal? UnitGetIncomingHeals()
 
+--enemies: (function() return UnitsAroundUnit('target', 10) > 2 end)
+--IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
+--SynapseSprings: (function() for i=1,9 do if select(7,GetProfessionInfo(i)) == 202 then hasEngi = true break end end if hasEngi and GetItemCooldown(GetInventoryItemID("player", 10)) == 0 then return true end return false end)
+--LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
+--HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
+--Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) != nil end)
+--Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) != nil end)
+--AttackPower (function() return select(1,GetRaidBuffTrayAuraInfo(3)) != nil end)
+--AttackSpeed (function() return select(1,GetRaidBuffTrayAuraInfo(4)) != nil end)
+--SpellPower (function() return select(1,GetRaidBuffTrayAuraInfo(5)) != nil end)
+--SpellHaste (function() return select(1,GetRaidBuffTrayAuraInfo(6)) != nil end)
+--CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) != nil end)
+--Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) != nil end)
+
+
 PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 -- COMBAT
 	-- Rotation Utilities
@@ -141,6 +156,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- Pauses
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
+	{ "pause", "player.buff(Food)" },
 	--{ "pause", "player.buff(Obsidian Nightwing)" }, -- Trying to cast when mounted!
 	
 	-- Stances

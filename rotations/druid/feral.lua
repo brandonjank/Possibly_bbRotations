@@ -5,318 +5,124 @@
 -- SUGGESTED BUILD:
 -- CONTROLS:
 
---TODO:  ttd, deathin, range -> distance, enemies
+--TODO:  ttd, deathin, range -> distance, 
+--enemies: (function() return UnitsAroundUnit('target', 10) > 2 end)
+--IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
+--SynapseSprings: (function() for i=1,9 do if select(7,GetProfessionInfo(i)) == 202 then hasEngi = true break end end if hasEngi and GetItemCooldown(GetInventoryItemID("player", 10)) == 0 then return true end return false end)
+--LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
+--HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
+--Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) != nil end)
+--Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) != nil end)
+--AttackPower (function() return select(1,GetRaidBuffTrayAuraInfo(3)) != nil end)
+--AttackSpeed (function() return select(1,GetRaidBuffTrayAuraInfo(4)) != nil end)
+--SpellPower (function() return select(1,GetRaidBuffTrayAuraInfo(5)) != nil end)
+--SpellHaste (function() return select(1,GetRaidBuffTrayAuraInfo(6)) != nil end)
+--CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) != nil end)
+--Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) != nil end)
+
 
 PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 -- COMBAT ROTATION
+---- Solo - This first priority list is for when you are questing or soloing content. It is assumed any target you attack will die in less then 20 seconds. You won't use  Rip in this priority.
+	-- Prowl
+	{ "Prowl", { "!player.buff", "!player.combat" } },
+	-- Apply Rake (you get  Savage Roar for free from the glyph)
+	{ "Rake", "!target.debuff" },
+	-- Moonfire (If Lunar Inspiration)
+	{ "Moonfire", "talent(7, 1)" }, -- Lunar Inspiration
+	-- Shred until 5 combo points
+	{ "Shred", "player.combopoints < 5" },
+	-- Ferocious Bite to finish off the target
+	{ "Ferocious Bite", "player.combopoints > 4" },
+	{ "Ferocious Bite", "target.health < 20" },
+	-- Reapply Savage Roar if < 10 seconds
+	{ "Savage Roar", "player.buff(Savage Roar).remaining < 10" },
+	-- Tiger's Fury if you run low on energy
+	{ "Tiger's Fury", "player.energy < 40" },
 
------------------------------------------------------------------------------------------------------------------------------
--- Boss Functions -----------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
-	{{
-		-------------------------------
-		-- Class Specific Activation --
-		-------------------------------
-		{"Nature's Vigil", { "player.spell(Gene Splice).usable", "player.spell(Gene Splice).cooldown < 1", "player.buff(Mad Scientist)", "!player.buff(Gene Splice)" }}, 
-		{ "/click ExtraActionButton1", { "player.spell(Gene Splice).usable", "player.spell(Gene Splice).cooldown < 1", "player.buff(Mad Scientist)", "!player.buff(Gene Splice)" }},				
-			
-		{{
-			-- Klaxxi, Swipe
-			{ "/click OverrideActionBarButton2", { "player.spell(Swipe).usable", "player.spell(Swipe).cooldown < 0.2", "target.debuff(Sting)" } },
-			{ "/click OverrideActionBarButton3", { "player.spell(Sting).usable", "player.spell(Sting).cooldown < 0.2", "!target.debuff(Sting)" } },	
-			{ "/click OverrideActionBarButton1", { "player.spell(Claw).usable", "player.spell(Claw).cooldown < 0.2" } },	
-			{ "/click OverrideActionBarButton4", { "player.spell(Fiery Tail).usable", "player.spell(Fiery Tail).cooldown < 0.2" } },	
-		},
-			"player.buff(Gene Splice)" 
-		},
-	},{  
-		"toggle.boss", (function() return Soapbox.IsBoss() end)
-	}},
------------------------------------------------------------------------------------------------------------------------------
--- Queued Spells ------------------------------------------------------------------------------------------------------------ 
------------------------------------------------------------------------------------------------------------------------------
-	{ "!Cyclone", (function() return Soapbox.checkQueue(Cyclone) end), "mouseover" },
-	{ "!Entangling Roots", (function() return Soapbox.checkQueue(Entangling Roots) end), "mouseover" },
-	--{ "!29166", (function() return Soapbox.checkQueue(29166) end), "mouseover" }, -- DNE in WoD
-	--{ "!16689", (function() return Soapbox.checkQueue(16689) end) }, -- DNE in WoD
-	{ "!Rebirth", { "mouseover.exists", "!mouseover.alive", "mouseover.friendly", (function() return Soapbox.checkQueue(Rebirth) end) }, "mouseover" }, 
-	{ "!Stampeding Roar", (function() return Soapbox.checkQueue(Stampeding Roar) end) },
-	{ "!Heart of the Wild", (function() return Soapbox.checkQueue(Tranquility) end) },
-	{ "!Tranquility", { (function() return Soapbox.checkQueue(Tranquility) end), "!player.moving" } },
-	{ "!Incapacitating Roar", (function() return Soapbox.checkQueue(Incapacitating Roar) end) },
-	{ "!Ursol's Vortex", (function() return Soapbox.checkQueue(Ursol's Vortex) end), "ground" },
-	{ "!Mighty Bash", (function() return Soapbox.checkQueue(Mighty Bash) end) },
-	{ "!Displacer Beast", (function() return Soapbox.checkQueue(Displacer Beast) end) },
-	{ "!Wild Charge", (function() return Soapbox.checkQueue(Wild Charge) end) },
------------------------------------------------------------------------------------------------------------------------------
--- Rebuff -------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------			
-	{"Cat Form", { "!player.buff(Cat Form)", "target.exists", "target.alive", "target.enemy", "player.health > 20", "!modifier.last(Cat Form)"	} },
------------------------------------------------------------------------------------------------------------------------------
--- Utility Racials ----------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------		
-	--{ "20594", "player.health <= 70" }, --Dwarven
-	--{ "20589", "player.state.root" }, --Gnome
-	--{ "20589", "player.state.snare" }, --Gnome
-	--{ "59752", "player.state.charm" }, --Human
-	--{ "59752", "player.state.fear" }, --Human
-	--{ "59752", "player.state.incapacitate" }, --Human
-	--{ "59752", "player.state.sleep" }, --Human
-	--{ "59752", "player.state.stun" }, --Human
-	--{ "Shadowmeld", "target.threat >= 80" }, -- Night Elf
-	--{ "Shadowmeld", "focus.threat >= 80"}, -- Night Elf
-	--{ "7744", "player.state.fear" }, --Undead
-	--{ "7744", "player.state.charm" }, --Undead
-	--{ "7744", "player.state.sleep" }, --Undead
-	--{ "107079", "modifier.interrupts" }, --Pandaren
------------------------------------------------------------------------------------------------------------------------------
--- Interrupts ---------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
-	{{
-		{"Cyclone", { "player.spell(Cyclone).cooldown = 0", "player.level >= 78" }, "focus"},
-		{"Mighty Bash", { "player.spell(Mighty Bash).cooldown = 0",	"target.range <= 8", "player.level >= 75" }, "target"},
-		{"Maim", {	"target.player", "player.combopoints > 0", "player.power >= 35", "player.level >= 82" }, "target"}, 
-	},{ 
-		"modifier.interrupts", "target.casting" 
-	} },
------------------------------------------------------------------------------------------------------------------------------
--- Inventory Items ----------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------	
-	{ "#5512", { (function() return Soapbox.Healthstone() end), "player.health < 20" } },			
-	{ "#89640", { (function() return Soapbox.LifeSpirit() end), "player.health < 40", "!player.buff(130649)" } },	
------------------------------------------------------------------------------------------------------------------------------
--- Defensive Cooldowns ------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
-	{{
-		{"22812", {	"player.health <= 50", "player.level >= 44" } }, 
-		{"106922", { "player.health <= 30",	"player.level >= 72" } }, 
-		{"61336", {	"player.health <= 25", "player.level >= 56" } },
-		{"774", { "player.form != 0", "!player.buff(774)", "!player.buff(Heart of the Wild)", "player.health <= 20" } },
-		{"774", { "player.form = 0", "!player.buff(774)", "player.health <= 20" } },
-		{"22842", {	"player.buff(106922)", "player.level >= 72", "player.spell(22842).casted < 1" } }, 
-		{"/cancelform", { "player.buff(5487)", "!player.buff(Heart of the Wild)" } },	
-	},{
-		"toggle.defensive", "!player.buff(5215)", "!player.buff(80169)", "!player.buff(87959)",	"!player.casting", "player.alive" 
-	} }, 
------------------------------------------------------------------------------------------------------------------------------
--- AOE Rotation -------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
-	 {{		
-		{"770", { "player.level >= 28", "target.range <= 8", "target.health > 25", "player.spell(770).cooldown = 0", "!target.debuff(113746)", "!player.buff(5215)" }, "target"},
-		{{				
-			{{			
-				{"52610", {	"player.combopoints > 0", "!player.glyph(127540)" } }, 
-				{"127538", "player.glyph(127540)" },
-			},{
-				"player.SavageRoar <= 1", "player.power >= 25"
-			}},
-		},{
-			"!player.buff(Heart of the Wild)", "player.buff(Cat Form)", "target.enemy", "target.alive", "target.range < 10", "player.level >= 18"
-		}},
-		{"5217", { "player.buff(Cat Form)", "player.spell(5217).cooldown = 0", "target.range <= 8", "player.power < 35", "!player.buff(106951)", "!player.buff(135700)" } }, 
-		{{				
-			{"106832", "player.RuneOfReorigination > 0" },	
-			{"106832", "player.Thrash < 3" },
-			{"106832", "player.buff(5217)" },
-		},{
-			"player.Thrash < 9", "player.power >= 50", "player.buff(Cat Form)",	"player.level >= 28", "target.range <= 8" 
-		} },
-		{"1079", { "player.Rip < 2", "player.power >= 30", "target.ttd > 4", "player.combopoints >= 5", "player.buff(Cat Form)", "player.SavageRoar > 0", "!player.buff(135700)", "target.range <= 8" } },
-		{"1822", { "player.RakeTime < 3", "player.power >= 35", "!player.buff(135700)",	"player.SavageRoar > 0", "target.ttd >= 15", "target.enemy", "target.alive", "target.range < 8" }, "target" }, 	
-		{"62078", { "player.SavageRoar > 0", "player.power >= 45", "target.enemy", "target.alive", "target.range < 8", "player.level >= 22" } },	
-	 }, "modifier.multitarget"},
------------------------------------------------------------------------------------------------------------------------------
--- Single Target Rotation ---------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
-	{{
-		{"106832", { "player.buff(135700)", "player.Thrash <= 3", "player.Rip > 3", "player.RakeTime > 3", "player.buff(Cat Form)", "player.level >= 28", "target.range < 8", "target.ttd >= 6" } },
-		{"770", { "player.level >= 28", 	"target.range <= 8", "player.spell(770).cooldown = 0", "!target.debuff(113746)", "!player.buff(5215)" }, "target"},
-		{{
-			{{
-				{{
-					{ "5217", "player.RuneOfReorigination <= 6" },
-					{ "5217", "player.combopoints > 4" },
-				}, "player.power <= 35" },
-			
-				{{
-					{ "5217", "player.RuneOfReorigination <= 6" },
-					{ "5217", "player.combopoints > 4" },
-					{ "5217", "player.power < 25" },
-				}, "!target.debuff(1079)" },
-			},{ 
-				"player.spell(108373).exists", "player.RuneOfReorigination > 0" 
-			}},	
-			{{
-				{{
-					{{
-						{ "5217", "!player.buff(135700)" }, 
-					}, "player.power <= 35" },
-				
-					{{
-						{ "5217", "!player.buff(135700)" }, 
-					}, "!target.debuff(1079)" },
-				}, "player.ctime > 6" },
-			},{ 
-				"!player.spell(108373).exists" 
-			}},
-			{{
-				{{
-					{{
-						{ "5217", "!player.buff(135700)" }, 
-					}, "player.power <= 35" },
-				
-					{{
-						{ "5217", "!player.buff(135700)" }, 
-					}, "!target.debuff(1079)" },
-				}, "player.ctime > 6" },
-			},{ 
-				"player.spell(108373).exists", "player.RuneOfReorigination = 0" 
-			}},	
-			{ "5217", { "!player.buff(135700)",	"player.power <= 35", (function() return not Soapbox.Rune() end) } },
-		},{
-			"!player.buff(106951)", "target.range <= 8",
-		}},
-	----------------------------------------------------------------------------------------------------------------------------
-		{{
-			{ "Savage Roar", { "target.health > 24", "player.combopoints >= 3", (function() return not Soapbox.FeralT164Pc() end) } },
-			{ "Savage Roar", { "target.health > 24", "player.combopoints > 4", "player.buff(5217)" } },
-			{ "Savage Roar", { "target.debuff(1079).duration > 7", "player.combopoints >= 3", (function() return not Soapbox.FeralT164Pc() end) } },
-			{ "Savage Roar", { "target.debuff(1079).duration > 7", "player.combopoints > 4", "player.buff(5217)" } },
-			{ "Savage Roar", { "!target.debuff(1079)", "player.combopoints >= 3", (function() return not Soapbox.FeralT164Pc() end) } },
-			{ "Savage Roar", { "!target.debuff(1079)", "player.combopoints > 4", "player.buff(5217)"	} },
-			{ "Savage Roar", { "target.debuff(1079)", "target.debuff(1079).duration < 4", "player.power >84", "player.combopoints >= 3", (function() return not Soapbox.FeralT164Pc() end) } },
-			{ "Savage Roar", { "target.debuff(1079)", "target.debuff(1079).duration < 4", "player.power >84", "player.combopoints > 4", "player.buff(5217)" } },
-			
-		},{ 
-			"target.range <= 8", "player.ctime < 14", "player.SavageRoar < 11", "player.RuneOfReorigination > 4", "player.buff(Cat Form)", "!player.buff(Heart of the Wild)", "player.spell(108373).exists", "!player.buff(69369)" 
-		}},
-	-------------------------------------------------------------------------------------------------------------------------------------
-		{{					
-			{ "52610", { "player.SavageRoar <= 1", "player.power >= 25" } }, 
-			{ "127538", { "player.SavageRoar <= 1", "player.power >= 25" } },	
-			{ "52610", { "player.power >= 25", "player.SavageRipComparison <= 4", "player.SavageRoarTimeCalculator", "player.Rip < 10", "player.Rip > 0"	} }, 
-			{ "127538", { "player.power >= 25", "player.SavageRipComparison <= 4", "player.SavageRoarTimeCalculator", "player.Rip < 10", "player.Rip > 0" } },
-		},{
-			"!player.buff(Heart of the Wild)", "player.buff(Cat Form)",	"target.enemy", "target.alive", "target.range < 10", "player.level >= 18" 
-		} },
------------------------------------------------------------------------------------------------------------------------------
--- Cooldowns ----------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------
-		{ {
-			{ {
-				{ "26297", "player.power >= 30" }, 
-				{ "#gloves", { "player.power >= 30", "!player.buff(106951)" } }, 
-				{ "106951", { "player.energy >= 30", "player.spell(5217).cooldown > 6", "target.ttd >= 18" } }, 
-				{ "102543", { "target.ttd >= 15", "player.buff(106951)" } },
-				{ "Nature's Vigil", { "target.ttd >= 15", "!player.buff(Mad Scientist)",	"player.power >= 30" } }, 
-			},{
-				"player.SavageRoar > 0", "player.buff(5217)"
-			} },
-		},{
-			"modifier.cooldowns", "player.buff(Cat Form)", "!player.buff(5215)", "target.range <= 8"
-		} },
+---- Single Target (Dungeon/LFR) - This priority list is for attacking a boss creature in a Dungeon/LFR.
+	-- Prowl
+	{ "Prowl", { "!player.buff", "!player.combat" } },
+	-- Rake
+	{ "Rake", "!target.debuff" },
+	-- Moonfire (If Lunar Inspiration)
+	{ "Moonfire", "talent(7, 1)" }, -- Lunar Inspiration Talent
+	-- Shred until 5 combo points or you get below 20 energy
+	{ "Shred", "player.combopoints < 5" },
+	{ "Shred", "player.energy < 20" },
+	-- Tiger's Fury/ Berserk together
+	{ "Tiger's Fury", "player.spell(Berserk).cooldown < 1" },
+	{ "Berserk", "player.buff(Tiger's Fury)" },
+	-- Shred if you still need to reach 5 combo points
+	{ "Shred", "player.combopoints < 5" },
+	-- Healing Touch (If using Bloodtalons)
+	{ "Healing Touch", "talent(7, 2)", "player" }, -- Bloodtalons Talent
+	-- Rip
+	{ "Rip" },
 
-		{ {				
-			{ "106832", { "player.Thrash < 9", "player.RuneOfReorigination > 0", "player.RuneOfReorigination <= 1.5", "player.Rip > 4" } },
-			{ "106832", { "player.Thrash <= 3", "player.Rip > 4", "player.RakeTime > 3" } },
-		},{
-			"!player.buff(135700)", "player.buff(Cat Form)", "player.level >= 28", "target.range < 8", "target.ttd >= 6"
-		} },
-			
-		{ "5185", { "player.buff(69369)", "!player.buff(145152)", "player.buff(69369).duration < 1.5" }, "lowest"},
-		{ "5185", { "player.buff(69369)", "!player.buff(145152)", "player.combopoints >= 4" }, "lowest"},
-		{ "pause", { "player.combopoints >= 4", "player.buff(69369)", "!player.buff(145152)" } },
-		{ {
-			{ "5185", { "target.health <= 25", "target.ttd <= 4" } }, 
-			{ "5185", { "target.health <= 25", "player.Rip > 0", "player.Rip <= 4" } },
-		},{
-			"player.buff(69369)", "!player.buff(145152)", "player.buff(Cat Form)", "player.power >= 25", "player.SavageRoar > 0", "target.enemy", "target.alive", "target.range < 8"
-		} },
-		
-		{{					
-			{ "22568", { "target.health <= 25", "target.ttd <= 4" } },
-			{ "22568", { "target.health <= 25", "player.Rip > 0", "player.Rip <= 4"	} },
-			{ "22568", { "player.RipDamagePercent < 108", "player.Rip > 6", "player.combopoints >= 5", "player.power >= 50" } },
-		},{
-			"player.buff(Cat Form)", "player.power >= 25", "player.SavageRoar > 0", "target.enemy", "target.alive",	"target.range < 8"
-		}, "target"},
-			
-		
-		{{				
-			{ "1079", {	"player.combopoints = 4", "player.RipDamagePercent >= 95", "target.ttd > 30", "player.RuneOfReorigination > 0", "player.RuneOfReorigination <= 1.5" }, "target" },
-			{{
-				{"1079", "player.Rip = 0", "target"},
-				{{
-					{"1079", { "player.Rip < 6", "target.health > 25" }, "target"},
-					{"1079", { "player.RipDamagePercent > 108", "player.rscbuff = 0" }, "target" },
-					{"1079", { "player.RipDamagePercent > 108", "player.rscbuff >= 7" }, "target" },
-				}, "target.ttd >= 15", },
-			}, "player.combopoints >= 5" },
-		},{
-			"player.ctime > 5", "player.level >= 20", "player.SavageRoar > 1", "target.ttd > 4"
-		}},
-		
-		{{			
-			{"1822", { "player.RuneOfReorigination > 0.5", "player.RakeTime < 9", "player.RuneOfReorigination <= 1.5" }, "target" }, 
-			{"1822", "player.RakeTime < 3", "target" },
-			{"1822", { "player.Rake2", "player.rscbuff = 0" }, "target" },
-			{"1822", { "player.Rake2", "player.rscbuff >= 9" }, "target" },
-		},{
-			"player.combopoints < 5", "target.range < 8", "player.SavageRoar > 1", "player.power >= 35"
-		}},
+---- From here on the priorities are:
+	-- Refresh Savage Roar before it expires
+	{ "Savage Roar", "player.buff(Savage Roar).remaining < 5" },
+	-- Rake when it expires
+	{ "Rake", "!target.debuff(Rake)" },
+	-- Moonfire when it expires (If Lunar Inspiration)
+	{ "Moonfire", { "talent(7, 1)","!target.debuff(Moonfire)" } }, -- Lunar Inspiration Talent
+	-- Rip when it expires
+	{ "Rip", { "!target.debuff", "target.health >= 25" } },
+	-- Below 25% you can replace using Rip with Ferocious Bite which will refresh Rip back to 24 seconds. When Berserk is up it is OK to replace Shred with Shred
+	{ "Ferocious Bite", { "target.debuff(Rip) < 5", "target.health < 25" } },
+	-- Use Shred and Rake refreshes to build combo points
+	{ "Rake", "!modifier.last" },
+	{ "Shred", "!modifier.last" },
+	-- (If  Bloodtalons Always use your  Healing Touch before every finisher to get  Bloodtalons charges)
+	{ "Healing Touch", "talent(7, 2)", "player" }, -- Bloodtalons Talent
+	-- Tiger's Fury on cooldown (below 20 energy)
+	{ "Tiger's Fury", "player.energy < 20" },
+	-- Berserk on cooldown
+	{ "Berserk" },
+	-- If you have 5 combo points and both  Savage Roar and  Rip are above 12 seconds  Ferocious Bite (this won't happen a bunch at lower gear levels).
+	{ "Ferocious Bite", { "player.combopoints > 4", "target.debuff(Savage Roar).remaining > 12", "target.debuff(Rip).remaining > 12" } },
+	-- If you get an  Omen of Clarity proc and both  Savage Roar and  Rip have more then 10 seconds left use  Thrash.
+	{ "Thrash", { "player.buff(Omen of Clarity)", "target.debuff(Savage Roar).remaining > 10", "target.debuff(Rip).remaining > 10" } },
 
-		{{				
-			{"102545", "player.buff(102543)" },
-			{"102545", "player.buff(81022)" },
-			{"1822", "player.Rake" },
-			{{		
-				{{	
-					{"114236", "player.glyph(114234)" },
-					{"5221", "!player.glyph(114234)" },
-				}, "player.buff(106951)" },
-				{{	
-					{"114236", "player.glyph(114234)" },
-					{"5221", "!player.glyph(114234)" },
-				}, "player.buff(135700)" },
-				
-				{{	
-					{"114236", "player.glyph(114234)" },
-					{"5221", "!player.glyph(114234)" },
-				}, "player.regen >= 15" },
-			},{
-				"player.Shred", "player.power >= 45", "!player.buff(102543)" 
-			} },
-			
-			{"33876", { "player.power >= 35", "!player.buff(102543)" } },
-		},{
-			"player.buff(Cat Form)", "target.range < 8", "player.combopoints < 5", "target.enemy", "target.alive" }, "target" },
-	 }, "!modifier.multitarget"},
+---- AOE (Trash/adds) - These are the abilities you will use on trash or to cleave adds.
+	-- If the adds are going to live for over 10 seconds:
+		-- Keep up  Savage Roar
+		-- Keep Thrash up on all targets
+		-- Rake every target
+		-- (If  Lunar Inspiration Moonfire every target)
+		-- Apply  Rip every time you get 5 combo points (most likely to your primary target)
+	-- If the adds are going to live less then 10 seconds:
+		-- Keep up  Savage Roar
+		-- Keep Thrash up on all targets
+		-- Continue single target rotation on main target
+		-- You can use  Berserk/ Tiger's Fury or  Incarnation to allow you to pile on the cleave damage for a short time.
+
 },
 {	
 -- OUT OF COMBAT ROTATION
-	{ "1126", (function() return Soapbox.Stats() end) }, 
-	{ "1126", (function() return Soapbox.RaidStats() end), "member" }, 
-	{ "1066", { "player.swimming", "!player.buff(1066)" }, "player" },
-	{"50769", { "mouseover.exists", "mouseover.dead", "mouseover.isPlayer", "mouseover.range < 40", "player.level >= 12" }, "mouseover" },
-	{"2782", "player.dispellable(2782)" },
-	{"Cat Form", { "target.exists", "target.alive", "target.enemy", "!player.buff(Cat Form)", "player.health > 20", "!modifier.last(Cat Form)" } },
-	{"774", { "!player.buff(5215)",	"!player.buff(80169)", "!player.buff(87959)", "!player.casting", "player.alive", "!player.buff(774)", "player.health <= 70"	} }, 
-	{{				
-		{"52610"}, 
-		{"127538"},
-	},{
-		"player.SavageRoar <= 1", "player.buff(5215)", "!player.buff(Heart of the Wild)", "player.buff(Cat Form)", "target.enemy", "target.alive", "target.range < 10" 
-	} },
-	{"6785", { "target.behind", "player.buff(5215)", "player.SavageRoar > 1", "player.power > 98", "!target.player", "player.combopoints < 5", "player.power >= 45", "target.enemy", "target.alive", "target.range < 8" }, "target" },
-	{"9005", { "player.buff(5215)", "target.player", "target.behind", "player.combopoints < 5", "player.power >= 50", "target.enemy", "target.alive", "target.range < 8" } },
-	{{				
-		{"5221", "target.behind", "target"},
-		{"114236", { "player.buff(106951)", "player.glyph(114234)" }, "target" },
-	},{
-		"player.combopoints < 5", "player.power > 98", "target.enemy", "target.alive", "target.range < 8", "player.level >= 16"
-	}},
-	{"33876", { "player.combopoints < 5", "player.power > 98", "target.enemy", "target.alive", "target.range < 8" }, "target" }, 
-	{"pause", "player.ctime > 9000"}, 
+	-- Pauses
+	{ "pause", "modifier.lcontrol" },
+	{ "pause", "player.buff(Food)" },
+
+	-- Buffs
+	{ "Mark of the Wild", (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end) },
+	
+	-- Rez and Heal
+	{ "Revive", { "mouseover.exists", "mouseover.dead", "mouseover.isPlayer", "mouseover.range < 40", "player.level >= 12" }, "mouseover" },
+	{ "Rejuvenation", { "!player.buff(Prowl)", "!player.casting", "player.alive", "!player.buff(Rejuvenation)", "player.health <= 70" } },
+	
+	-- Cleanse Debuffs
+	{ "Remove Corruption", "player.dispellable(Remove Corruption)" },
+	
+	-- Forms
+	{ "Aquatic Form", { "player.swimming", "!player.buff(Aquatic Form)" }, "player" },
+	{ "Cat Form", { "target.exists", "target.alive", "target.enemy", "!player.buff(Cat Form)", "player.health > 20", "!modifier.last(Cat Form)" } },
+	
+	-- Pre-Combat
+	{ "Savage Roar", { "player.buff(Prowl)", "!player.buff(Heart of the Wild)", "player.buff(Cat Form)", "target.enemy", "target.alive", "target.range < 10" } },	
+	{"Shred", { "target.behind", "player.combopoints < 5", "player.power > 98", "target.enemy", "target.alive", "target.range < 8", "player.level >= 16" } },
+	
 },
 -- TOGGLE BUTTONS
 function()
