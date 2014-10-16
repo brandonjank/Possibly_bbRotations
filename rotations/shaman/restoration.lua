@@ -51,7 +51,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	
 	-- Healing Rain Mouseover
-	{ "Healing Rain", { "modifier.lshift", (function() return GetCurrentKeyBoardFocus() == nil end) } "ground" },
+	{ "Healing Rain", { "modifier.lshift", (function() return GetCurrentKeyBoardFocus() == nil end) }, "ground" },
 	
 	-- Buffs
 	{ "Water Shield", "!player.buff" },
@@ -100,9 +100,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	-- Quick Healing Surge
 	{ "Healing Surge", "lowest.health < 65", "lowest" }, -- only if you feel that the target will die before you have a chance to complete a Greater Healing Wave
 	
-	-- Dispel
-	--{ "Purify Spirit", "@coreHealing.needsDispelled('Aqua Bomb')" },
-	
 	-- Interrupt
 	{ "Quaking Palm", "modifier.interrupts" }, -- Pandaren Racial
 	{ "Wind Shear", "modifier.interrupt" },
@@ -111,6 +108,9 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Wave", { "focus.health < 80" }, "focus" },
 	{ "Healing Wave", { "tank.health < 80" }, "tank" },
 	{ "Healing Wave", { "lowest.health < 100" }, "lowest" },
+	
+	-- Dispel Self
+	{ "Purify Spirit", "player.dispellable(Purify Spirit)", "player" },
 	
 	-- Auto Follow
 	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal Strike was replaced by Lava Burst.
