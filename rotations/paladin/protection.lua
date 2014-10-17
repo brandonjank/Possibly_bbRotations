@@ -1,7 +1,7 @@
 -- PossiblyEngine Rotation Packager
 -- Custom Protection Paladin Rotation
 -- Created on Dec 25th 2013 1:00 am
-PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
+PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 -- PLAYER CONTROLLED: Guardian of Ancient Kings, Divine Shield
 -- SUGGESTED TALENTS:
 -- CONTROLS: Pause - Left Control, Light's Hammer - Left Alt
@@ -22,7 +22,7 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 --CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) != nil end)
 --Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) != nil end)
 
--- COMBAT
+-- COMBAT ROTATION
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
 	--{ "pause", "@bbLib.bossMods" },
@@ -92,22 +92,22 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 	-- RANGE ROTATION
 	{{
 		{ "Judgment" },
-		{ "Avenger's Shield" },
-		{ "Holy Prism", "talent(6, 1)" },
+		{ "Avenger's Shield" }, -- TODO: Check for single shield glyph
+		{ "Holy Prism", { "!toggle.limitaoe", "talent(6, 1)" } },
 		{ "Execution Sentence", { "player.health < 70", "talent(6, 3)" }, "player" },
 		{ "Execution Sentence", { "player.health > 70", "talent(6, 3)" }, "target" },
 		{ "Holy Prism", { "player.health < 71", "talent(6, 1)" }, "player" },
-		{ "Holy Prism", { "player.health > 70", "talent(6, 1)" }, "target" },
+		{ "Holy Prism", { "!toggle.limitaoe", "player.health > 70", "talent(6, 1)" }, "target" },
 	}, {
 		"!target.spell(Crusader Strike).range",
 	}},
 	
 	-- MELEE ROTATION
-	{ "Avenger's Shield", "player.buff(Grand Crusader)" }, -- Check for single shield glyph
-	-- Shield of the Righteous
+	{ "Avenger's Shield", "player.buff(Grand Crusader)" }, -- TODO: Check for single shield glyph
 	{ "Hammer of the Righteous", (function() return UnitsAroundUnit('target', 10) > 1 end) },
 	{ "Crusader Strike", (function() return UnitsAroundUnit('target', 10) < 2 end) },
-	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", "talent(5, 2)" } },
+	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", "talent(5, 2)", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
+	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", (function() return UnitsAroundUnit('target', 10) > 3 end) } }, -- TODO: use target.ground if glyphed
 	{ "Judgment" },
 	{ "Execution Sentence", { "player.health < 71", "talent(6, 3)" }, "player" },
 	{ "Execution Sentence", { "player.health > 70", "talent(6, 3)" }, "target" },
@@ -115,16 +115,13 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 	{ "Hammer of Wrath", "!toggle.limitaoe" },
 	{ "Light's Hammer", "talent(6, 2)", "target.ground" },
 	{ "Holy Prism", { "player.health < 71", "talent(6, 1)" }, "player" },
-	{ "Holy Prism", { "player.health > 70", "talent(6, 1)" }, "target" },
-	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range" } },
+	{ "Holy Prism", { "!toggle.limitaoe", "player.health > 70", "talent(6, 1)" }, "target" },
+	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", "talent(5, 2)" } },
+	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range" } }, -- TODO: use target.ground if glyphed
 	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range" } },
-	
-	
-	
 	
 },{
 -- OUT OF COMBAT ROTATION
-
 	-- Pause
 	{ "pause", "modifier.lcontrol" },
 
@@ -140,7 +137,7 @@ PossiblyEngine.rotation.register_custom(66, "bbProtectionPaladin", {
 function()
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\inv_pet_lilsmoky', 'Use Mouseovers', 'Automatically cast spells on mouseover targets.')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
-	PossiblyEngine.toggle.create('limitaoe', 'Interface\\Icons\\spell_fire_flameshock', 'Limit AoE', 'Toggle to avoid using CC breaking aoe effects.')
+	PossiblyEngine.toggle.create('limitaoe', 'Interface\\Icons\\spell_fire_flameshock', 'Limit AoE', 'Toggle to not use AoE spells to avoid breaking CC.')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automaticaly target the nearest enemy when target dies or does not exist.')
 	PossiblyEngine.toggle.create('autotaunt', 'Interface\\Icons\\spell_nature_reincarnation', 'Auto Taunt', 'Automaticaly taunt the boss at the appropriate stacks.')
 	PossiblyEngine.toggle.create('usehands', 'Interface\\Icons\\spell_holy_sealofprotection', 'Use Hands', 'Toggles usage of Hand spells such as Hand of Protection.')
