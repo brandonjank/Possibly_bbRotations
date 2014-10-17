@@ -4,6 +4,7 @@
 PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 -- PLAYER CONTROLLED: Guardian of Ancient Kings, Divine Shield
 -- SUGGESTED TALENTS: Persuit of Justice, Fist of Justice, Sacred Shield, Unbreakable Spirit, Sactified Wrath, Light's Hammer, Empowered Seals
+-- SUGGESTED GLYPHS: Alabaster Shield, Ardent Defender, Final Wrath,  Righteous Retreat
 -- CONTROLS: Pause - Left Control
 
 --talent: , "talent(6, 1)"
