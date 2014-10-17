@@ -10,9 +10,11 @@
 -- TODO: Pet's Range to the target
 -- TODO: How to check if target has incoming heal? UnitGetIncomingHeals()
 
---enemies: (function() return UnitsAroundUnit('target', 10) > 2 end)
+--enemies: (function() return UnitsAroundUnit('target', 10) > 2 end) 
 --IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
 --LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
+--HealPot: (function() return GetItemCount(76097, false, false) > 0 and GetItemCooldown(76097) == 0 end)
+--AgiPot: (function() return GetItemCount(76089, false, false) > 0 and GetItemCooldown(76089) == 0 end)
 --HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
 --Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) != nil end)
 --Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) != nil end)
@@ -30,7 +32,6 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
-	{ "pause", "player.buff(Obsidian Nightwing)" }, -- Trying to cast when mounted!
 	--{ "pause", "@bbLib.bossMods" },
 	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
@@ -47,15 +48,14 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Tranquilizing Shot", "mouseover.dispellable", "mouseover" },
 
 	-- Pet
-	{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
-	{ "Heart of the Phoenix", "!pet.alive" },
-	{ "Mend Pet", { "pet.health <= 50", "pet.exists", "!pet.buff" } }, -- Mend Pet and Revive Pet on same button now , "pet.distance < 40"
+	{ "883", { "!pet.exists", "!pet.alive" } }, -- Call Pet 1
+	{ "Heart of the Phoenix", { "!pet.exists", "!pet.alive" } },
+	{ "Mend Pet", { "pet.health < 70", "pet.exists", "!pet.buff" } }, -- Mend Pet and Revive Pet on same button now , "pet.distance < 40"
 	
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
 	{ "Explosive Trap", "modifier.lalt", "ground" },
 	{ "Ice Trap", "modifier.lalt", "ground" },
-	{ "Snake Trap", "modifier.lalt", "ground" },
 	{ "Freezing Trap", "modifier.ralt", "ground" },
 
 	-- PvP Abilities
@@ -82,10 +82,10 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
     -- Misdirect ( focus -> tank -> pet )
 	{{
 		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
-		--{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
+		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
 		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "pet" },
 	}, {
-		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 60" -- "@bbLib.canMisdirect",  
+		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30"
 	}},
 
 	-- Stances
@@ -107,15 +107,15 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "7744", "player.state.sleep" }, 
 	
 	-- Defensive Cooldowns
-	--{ "Exhilaration", { "modifier.cooldowns", "player.health < 40" } },
-	--{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit
-	{ "#5512", { "modifier.cooldowns", "player.health < 35" } }, -- Healthstone (5512)
-	--{ "#76097", { "toggle.consume", "player.health < 15", "@bbLib.useHealthPot", "target.boss" } }, -- Master Healing Potion (76097)	
+	--{ "Exhilaration", { "modifier.cooldowns", "player.health < 40", "talent(3, 1)" } },
+	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss", (function() return GetItemCount(89640, false, false) > 1 and GetItemCooldown(89640) == 0 end) } }, -- Life Spirit (130649)
+	{ "#5512", { "toggle.consume", "player.health < 35", (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end) } }, -- Healthstone (5512)
+	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss", (function() return GetItemCount(76097, false, false) > 1 and GetItemCooldown(76097) == 0 end) } }, -- Master Healing Potion (76097)	
 	{ "Master's Call", "player.state.disorient" },
 	{ "Master's Call", "player.state.stun" },
 	{ "Master's Call", "player.state.root" },
 	{ "Master's Call", "player.state.snare" },
-	{ "Deterrence", "player.health < 20" }, -- Deterrence
+	{ "Deterrence", "player.health < 20" },
 	
 	-- Pre DPS Pause
 	{ "pause", "target.debuff(Wyvern Sting).any" },
@@ -129,12 +129,14 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "107079",          "modifier.interrupts" }, 
 	
 	-- Offensive Cooldowns
-	{ "#76089",          { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
-	--{ "Blood Fury",      "modifier.cooldowns" },
-	{ "Berserking",      { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
+	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss", (function() return GetItemCount(76089, false, false) > 1 and GetItemCooldown(76089) == 0 end) } }, -- Agility Potion (76089) Virmen's Bite
+	--{ "Blood Fury", "modifier.cooldowns" },
+	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
 
 	-- Rotation
 	{ "Explosive Shot" },
+	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", "!target.debuff(Serpent Sting)", (function() return UnitsAroundUnit('target', 12) > 2 end) } },
+	{ "Arcane Shot",     { "player.focus >= 60", "!target.debuff(Serpent Sting)", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
 	{ "Black Arrow" },
 	{ "Glaive Toss", "talent(6, 1)" },
 	--{ "Barrage", "talent(6, 3)" },
@@ -143,9 +145,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Dire Beast", "talent(4, 2)" },
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
 	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 10) > 3 end) }, "target.ground" }, -- UAU only counts neutral/hostile, no good for healing.
-	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, --Applies Serpent Sting Now
-	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) < 3 end) } }, --Applies Serpent Sting Now
+	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 12) > 3 end) }, "target.ground" },
+	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 12) > 2 end) } },
+	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
 	{ "Cobra Shot",      "player.focus < 40" },
 	{ "Cobra Shot",      "player.spell(Explosive Shot).cooldown > 0.5" },
 	
@@ -155,17 +157,16 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
-	--{ "pause", "player.buff(Obsidian Nightwing)" }, -- Trying to cast when mounted!
 	
-	-- Stances
+	-- Aspects
 	-- TODO: player.moving(seconds)
 	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	{ "Camouflage", { "toggle.camomode", "!player.buff", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- Pet
-	{ "883", { "toggle.callpet", "!pet.exists" } }, -- Call Pet 1
-	{ "Revive Pet", { "!player.moving", "!pet.alive" } }, -- Mend Pet and Revive Pet on same button now
-	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health <= 90", "!pet.buff(Mend Pet)" } }, -- OOC only -- "pet.distance < 45"
+	{ "883", { "!player.moving", "!pet.exists", "!pet.alive" } }, -- Call Pet 1
+	{ "Revive Pet", { "!player.moving", "!pet.alive" } },
+	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health <= 90", "!pet.buff(Mend Pet)", "pet.distance < 45" } },
 
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
@@ -180,8 +181,6 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- TODO: PRE POT: Virmen's Bite potion
 },
 function()
-	PossiblyEngine.toggle.create('callpet', 'Interface\\Icons\\ability_hunter_beastcall', 'Call Pet 1', 'Toggle to keep the pet in your first pet slot out.')
-	PossiblyEngine.toggle.create('misdirect', 'Interface\\Icons\\ability_hunter_misdirection', 'Auto Misdirect', 'Toggle to automatically misdirect to your Focus>Tank>Pet when high on threat.')
 	PossiblyEngine.toggle.create('consume', 'Interface\\Icons\\inv_alchemy_endlessflask_06', 'Use Consumables', 'Toggle the usage of Flasks/Food/Potions etc..')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\ability_hunter_quickshot', 'Use Mouseovers', 'Toggle automatic usage of stings/scatter/etc on eligible mouseover targets.')	
