@@ -14,14 +14,14 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 --HealPot: (function() return GetItemCount(76097, false, false) > 0 and GetItemCooldown(76097) == 0 end)
 --AgiPot: (function() return GetItemCount(76089, false, false) > 0 and GetItemCooldown(76089) == 0 end)
 --HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
---Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) != nil end)
---Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) != nil end)
---AttackPower (function() return select(1,GetRaidBuffTrayAuraInfo(3)) != nil end)
---AttackSpeed (function() return select(1,GetRaidBuffTrayAuraInfo(4)) != nil end)
---SpellPower (function() return select(1,GetRaidBuffTrayAuraInfo(5)) != nil end)
---SpellHaste (function() return select(1,GetRaidBuffTrayAuraInfo(6)) != nil end)
---CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) != nil end)
---Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) != nil end)
+--Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end)
+--Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) == nil end)
+--AttackPower (function() return select(1,GetRaidBuffTrayAuraInfo(3)) == nil end)
+--AttackSpeed (function() return select(1,GetRaidBuffTrayAuraInfo(4)) == nil end)
+--SpellPower (function() return select(1,GetRaidBuffTrayAuraInfo(5)) == nil end)
+--SpellHaste (function() return select(1,GetRaidBuffTrayAuraInfo(6)) == nil end)
+--CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) == nil end)
+--Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) == nil end)
 
 -- COMBAT ROTATION
 	-- Rotation Utilities
@@ -40,8 +40,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- { "Every Man for Himself", "player.state.stun" },
   
 	-- OFF GCD
-	{ "Eternal Flame", ( "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 4" }, "player" },
-	{ "Eternal Flame", ( "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 2", "player.health < 80" }, "player" },
+	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 4" }, "player" },
+	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 2", "player.health < 80" }, "player" },
 	{ "Word of Glory", {"player.health < 70", "player.holypower > 4", "!talent(3, 2)" }, "player" },
 	{ "Word of Glory", {"player.health < 50", "player.holypower > 2", "!talent(3, 2)" }, "player" },
 	{ "Shield of the Righteous", { "target.spell(Crusader Strike).range", "player.holypower > 4" } },
@@ -131,7 +131,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 
 	-- Blessings
 	{ "Blessing of Kings", { "!modifier.last", (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil and select(1,GetRaidBuffTrayAuraInfo(8)) == nil end) } }, -- TODO: If no Monk or Druid in group.
-	{ "Blessing of Might", { "!modifier.last", (function() return select(1,GetRaidBuffTrayAuraInfo(8)) == nil and select(1,GetRaidBuffTrayAuraInfo(1)) != nil end) } },
+	{ "Blessing of Might", { "!modifier.last", (function() return select(1,GetRaidBuffTrayAuraInfo(8)) == nil end), "!player.buff(Blessing of Kings)", "!player.buff(Blessing of Might)" } },
 
 	-- Stance
 	{ "Righteous Fury", { "!player.buff(Righteous Fury)", "!modifier.last" } },
