@@ -76,7 +76,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	}},
 },{
 -- OUT OF COMBAT ROTATION
-  { "1126", { "!lowest.buff(1126).any", "!lowest.buff(20217).any", "!lowest.buff(115921).any", "lowest.distance <= 30", "player.form = 0" }, "lowest" } -- Mark of the Wild / Blessing of Kings / Legacy of the Emperor
+  { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" } -- Mark of the Wild / Blessing of Kings / Legacy of the Emperor
 },
 -- TOGGLE BUTTONS
 function()

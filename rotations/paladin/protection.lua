@@ -42,8 +42,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- OFF GCD
 	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 4" }, "player" },
 	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 2", "player.health < 80" }, "player" },
-	{ "Word of Glory", {"player.health < 70", "player.holypower > 4", "!talent(3, 2)" }, "player" },
-	{ "Word of Glory", {"player.health < 50", "player.holypower > 2", "!talent(3, 2)" }, "player" },
+	{ "Word of Glory", { "player.health < 70", "player.holypower > 4", "!talent(3, 2)" }, "player" },
+	{ "Word of Glory", { "player.health < 50", "player.holypower > 2", "!talent(3, 2)" }, "player" },
 	{ "Shield of the Righteous", { "target.spell(Crusader Strike).range", "player.holypower > 4" } },
 	{ "Shield of the Righteous", { "target.spell(Crusader Strike).range", "player.buff(Divine Purpose)" } },
 
@@ -62,7 +62,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	}},
 	{ "Hand of Freedom", { "toggle.usehands", "!modifier.last(Cleanse)", "!player.buff", "player.state.root" }, "player" },
 	{ "Hand of Freedom", { "toggle.usehands", "!modifier.last(Cleanse)", "!player.buff", "player.state.snare" }, "player" },
-	{ "Sacred Shield", "player.buff(Sacred Shield).duration < 3", "talent(3, 3)" },
+	{ "Sacred Shield", { "talent(3, 3)", "!player.buff" } },
 	{ "#5512", { "modifier.cooldowns", "player.health < 30" } }, -- Healthstone (5512)
 	{ "Cleanse", { "!modifier.last", "player.dispellable(Cleanse)" }, "player" }, -- Cleanse Poison or Disease
 	
@@ -73,8 +73,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- Raid Survivability
 	{ "Hand of Protection", { "toggle.usehands", "lowest.exists", "lowest.alive", "lowest.friend", "lowest.isPlayer", "!lowest.role(tank)", "!lowest.immune.melee", "lowest.health <= 15" }, "lowest" }, -- TODO: Don't cast on tanks.
 	--{ "Hand of Sacrifice", { "tank.exists", "tank.alive", "tank.friend", "tank.range <= 40", "tank.health < 75" }, "tank" }, --TODO: Only if tank is not the player.
-	{ "Flash of Light", { "lowest.health < 50", "player.buff(Selfless Healer).count > 2" }, "lowest" }, -- T3
-	{ "Flash of Light", { "player.health < 70", "player.buff(Selfless Healer).count > 2", "player.buff(Bastion of Glory)" }, "player" }, -- T3
+	{ "Flash of Light", { "talent(3, 1)", "lowest.health < 50", "player.buff(Selfless Healer).count > 2" }, "lowest" },
+	{ "Flash of Light", { "talent(3, 1)", "player.health < 70", "player.buff(Selfless Healer).count > 2", "player.buff(Bastion of Glory)" }, "player" },
 	--{ "Hand of Purity", "talent(4, 1)", "player" }, -- TODO: Only if dots on player
 	-- Hand of Salvation – Prevents a group/raid member from generating threat for a period of time or saves you the embarrassment of ripping aggro when offtanking. Useful for putting on healers when a group of adds spawns and is immediately drawn to them due to passive healing aggro.
 	
@@ -85,19 +85,18 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 		{ "Hand of Salvation", { "toggle.usehands", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "!mouseover.role(tank)", "@bbLib.highThreatOnPlayerTarget(mouseover)" }, "mouseover" },
 		{ "Cleanse", { "!modifier.last(Cleanse)", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "mouseover.dispellable(Cleanse)" }, "mouseover" },
 	}, {
-		"toggle.mouseovers",
-		"player.health > 50",
+		"toggle.mouseovers", "player.health > 50",
 	}},
 	
 	-- RANGE ROTATION
 	{{
 		{ "Judgment" },
 		{ "Avenger's Shield" }, -- TODO: Check for single shield glyph
-		{ "Holy Prism", { "!toggle.limitaoe", "talent(6, 1)" } },
-		{ "Execution Sentence", { "player.health < 70", "talent(6, 3)" }, "player" },
-		{ "Execution Sentence", { "player.health > 70", "talent(6, 3)" }, "target" },
-		{ "Holy Prism", { "player.health < 71", "talent(6, 1)" }, "player" },
-		{ "Holy Prism", { "!toggle.limitaoe", "player.health > 70", "talent(6, 1)" }, "target" },
+		--{ "Holy Prism", { "!toggle.limitaoe", "talent(6, 1)" } },
+		--{ "Execution Sentence", { "player.health < 70", "talent(6, 3)" }, "player" },
+		--{ "Execution Sentence", { "player.health > 70", "talent(6, 3)" }, "target" },
+		--{ "Holy Prism", { "player.health < 71", "talent(6, 1)" }, "player" },
+		--{ "Holy Prism", { "!toggle.limitaoe", "player.health > 70", "talent(6, 1)" }, "target" },
 	}, {
 		"!target.spell(Crusader Strike).range",
 	}},
@@ -106,21 +105,21 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "Avenger's Shield", "player.buff(Grand Crusader)" }, -- TODO: Check for single shield glyph
 	{ "Hammer of the Righteous", (function() return UnitsAroundUnit('target', 10) > 1 end) },
 	{ "Crusader Strike", (function() return UnitsAroundUnit('target', 10) < 2 end) },
-	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", "talent(5, 2)" } },
+	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.spell(Crusader Strike).range" } },
 	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", (function() return UnitsAroundUnit('target', 10) > 3 end) } }, -- TODO: use target.ground if glyphed
 	{ "Judgment" },
-	{ "Seal of Insight", { "!modifier.last", "!player.buff", "!player.buff(Seal of Truth)" } },
-	-- { "Seal of Truth" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Righteousness)" } }, -- TODO: For T7 Talent Empowered Seals
-	-- { "Seal of Righteousness" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Insight)" } }, -- TODO: For T7 Talent Empowered Seals
-	{ "Execution Sentence", { "player.health < 71", "talent(6, 3)" }, "player" },
-	{ "Execution Sentence", { "player.health > 70", "talent(6, 3)" }, "target" },
+	--{ "Seal of Insight", { "!modifier.last", "!player.buff", "!player.buff(Seal of Truth)" } },
+	--{ "Seal of Truth" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Righteousness)" } }, -- TODO: For T7 Talent Empowered Seals
+	--{ "Seal of Righteousness" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Insight)" } }, -- TODO: For T7 Talent Empowered Seals
+	--{ "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
+	--{ "Execution Sentence", { "talent(6, 3)", "player.health > 70" }, "target" },
 	{ "Avenger's Shield" },
 	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, -- TODO: use target.ground if glyphed
-	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", "talent(5, 2)", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
-	{ "Hammer of Wrath" },
+	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.spell(Crusader Strike).range", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
+	{ "Hammer of Wrath", "target.health <= 20" },
 	{ "Light's Hammer", "talent(6, 2)", "target.ground" },
-	{ "Holy Prism", { "player.health < 71", "talent(6, 1)" }, "player" },
-	{ "Holy Prism", { "!toggle.limitaoe", "player.health > 70", "talent(6, 1)" }, "target" },
+	--{ "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
+	--{ "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
 	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range" } }, -- TODO: use target.ground if glyphed
 	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range" } },
 	
