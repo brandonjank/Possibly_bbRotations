@@ -60,7 +60,7 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	{ "Unleash Flame", "talent(6, 1)" },
 	{ "Lava Burst", "!player.moving" },
 	{ "Elemental Blast", { "talent(6, 3)", "!player.moving" } },
-	{ "Earth Shock", { "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count > 10", "target.debuff(Flame Shock).duration < 5" } },
+	{ "Earth Shock", { "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count > 9", "target.debuff(Flame Shock).duration < 5" } },
 	{ "Flame Shock", "target.debuff(Flame Shock).duration <= 9" },
 	{ "Searing Totem", { "!player.moving", "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } }, -- TODO: If the totem will last for more than 12 seconds.
 	
