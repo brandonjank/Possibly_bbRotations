@@ -85,18 +85,22 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- Force of Nature (talent): Summons a pet that DPSes for 15 seconds. This is on the charge system, so it's okay to let 1 or 2 charges pool up at any time. You can slightly add to their damage by trying to dump charges while procs or temporary buffs are up.
 	
 	-- DPS ROTATION
-	{ "Moonfire", { "player.balance.moon", "!target.debuff(Moonfire)" } }, -- Cast at lunar peak when buff is active. Multi-Target: Moonfire may not be worth it on very short-lived targets.
-	{ "Sunfire", { "player.balance.sun", "!target.debuff(Sunfire)" } }, -- Cast right as Solar phase begins, and another during the peak.
+	{ "Moonfire", { "player.balance.moon", "!target.debuff(Moonfire)", "!modifier.last" } }, -- Cast at lunar peak when buff is active. Multi-Target: Moonfire may not be worth it on very short-lived targets.
+	{ "Moonfire", { "player.balance.moon", "player.buff(Lunar Peak)", "!modifier.last" } },
+	-- Sunfire: TODO: Cast right as Solar phase begins
+	{ "Sunfire", { "player.balance.sun", "player.buff(Solar Peak)", "!modifier.last" } }, 
 	{ "Starfall", { "player.buff(Starsurge).count > 1", (function() return UnitsAroundUnit('target', 40) > 2 end) } }, -- TODO: favor spending during Lunar Eclipse when possible
-	{ "Starsurge", { "player.buff(Starsurge).count > 1", (function() return UnitsAroundUnit('target', 40) < 3 end) } },
+	{ "Starsurge", { "player.buff(Lunar Empowerment).count < 1", "player.buff(Solar Empowerment).count < 2", "player.buff(Shooting Stars)" } },
+	{ "Starsurge", { "player.buff(Lunar Empowerment).count < 1", "player.buff(Solar Empowerment).count < 2", (function() return UnitsAroundUnit('target', 40) < 3 end) } },
 	-- At 0 or 1 charge, plan to  Starsurge shortly before your next Lunar or Solar peak.
-	{ "Starsurge", "player.buff(Starsurge).count > 1" },
 	-- Stellar Flare (T7) cast it every time you cross the midpoint between Lunar and Solar.
 	-- Astral Communion. Good to use while moving (with  Glyph of Astral Communion), to skip to the next peak, getting a little use out of your movement time. You can also use it to set up a peak for key moment of burst DPS, but you'd generally rather have Celestial Alignment for this if possible.
 	{ "Astral Storm", { "player.balance.moon", (function() return UnitsAroundUnit('target', 35) > 4 end) }, "target.ground" },
 	{ "Hurricane", { "player.balance.sun", (function() return UnitsAroundUnit('target', 35) > 4 end) }, "target.ground" },
 	{ "Starfire", { "player.balance.moon", (function() return UnitsAroundUnit('target', 35) < 5 end) } },
 	{ "Wrath", { "player.balance.sun", (function() return UnitsAroundUnit('target', 35) < 5 end) } }, 
+	
+	-- "Lunar Peak" "Solar Peak" Buff (2)
 	
 },
 {
