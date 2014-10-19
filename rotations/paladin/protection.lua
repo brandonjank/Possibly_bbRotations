@@ -44,11 +44,18 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 2", "player.health < 80" }, "player" },
 	{ "Word of Glory", { "player.health < 70", "player.holypower > 4", "!talent(3, 2)" }, "player" },
 	{ "Word of Glory", { "player.health < 50", "player.holypower > 2", "!talent(3, 2)" }, "player" },
-	{ "Shield of the Righteous", { "target.spell(Crusader Strike).range", "player.holypower > 4" } },
-	{ "Shield of the Righteous", { "target.spell(Crusader Strike).range", "player.buff(Divine Purpose)" } },
+	{ "Shield of the Righteous", { "player.holypower > 4" } }, --"target.spell(Crusader Strike).range"
+	{ "Shield of the Righteous", { "player.buff(Divine Purpose)" } }, --"target.spell(Crusader Strike).range"
 
 	-- Interrupts
 	{ "Rebuke", "modifier.interrupt" }, --TODO: Interrupt at 50% cast
+	
+	{ {
+		{ "Divine Shield", { "player.debuff(Gulp Frog Toxin).count > 8", "!player.Debuff(Forbearance)" } },
+		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
+	},{
+		(function() return GetMinimapZoneText() ==  'Croaking Hollow' end),
+	} },
 	
 	-- Survivability
 	{{
@@ -98,15 +105,15 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 		--{ "Holy Prism", { "player.health < 71", "talent(6, 1)" }, "player" },
 		--{ "Holy Prism", { "!toggle.limitaoe", "player.health > 70", "talent(6, 1)" }, "target" },
 	}, {
-		"!target.spell(Crusader Strike).range",
+		"target.distance > 3",
 	}},
 	
 	-- MELEE ROTATION
 	{ "Avenger's Shield", "player.buff(Grand Crusader)" }, -- TODO: Check for single shield glyph
 	{ "Hammer of the Righteous", (function() return UnitsAroundUnit('target', 10) > 1 end) },
 	{ "Crusader Strike", (function() return UnitsAroundUnit('target', 10) < 2 end) },
-	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.spell(Crusader Strike).range" } },
-	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", (function() return UnitsAroundUnit('target', 10) > 3 end) } }, -- TODO: use target.ground if glyphed
+	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5" } },
+	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) > 3 end) } }, -- TODO: use target.ground if glyphed
 	{ "Judgment" },
 	--{ "Seal of Insight", { "!modifier.last", "!player.buff", "!player.buff(Seal of Truth)" } },
 	--{ "Seal of Truth" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Righteousness)" } }, -- TODO: For T7 Talent Empowered Seals
@@ -114,14 +121,14 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	--{ "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
 	--{ "Execution Sentence", { "talent(6, 3)", "player.health > 70" }, "target" },
 	{ "Avenger's Shield" },
-	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, -- TODO: use target.ground if glyphed
-	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.spell(Crusader Strike).range", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
+	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, -- TODO: use target.ground if glyphed
+	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
 	{ "Hammer of Wrath", "target.health <= 20" },
 	{ "Light's Hammer", "talent(6, 2)", "target.ground" },
 	--{ "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
 	--{ "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
-	{ "Consecration", { "!toggle.limitaoe", "target.spell(Crusader Strike).range" } }, -- TODO: use target.ground if glyphed
-	{ "Holy Wrath", { "!toggle.limitaoe", "target.spell(Crusader Strike).range" } },
+	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5" } }, -- TODO: use target.ground if glyphed
+	{ "Holy Wrath", { "!toggle.limitaoe", "target.distance < 5" } },
 	
 },{
 -- OUT OF COMBAT ROTATION
@@ -135,6 +142,23 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- Stance
 	{ "Righteous Fury", { "!player.buff(Righteous Fury)", "!modifier.last" } },
 	{ "Seal of Insight", { "player.seal != 3", "!modifier.last" } },
+	
+
+	{{
+		{ "Divine Shield", { "player.debuff(Gulp Frog Toxin).count > 8", "!player.Debuff(Forbearance)" } },
+		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
+		{ "/targetenemy [exists,dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
+		{ "/targetenemy", { "toggle.autotarget", "target.distance > 30" } },
+		{ "Consecration" },
+		{ "Avenger's Shield", { "target.exists", "!target.dead" } },
+		{ "Judgment", { "target.exists", "!target.dead" } },
+		{ "Light's Hammer", { "target.exists", "!target.dead", "talent(6, 2)" }, "target.ground" },
+
+	}, {
+		(function() return GetMinimapZoneText() ==  'Croaking Hollow' end),
+	}},
+	
   
 },
 function()
