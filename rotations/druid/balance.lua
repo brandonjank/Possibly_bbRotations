@@ -1,6 +1,6 @@
 -- PossiblyEngine Rotation
 -- Custom Balance Druid Rotation
--- Created on Oct 17th 2014
+-- Updated on Oct 17th 2014
 -- PLAYER CONTROLLED: 
 -- SUGGESTED BUILD: 
 -- SUGGESTED TALENTS: Feline Swiftness, Ysera's Gift, Typhoon, Incarnation: Chosen of Elune, Ursol's Vortex, Nature's Vigil, Euphoria

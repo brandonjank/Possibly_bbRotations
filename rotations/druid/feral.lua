@@ -25,7 +25,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 -- COMBAT ROTATION
 ---- Solo - This first priority list is for when you are questing or soloing content. It is assumed any target you attack will die in less then 20 seconds. You won't use  Rip in this priority.
 	-- Prowl
-	{ "Prowl", { "!player.buff", "!player.combat" } },
+--[[	{ "Prowl", { "!player.buff", "!player.combat" } },
 	-- Apply Rake (you get  Savage Roar for free from the glyph)
 	{ "Rake", "!target.debuff" },
 	-- Moonfire (If Lunar Inspiration)
@@ -38,13 +38,13 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 	-- Reapply Savage Roar if < 10 seconds
 	{ "Savage Roar", "player.buff(Savage Roar).remaining < 10" },
 	-- Tiger's Fury if you run low on energy
-	{ "Tiger's Fury", "player.energy < 40" },
+	{ "Tiger's Fury", "player.energy < 40" }, ]]--
 
 ---- Single Target (Dungeon/LFR) - This priority list is for attacking a boss creature in a Dungeon/LFR.
 	-- Prowl
 	{ "Prowl", { "!player.buff", "!player.combat" } },
 	-- Rake
-	{ "Rake", "!target.debuff" },
+	{ "Rake", "!target.debuff(Rake)" },
 	-- Moonfire (If Lunar Inspiration)
 	{ "Moonfire", "talent(7, 1)" }, -- Lunar Inspiration Talent
 	-- Shred until 5 combo points or you get below 20 energy
@@ -58,17 +58,17 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 	-- Healing Touch (If using Bloodtalons)
 	{ "Healing Touch", "talent(7, 2)", "player" }, -- Bloodtalons Talent
 	-- Rip
-	{ "Rip" },
+	{ "Rip", "!target.debuff(rip)" }, --- need to evaluate for smart ripping and when to reapply to keep debuff up (ie rip.remaining < 3)
 
 ---- From here on the priorities are:
 	-- Refresh Savage Roar before it expires
 	{ "Savage Roar", "player.buff(Savage Roar).remaining < 5" },
 	-- Rake when it expires
-	{ "Rake", "!target.debuff(Rake)" },
+	{ "Rake", "target.debuff(Rake).remaining >= 2" },
 	-- Moonfire when it expires (If Lunar Inspiration)
 	{ "Moonfire", { "talent(7, 1)","!target.debuff(Moonfire)" } }, -- Lunar Inspiration Talent
 	-- Rip when it expires
-	{ "Rip", { "!target.debuff", "target.health >= 25" } },
+	{ "Rip", { "!target.debuff(Rip)", "target.health >= 25" } },
 	-- Below 25% you can replace using Rip with Ferocious Bite which will refresh Rip back to 24 seconds. When Berserk is up it is OK to replace Shred with Shred
 	{ "Ferocious Bite", { "target.debuff(Rip) < 5", "target.health < 25" } },
 	-- Use Shred and Rake refreshes to build combo points
@@ -121,7 +121,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 	
 	-- Pre-Combat
 	{ "Savage Roar", { "player.buff(Prowl)", "!player.buff(Heart of the Wild)", "player.buff(Cat Form)", "target.enemy", "target.alive", "target.range < 10" } },	
-	{"Shred", { "target.behind", "player.combopoints < 5", "player.power > 98", "target.enemy", "target.alive", "target.range < 8", "player.level >= 16" } },
+	{ "Shred", { "target.behind", "player.combopoints < 5", "player.power > 98", "target.enemy", "target.alive", "target.range < 8", "player.level >= 16" } },
 	
 },
 -- TOGGLE BUTTONS
