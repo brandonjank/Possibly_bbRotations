@@ -1,22 +1,27 @@
 bbLib = {}
 --TODO: Alpha, Beta, and Raid Ready Alert
 
-function bbLib.engaugeUnit() -- TODO: Pass Unit Name and true of Melee char.
+function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Name and true of Melee char.
 	-- TODO: Move back to original position after kill.
 		
 	-- Pause if debuff is too high from frogs.
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
-	if toxin > 5 then return false end
+	if toxin > 7 then
+		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
+			CastSpellByName("Divine Shield")
+		end
+		return false
+	end
+
 	
 	-- Don't run when dead.
 	if UnitIsDeadOrGhost("player") then return false end
 	
-	local isMelee = true
-	local unitName = "Gulp Frog"
+	--local isMelee = true
+	--local unitName = "Gulp Frog"
 	local totalObjects = ObjectCount() or 0
 	local closestUnitObject
 	local closestUnitDistance = 9999
-	local searchRange = 30
 	
 	-- Find closest unit.
 	for i = 1, totalObjects do
@@ -53,7 +58,7 @@ function bbLib.engaugeUnit() -- TODO: Pass Unit Name and true of Melee char.
 		end
 		
 		-- Always face the unit.
-		if closestUnitDistance < 6 then
+		--if closestUnitDistance < 6 then
 			local playerFacing = ObjectFacing("player")
 			local direction = ObjectFacing("target") + math.pi
 			
@@ -71,7 +76,7 @@ function bbLib.engaugeUnit() -- TODO: Pass Unit Name and true of Melee char.
 			--if delta > (math.pi / 2) then
 				FaceDirection(direction)
 			--end
-		end
+		--end
 	end
 	
 	return false

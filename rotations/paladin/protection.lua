@@ -41,9 +41,9 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- { "Every Man for Himself", "player.state.stun" },
 	
 	{ {
-		{ "Divine Shield", "player.debuff(Gulp Frog Toxin).count > 7" },
+		-- { "Divine Shield", "player.debuff(Gulp Frog Toxin).count > 7" }, -- Divine shield does not work!?
 		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
-		{ "Blessing of Kings", "@bbLib.engaugeUnit" },
+		{ "Blessing of Kings", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" },
 	},{
 		"toggle.frogs",
 	} },
@@ -149,11 +149,11 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	
 
 	{ {
-		{ "Blessing of Kings", "@bbLib.engaugeUnit" },
+		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
+		{ "Blessing of Kings", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" },
 		{ "Reckoning", true, "target" },
 		{ "Avenger's Shield", true, "target" },
 		{ "Judgment", true, "target" },
-
 	},{
 		"toggle.frogs"
 	} },
