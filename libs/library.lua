@@ -22,6 +22,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 	local totalObjects = ObjectCount() or 0
 	local closestUnitObject
 	local closestUnitDistance = 9999
+	local closestUnitDirection
 	
 	-- Find closest unit.
 	for i = 1, totalObjects do
@@ -40,6 +41,9 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 					if objectDistance <= closestUnitDistance then
 						closestUnitObject = object
 						closestUnitDistance = objectDistance
+						--closestUnitDirection = abs(ay-by) / sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by))
+						--closestUnitDirection = math.abs(math.atan2(by - ay,bx - ax))
+						--print(closestUnitDirection)
 					end
 				end
 			end
@@ -48,7 +52,8 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 	
 	-- Target unit.
 	if ( not UnitExists("target") and UnitExists(closestUnitObject) ) or ( UnitExists("target") and UnitExists(closestUnitObject) and not UnitIsUnit(closestUnitObject, "target") ) then
-		TargetUnit(closestUnitObject);
+		TargetUnit(closestUnitObject)
+		--FaceDirection(closestUnitDirection)
 	end
 	
 	-- Move to unit.
@@ -58,13 +63,13 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		end
 		
 		-- Always face the unit.
-		--if closestUnitDistance < 6 then
-			local playerFacing = ObjectFacing("player")
-			local direction = ObjectFacing("target") + math.pi
+		--if UnitExists("targettarget") and UnitIsUnit("targettarget","player") then
+			--local playerFacing = ObjectFacing("player")
+			--local direction = ObjectFacing("target") + math.pi
 			
-			if direction > (2 * math.pi) then 
-				direction = direction - (2 * math.pi)
-			end
+			--if direction > (2 * math.pi) then 
+				--direction = direction - (2 * math.pi)
+			--end
 			
 			--local delta = 0
 			--if direction < (math.pi + playerFacing) then
@@ -74,7 +79,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 			--end
 			
 			--if delta > (math.pi / 2) then
-				FaceDirection(direction)
+				--FaceDirection(closestUnitDirection)
 			--end
 		--end
 	end

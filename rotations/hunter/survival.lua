@@ -37,6 +37,12 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 	
+	{ {
+		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+	},{
+		"toggle.frogs",
+	} },
+	
 	-- SoO: Paragons - Aim
 	{ "Feign Death", { "player.debuff(Aim)", "player.debuff(Aim).duration > 3" } },
 
@@ -85,7 +91,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
 		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "pet" },
 	}, {
-		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30"
+		"!toggle.frogs", "!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30"
 	}},
 
 	-- Stances
@@ -174,6 +180,17 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Ice Trap", "modifier.lalt", "ground" },
 	{ "Snake Trap", "modifier.lalt", "ground" },
 	{ "Freezing Trap", "modifier.ralt", "ground" },
+	
+	{ {
+		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "!Auto Shot" },
+		{ "Glaive Toss", "talent(6, 1)" },
+		{ "Explosive Shot" },
+		{ "Arcane Shot" },
+		
+	},{
+		"toggle.frogs",
+	} },
 
 	-- Food / Flask
 	-- TODO: flask of spring blossoms
@@ -187,4 +204,5 @@ function()
 	PossiblyEngine.toggle.create('cleavemode', 'Interface\\Icons\\ability_upgrademoonglaive', 'Cleave Mode', 'Toggle the automatic usage of AoE abilities for 3+ enemies.')
 	PossiblyEngine.toggle.create('camomode', 'Interface\\Icons\\ability_hunter_displacement', 'Use Camouflage', 'Toggle the usage Camouflage when out of combat.')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
 end)

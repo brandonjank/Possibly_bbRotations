@@ -31,6 +31,12 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 	
+	{ {
+		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+	},{
+		"toggle.frogs",
+	} },
+	
 	-- Defensive Racials
 	--{ "20594", "player.health <= 70" }, 
 	--{ "20589", "player.state.root" }, 
@@ -110,7 +116,15 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "pause", "player.buff(Food)" },
 	
 	-- Buffs
-	{ "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" }
+	{ "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
+	
+	{ {
+		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Moonfire", "player.balance.moon" },
+		{ "Sunfire", "player.balance.sun" },
+	},{
+		"toggle.frogs",
+	} },
 	
 	-- TODO: Noodle Food / Flask
 	-- TODO: PRE POT
@@ -120,4 +134,5 @@ function()
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\ability_hunter_quickshot', 'Use Mouseovers', 'Toggle automatic usage of stings/scatter/etc on eligible mouseover targets.')	
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
 end)
