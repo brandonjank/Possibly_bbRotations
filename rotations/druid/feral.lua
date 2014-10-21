@@ -42,7 +42,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 
 ---- Single Target (Dungeon/LFR) - This priority list is for attacking a boss creature in a Dungeon/LFR.
 	-- Prowl
-	{ "Prowl", { "!player.buff", "!player.combat" } },
+--	{ "Prowl", { "!player.buff", "!player.combat" } },
 	-- Rake
 	{ "Rake", "!target.debuff(Rake)" },
 	-- Moonfire (If Lunar Inspiration)
