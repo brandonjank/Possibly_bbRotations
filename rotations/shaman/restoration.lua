@@ -30,8 +30,8 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "pause", "modifier.lcontrol" },
 	--{ "pause", "@bbLib.bossMods" },
 	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
-	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
-	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
+	--{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
+	--{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 	
 	-- Racials 
 	--{ "Stoneform", "player.health <= 65" },
@@ -101,7 +101,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Surge", "lowest.health < 65", "lowest" }, -- only if you feel that the target will die before you have a chance to complete a Greater Healing Wave
 	
 	-- Interrupt
-	{ "Quaking Palm", "modifier.interrupts" }, -- Pandaren Racial
+	--{ "Quaking Palm", "modifier.interrupts" }, -- Pandaren Racial
 	{ "Wind Shear", "modifier.interrupt" },
 	
 	--Cast  Healing Wave on injured targets during periods of low damage.
@@ -110,7 +110,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Wave", { "lowest.health < 100" }, "lowest" },
 	
 	-- Dispel Self
-	{ "Purify Spirit", "player.dispellable(Purify Spirit)", "player" },
+	--{ "Purify Spirit", "player.dispellable(Purify Spirit)", "player" },
 	
 	-- Auto Follow
 	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal Strike was replaced by Lava Burst.
