@@ -3,6 +3,9 @@ bbLib = {}
 
 function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Name and true of Melee char.
 	-- TODO: Move back to original position after kill.
+	
+	-- Don't run when dead.
+	if UnitIsDeadOrGhost("player") then return false end
 		
 	-- Pause if debuff is too high from frogs.
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
@@ -12,13 +15,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		end
 		return false
 	end
-
 	
-	-- Don't run when dead.
-	if UnitIsDeadOrGhost("player") then return false end
-	
-	--local isMelee = true
-	--local unitName = "Gulp Frog"
 	local totalObjects = ObjectCount() or 0
 	local closestUnitObject
 	local closestUnitDistance = 9999
@@ -31,19 +28,22 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		if objectName == unitName then
 			-- TODO: Loot lootable objects!
 			if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) )  then
-				local ax, ay, az = ObjectPosition(object)
-				local bx, by, bz = ObjectPosition("player")
-			    local ab = (UnitCombatReach(object))
-				local bb = (UnitCombatReach("player"))
+				local ax, ay, az = ObjectPosition("player")
+				local bx, by, bz = ObjectPosition(object)
+			    local ab = (UnitCombatReach("player"))
+				local bb = (UnitCombatReach(object))
 				local b = ab + bb
 				local objectDistance = math.abs(math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - b) -- Pythagorean theorem ftw
 				if objectDistance <= searchRange and not TraceLine(ax, ay, az+2.25, bx, by, bz+2.25, bit.bor(0x10, 0x100)) then -- LoS check.
 					if objectDistance <= closestUnitDistance then
 						closestUnitObject = object
 						closestUnitDistance = objectDistance
-						--closestUnitDirection = abs(ay-by) / sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by))
-						--closestUnitDirection = math.abs(math.atan2(by - ay,bx - ax))
-						--print(closestUnitDirection)
+						--closestUnitDirection = math.fmod(math.atan2(math.sin(bx-ax)*math.cos(by), math.cos(ay)*math.sin(by)-math.sin(ay)*math.cos(lat2)*math.cos(bx-ax)), 2.0 * math.pi)
+						
+						local closestUnitDirection = rad(atan2(by - ay, bx - ax))
+						if closestUnitDirection < 0 then
+							closestUnitDirection = rad(atan2(by - ay, bx - ax) + 2 * math.pi)
+						end
 					end
 				end
 			end
@@ -53,35 +53,14 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 	-- Target unit.
 	if ( not UnitExists("target") and UnitExists(closestUnitObject) ) or ( UnitExists("target") and UnitExists(closestUnitObject) and not UnitIsUnit(closestUnitObject, "target") ) then
 		TargetUnit(closestUnitObject)
-		--FaceDirection(closestUnitDirection)
+		FaceDirection(closestUnitDirection)
 	end
 	
 	-- Move to unit.
-	if UnitExists("target") and UnitExists(closestUnitObject) and UnitIsUnit(closestUnitObject, "target") then
-		if isMelee and closestUnitObject and closestUnitDistance <= searchRange and closestUnitDistance > 3 and ( not UnitIsTapped(closestUnitObject) or UnitIsTappedByPlayer(closestUnitObject) ) then
+	if closestUnitObject and UnitExists("target") and UnitExists(closestUnitObject) and UnitIsUnit(closestUnitObject, "target") and ( not UnitIsTapped(closestUnitObject) or UnitIsTappedByPlayer(closestUnitObject) ) then
+		if isMelee and closestUnitDistance <= searchRange and closestUnitDistance > 3 then
 			MoveTo(ObjectPosition(closestUnitObject))
 		end
-		
-		-- Always face the unit.
-		--if UnitExists("targettarget") and UnitIsUnit("targettarget","player") then
-			--local playerFacing = ObjectFacing("player")
-			--local direction = ObjectFacing("target") + math.pi
-			
-			--if direction > (2 * math.pi) then 
-				--direction = direction - (2 * math.pi)
-			--end
-			
-			--local delta = 0
-			--if direction < (math.pi + playerFacing) then
-				--delta = math.abs(direction - playerFacing)
-			--else
-				--delta = math.abs((2 * math.pi) + (direction - playerFacing))
-			--end
-			
-			--if delta > (math.pi / 2) then
-				--FaceDirection(closestUnitDirection)
-			--end
-		--end
 	end
 	
 	return false

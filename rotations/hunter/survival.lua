@@ -25,6 +25,13 @@
 --CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) != nil end)
 --Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) != nil end)
 
+--UnitsAroundUnit(unit, distance[, combat])
+--Distance(unit, unit)
+--FaceUnit(unit) -- Returns FaceDirection(angle) BROKEN! atan2 returns 0 -> pi/2 -> pi -> -pi -> -pi/2 -> 0, with 0 being the +y-axis. Needs to be converted to (0,2pi], with +x-axis being (0,2pi].
+--IterateObjects(callback, filter)
+
+--timeout(name, duration) -- Used to add a rate limit or stop double casting.
+
 
 PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 -- COMBAT
@@ -153,7 +160,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
 	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 12) > 3 end) }, "target.ground" },
 	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 12) > 2 end) } },
-	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
+	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 12) < 3 end) } },
 	{ "Cobra Shot",      "player.focus < 40" },
 	{ "Cobra Shot",      "player.spell(Explosive Shot).cooldown > 0.5" },
 	
