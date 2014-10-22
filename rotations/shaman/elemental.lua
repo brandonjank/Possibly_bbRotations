@@ -16,6 +16,7 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	
 	{ {
 		{ "Water Walking", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Thunderstorm", "target.distance < 5" },
 	},{
 		"toggle.frogs",
 	} },
