@@ -14,6 +14,12 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "target.exists", "target.dead" } },
 	
+	{ {
+		{ "Water Walking", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+	},{
+		"toggle.frogs",
+	} },
+	
 	-- Interrupt
 	{ "Wind Shear", "modifier.interrupt" },
 
@@ -90,9 +96,19 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	{ "Healing Stream Totem", { "!player.moving", "player.health < 80" } },
 	{ "Healing Surge", { "!player.moving", "player.health < 80" }, "player" },
 	
+	{ {
+		{ "Water Walking", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Searing Totem", "!player.totem(Searing Totem)" },
+		{ "Flame Shock" },
+		{ "Unleash Flame" },
+	},{
+		"toggle.frogs",
+	} },
+	
 },
 function()
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'PvP', 'Toggle the usage of PvP abilities.')
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_fire_flameshock', 'Toggle Mouseovers', 'Automatically cast spells on mouseover targets')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automaticaly target the nearest enemy when target dies or does not exist.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
 end)
