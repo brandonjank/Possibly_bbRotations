@@ -93,13 +93,13 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "Flare", true, "target.ground" },
 	
     -- Misdirect ( focus -> tank -> pet )
-	{{
+	{ {
 		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
 		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
 		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "pet" },
-	}, {
-		"!toggle.frogs", "!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30"
-	}},
+	},{
+		"!toggle.frogs", "!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
+	} },
 
 	-- Stances
 	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed

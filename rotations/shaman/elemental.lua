@@ -54,7 +54,7 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	
 	-- DPS ROTATION
 	{ "Flame Shock", "!target.debuff(Flame Shock)" },
-	{ "Earthquake", { "!player.moving", (function() return UnitsAroundUnit('target', 10) > 2 end), "target.ground" } },
+	{ "Earthquake", { "!player.moving", (function() return UnitsAroundUnit('target', 10) > 2 end) }, "target.ground" } },
 	{ "Chain Lightning", { "!player.moving", "player.spell(Earthquake).cooldown > 1", (function() return UnitsAroundUnit('target', 10) > 2 end) } },
 	
 	{ "Unleash Flame", "talent(6, 1)" },
