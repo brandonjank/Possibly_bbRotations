@@ -51,7 +51,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 	end
 	
 	-- Tap Unit
-	if not UnitIsTapped(closestUnitObject) and not UnitIsTappedByPlayer(closestUnitObject) then
+	if closestUnitObject and not UnitIsTapped(closestUnitObject) and not UnitIsTappedByPlayer(closestUnitObject) then
 		if UnitClass("player") == "Shaman" and closestUnitDistance <= 30 then
 			Cast("Purge", closestUnitObject)
 		end
