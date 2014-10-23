@@ -67,9 +67,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
-	{ "Explosive Trap", "modifier.lalt", "ground" },
-	{ "Ice Trap", "modifier.lalt", "ground" },
-	{ "Freezing Trap", "modifier.ralt", "ground" },
+	{ "Explosive Trap", "modifier.lalt", "mouseover.ground" },
+	{ "Ice Trap", "modifier.lalt", "mouseover.ground" },
+	{ "Freezing Trap", "modifier.ralt", "mouseover.ground" },
 
 	-- PvP Abilities
 	-- TODO: Automatic PvP mode isPlayer isPvP
@@ -183,10 +183,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
-	{ "Explosive Trap", "modifier.lalt", "ground" },
-	{ "Ice Trap", "modifier.lalt", "ground" },
-	{ "Snake Trap", "modifier.lalt", "ground" },
-	{ "Freezing Trap", "modifier.ralt", "ground" },
+	{ "Explosive Trap", "modifier.lalt", "mouseover.ground" },
+	{ "Ice Trap", "modifier.lalt", "mouseover.ground" },
+	{ "Freezing Trap", "modifier.ralt", "mouseover.ground" },
 	
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },

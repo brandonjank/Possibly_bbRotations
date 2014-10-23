@@ -51,7 +51,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	
 	-- Healing Rain Mouseover
-	{ "Healing Rain", "modifier.lshift", "ground" },
+	{ "Healing Rain", "modifier.lshift", "mouseover.ground" },
 	
 	-- Buffs
 	{ "Water Shield", "!player.buff" },
@@ -85,7 +85,9 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	--Keep Riptide on 3 players at all times.
 	{ "Riptide", { "focus.exists", "focus.alive", "!focus.buff(Riptide)" }, "focus" },
 	{ "Riptide", { "tank.exists", "tank.alive", "!tank.buff(Riptide)" }, "tank" },
-	{ "Riptide", { "lowest.exists", "lowest.alive", "!lowest.buff(Riptide)" }, "lowest" }, --, "lowest.health < 100" 
+	{ "Riptide", "!lowest.buff(Riptide)", "lowest" }, --, "lowest.health < 100"
+	{ "Riptide", "!target.buff(Riptide)", "target" },
+	{ "Riptide", "!mouseover.buff(Riptide)", "mouseover" },
 	
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.
 	
