@@ -46,6 +46,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		-- Ordon Candlekeeper, Ordon Fire-Watcher, Ordon Oathguard (Gotta strafe out of fire and ground crap)
 	},{
 		"toggle.frogs",
 	} },

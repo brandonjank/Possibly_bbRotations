@@ -147,10 +147,10 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	
 
 	{ {
-		{ "Blessing of Kings", { "!target.friend", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
-		{ "Reckoning", true, "target" },
+		{ "Blessing of Kings", { "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
 		{ "Avenger's Shield", true, "target" },
 		{ "Judgment", true, "target" },
+		{ "Reckoning", true, "target" },
 	},{
 		"toggle.frogs"
 	} },

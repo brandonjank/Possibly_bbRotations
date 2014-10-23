@@ -1,15 +1,13 @@
 bbLib = {}
 --TODO: Alpha, Beta, and Raid Ready Alert
 
-function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Name and true of Melee char.
-	-- TODO: Move back to original position after kill.
-	
-	-- Don't run when dead.
-	if UnitIsDeadOrGhost("player") then return false end
+function bbLib.engaugeUnit(unitName, searchRange, isMelee)
+	-- Don't run when dead or targeting a friend.
+	if UnitIsDeadOrGhost("player") or ( UnitExists("target") and UnitIsFriend("player", "target") ) or GetMinimapZoneText() ~= "Croaking Hollow" then return false end
 		
 	-- Pause if debuff is too high from frogs.
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
-	if toxin > 7 then
+	if toxin > 6 then
 		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
 			Cast("Divine Shield", "player")
 		end
@@ -19,21 +17,26 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		return false
 	end
 	
+	-- Clear targets.
+	if UnitIsDeadOrGhost("target") or ( UnitIsTapped("target") and UnitThreatSituation("player", "target") and UnitThreatSituation("player", "target") < 2 )  then
+		ClearTarget()
+	end
+	
 	local totalObjects = ObjectCount() or 0
 	local closestUnitObject
 	local closestUnitDistance = 9999
 	local closestUnitDirection
 	
 	-- Find closest unit.
-	for i = 1, totalObjects do
-		local object = ObjectWithIndex(i)
-		local objectName = ObjectName(object)
-		if objectName == unitName then
-			-- TODO: Loot lootable objects!
-			if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) )  then
-				local objectDistance = Distance("player", object)
-				if objectDistance <= searchRange and LineOfSight("player", object) then -- LoS check. --and not TraceLine(ax, ay, az+2.25, bx, by, bz+2.25, bit.bor(0x10, 0x100))
-					if objectDistance <= closestUnitDistance then
+	if not UnitExists("target") or ( UnitExists("target") and UnitIsTapped("target") and not UnitIsTappedByPlayer("target") ) then
+		for i = 1, totalObjects do
+			local object = ObjectWithIndex(i)
+			local objectName = ObjectName(object) or 0
+			if objectName == unitName then
+				-- TODO: Loot lootable objects!
+				if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) ) then
+					local objectDistance = Distance("player", object)
+					if objectDistance <= searchRange and objectDistance <= closestUnitDistance and LineOfSight("player", object) then
 						closestUnitObject = object
 						closestUnitDistance = objectDistance
 					end
@@ -42,31 +45,31 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		end
 	end
 	
-	-- Clear targets.
-	if UnitIsDeadOrGhost("target") or (UnitIsTapped("target") and UnitThreatSituation("player", "target") and UnitThreatSituation("player", "target") < 2)  then
-		ClearTarget()
-	end
-	
 	-- Target unit.
 	if ( not UnitExists("target") and UnitExists(closestUnitObject) ) or ( UnitExists("target") and UnitExists(closestUnitObject) and not UnitIsUnit(closestUnitObject, "target") ) then
 		TargetUnit(closestUnitObject)
-		FaceUnit(closestUnitObject)
+	end
+	
+	--Face Unit
+	if UnitExists("target") then
+		FaceUnit("target")
 	end
 	
 	-- Tap Unit
-	if closestUnitObject and not UnitIsTapped(closestUnitObject) and not UnitIsTappedByPlayer(closestUnitObject) then
+	if UnitExists("target") and not UnitIsTapped("target") and not UnitIsTappedByPlayer("target") then
 		if UnitClass("player") == "Shaman" and closestUnitDistance <= 30 then
 			Cast("Purge", closestUnitObject)
 		end
 	end
 	
 	-- Move to unit.
-	if closestUnitObject and UnitExists("target") and UnitExists(closestUnitObject) and UnitIsUnit(closestUnitObject, "target") and ( not UnitIsTapped(closestUnitObject) or UnitIsTappedByPlayer(closestUnitObject) ) then
-		if isMelee and closestUnitDistance <= searchRange and closestUnitDistance > 3 then
-			MoveTo(ObjectPosition(closestUnitObject))
-			FaceUnit(closestUnitObject)
-		end
-	end
+	-- TODO: Move back to original position after kill.
+	--if closestUnitObject and UnitExists("target") and UnitExists(closestUnitObject) and UnitIsUnit(closestUnitObject, "target") and ( not UnitIsTapped(closestUnitObject) or UnitIsTappedByPlayer(closestUnitObject) ) then
+		--if isMelee and closestUnitDistance <= searchRange and closestUnitDistance > 0 then
+			--MoveTo(ObjectPosition(closestUnitObject))
+		--	FaceUnit(closestUnitObject)
+		--end
+	--end
 	
 	return false
 end
@@ -99,8 +102,8 @@ end
 -- end
 
 function bbLib.stackCheck(spell, otherTank, stacks)
-	local debuffName, _, _, debuffCount = UnitDebuff(otherTank, spell)
-	if debuffName and debuffCount >= stacks and not UnitDebuff("player", spell) then
+	local name, _, _, count, _, _, _, _, _, _, spellID, _, _, _, _, _ = UnitDebuff(otherTank, spell)
+	if name and count >= stacks and not UnitDebuff("player", spell) then
 		return true
 	end 
 	return false
@@ -129,17 +132,23 @@ function bbLib.bossTaunt()
 	-- Make sure we're a tank first and we're in a raid
 	if IsInRaid() and UnitGroupRolesAssigned("player") == "TANK" then
 		local otherTank
-		for i = 1, GetNumGroupMembers() do
-			local other = "raid" .. i
-			if not otherTank and not UnitIsUnit("player", other) and UnitGroupRolesAssigned(other) == "TANK" then
-				otherTank = other
-			end
+		if UnitExists("focus") and UnitIsFriend("player", "focus") and not UnitIsDeadOrGhost(otherTank) then 
+			otherTank = "focus" 
+		else 
+			otherTank = nil
 		end
-		if otherTank and not UnitIsDeadOrGhost(otherTank) then
+		-- for i = 1, GetNumGroupMembers() do
+			-- local other = "raid" .. i
+			-- if not otherTank and not UnitIsUnit("player", other) and UnitGroupRolesAssigned(other) == "TANK" then
+				-- otherTank = other
+			-- end
+		-- end
+		
+		if otherTank then
 			for j = 1, 4 do
 				local bossID = "boss" .. j
-				local boss = UnitID(bossID) -- /script print(UnitID("target"))
-				
+				local boss = UnitID(bossID)
+				--local boss, _ = UnitName(bossID)
 				-- START Siege of Orgrimmar
 				if     boss == 71543 then -- Immersus
 					if bbLib.stackCheck("Corrosive Blast", otherTank, 1) then
