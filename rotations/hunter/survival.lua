@@ -102,7 +102,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--} },
 
 	-- Stances
-	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
+	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	
 	-- Defensive Racials
 	--{ "20594", "player.health <= 70" }, 
@@ -156,7 +156,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "A Murder of Crows", "talent(5, 1)" },
 	--{ "Stampede",        { "modifier.cooldowns", "pet.exists", "player.hashero", "talent(5, 3)" } },
 	{ "Dire Beast", "talent(4, 2)" },
-	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
+	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "player.movingfor > 1", "!target.immune.snare" } },
 	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
 	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 12) > 3 end) }, "target.ground" },
 	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 12) > 2 end) } },
@@ -172,8 +172,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "player.buff(Food)" },
 	
 	-- Aspects
-	-- TODO: player.moving(seconds)
-	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
+	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	{ "Camouflage", { "toggle.camomode", "!player.buff", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- Pet
@@ -189,7 +188,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
-		{ "!Auto Shot", "target.exists" },
+		{ "!Auto Shot", { "target.exists", "target.health > 1" } },
 		{ "Glaive Toss", "talent(6, 1)" },
 		{ "Explosive Shot" },
 		{ "Arcane Shot" },

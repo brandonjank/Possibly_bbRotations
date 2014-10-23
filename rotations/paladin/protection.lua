@@ -42,8 +42,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	
 	{ {
 		-- { "Divine Shield", "player.debuff(Gulp Frog Toxin).count > 7" }, -- Divine shield does not work!?
-		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
 		{ "Blessing of Kings", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" },
+		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
 	},{
 		"toggle.frogs",
 	} },
@@ -57,9 +57,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "Shield of the Righteous", { "player.buff(Divine Purpose)" } }, --"target.spell(Crusader Strike).range"
 
 	-- Interrupts
+	{ "Arcane Torrent", { "modifier.interrupt", "target.distance < 8" } },
 	{ "Rebuke", "modifier.interrupt" }, --TODO: Interrupt at 50% cast
-	
-
 	
 	-- Survivability
 	{{
@@ -149,8 +148,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	
 
 	{ {
-		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
 		{ "Blessing of Kings", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" },
+		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
 		{ "Reckoning", true, "target" },
 		{ "Avenger's Shield", true, "target" },
 		{ "Judgment", true, "target" },

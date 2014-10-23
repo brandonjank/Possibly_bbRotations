@@ -64,7 +64,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	--{ "#gloves", { "modifier.cooldowns", "player.totem(Healing Tide Totem)" } },
 	--{ "#gloves", { "modifier.cooldowns", "player.totem(Spirit Link Totem)" } },
 	--{ "#gloves", { "modifier.cooldowns", "player.buff(Ascendance)" } },
-	{ "Spirit Walker's Grace", { "modifier.cooldowns", "player.buff(Ascendance)", "player.moving" } },
+	{ "Spirit Walker's Grace", { "modifier.cooldowns", "player.buff(Ascendance)", "player.movingfor > 1" } },
 	
 
 	--Use Healing Tide Totem,  Spirit Link Totem, or Ascendance during heavy raid damage.  Healing Tide Totem is particularly good when players are spread out, while Ascendance and  Spirit Link Totem benefit from a stacked raid.
@@ -133,7 +133,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Wave", "lowest.health < 85", "lowest" },
 	
 	-- Ghost Wolf
-	{ "Ghost Wolf", { "!player.buff(Ghost Wolf)", "player.moving", "!player.casting", "!modifier.last(Ghost Wolf)" } },
+	{ "Ghost Wolf", { "!player.buff(Ghost Wolf)", "player.movingfor > 2", "!player.casting", "!modifier.last(Ghost Wolf)" } },
 	
 	-- Auto Follow
 	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal strike was replaced withLava Burst

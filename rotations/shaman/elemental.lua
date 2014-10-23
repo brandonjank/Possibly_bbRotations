@@ -16,7 +16,7 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	
 	{ {
 		{ "Water Walking", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
-		--{ "Thunderstorm", "target.distance < 5" },
+		{ "Thunderstorm", "target.distance < 5" },
 	},{
 		"toggle.frogs",
 	} },
@@ -57,7 +57,7 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	{ "Earth Elemental Totem", { "modifier.cooldowns", "target.boss", "!player.totem(Fire Elemental Totem)" } },
 	{ "Elemental Mastery", { "talent(4, 1)", "modifier.cooldowns", "target.boss" } },
 	{ "Ascendance", { "modifier.cooldowns", "target.boss", "!player.buff(Ascendance)" } },
-	{ "Spiritwalker's Grace", { "modifier.cooldowns", "player.moving", "player.buff(Ascendance)" } },
+	{ "Spiritwalker's Grace", { "modifier.cooldowns", "player.movingfor > 1", "player.buff(Ascendance)" } },
 	
 	-- DPS ROTATION
 	{ "Flame Shock", "!target.debuff(Flame Shock)" },
@@ -99,8 +99,9 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	
 	{ {
 		{ "Water Walking", "@bbLib.engaugeUnit('Gulp Frog', 25, false)" },
+		{ "!Auto Attack", { "target.exists", "target.health > 1" } },
 		{ "Searing Totem", "!player.totem(Searing Totem)" },
-		{ "Flame Shock" },
+		{ "Flame Shock", true, "target" },
 	},{
 		"toggle.frogs",
 	} },

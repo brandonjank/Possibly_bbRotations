@@ -11,7 +11,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
 	if toxin > 7 then
 		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
-			CastSpellByName("Divine Shield")
+			Cast("Divine Shield", "player")
 		end
 		return false
 	end
@@ -29,7 +29,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 			-- TODO: Loot lootable objects!
 			if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) )  then
 				local objectDistance = Distance("player", object)
-				if objectDistance <= searchRange then -- LoS check. --and not TraceLine(ax, ay, az+2.25, bx, by, bz+2.25, bit.bor(0x10, 0x100))
+				if objectDistance <= searchRange and LineOfSight("player", object) then -- LoS check. --and not TraceLine(ax, ay, az+2.25, bx, by, bz+2.25, bit.bor(0x10, 0x100))
 					if objectDistance <= closestUnitDistance then
 						closestUnitObject = object
 						closestUnitDistance = objectDistance
