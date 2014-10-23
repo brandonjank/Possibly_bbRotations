@@ -50,10 +50,18 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		FaceUnit(closestUnitObject)
 	end
 	
+	-- Tap Unit
+	if not UnitIsTapped(closestUnitObject) and not UnitIsTappedByPlayer(closestUnitObject) then
+		if UnitClass("player") == "Shaman" and closestUnitDistance <= 30 then
+			Cast("Purge", closestUnitObject)
+		end
+	end
+	
 	-- Move to unit.
 	if closestUnitObject and UnitExists("target") and UnitExists(closestUnitObject) and UnitIsUnit(closestUnitObject, "target") and ( not UnitIsTapped(closestUnitObject) or UnitIsTappedByPlayer(closestUnitObject) ) then
 		if isMelee and closestUnitDistance <= searchRange and closestUnitDistance > 3 then
 			MoveTo(ObjectPosition(closestUnitObject))
+			FaceUnit(closestUnitObject)
 		end
 	end
 	

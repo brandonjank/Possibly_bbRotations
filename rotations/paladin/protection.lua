@@ -42,8 +42,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	
 	{ {
 		-- { "Divine Shield", "player.debuff(Gulp Frog Toxin).count > 7" }, -- Divine shield does not work!?
-		{ "Blessing of Kings", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" },
-		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
+		{ "Blessing of Kings", { "!target.friend", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
 	},{
 		"toggle.frogs",
 	} },
@@ -126,7 +125,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "Avenger's Shield", true, "target" },
 	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, -- TODO: use target.ground if glyphed
 	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
-	{ "Hammer of Wrath", "target.health <= 20" },
+	{ "Hammer of Wrath", { "!target.dead", "target.health <= 20" }, "target" },
 	{ "Light's Hammer", "talent(6, 2)", "target.ground" },
 	--{ "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
 	--{ "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
@@ -148,8 +147,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	
 
 	{ {
-		{ "Blessing of Kings", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" },
-		{ "/cancelaura Divine Shield", "player.buff(Divine Shield)" },
+		{ "Blessing of Kings", { "!target.friend", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
 		{ "Reckoning", true, "target" },
 		{ "Avenger's Shield", true, "target" },
 		{ "Judgment", true, "target" },

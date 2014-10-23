@@ -99,9 +99,8 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	
 	{ {
 		{ "Water Walking", "@bbLib.engaugeUnit('Gulp Frog', 30, false)" },
-		{ "Purge", { "target.exists", "target.health > 1" } },
-		{ "Searing Totem", "!player.totem(Searing Totem)" },
 		{ "Flame Shock", true, "target" },
+		{ "Searing Totem", "!player.totem(Searing Totem)" },
 	},{
 		"toggle.frogs",
 	} },
