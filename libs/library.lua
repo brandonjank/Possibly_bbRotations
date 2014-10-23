@@ -116,7 +116,7 @@ function bbLib.bossTaunt()
 	-- TODO: May be double taunting if we dont get a stack before taunt comes back up.
 	-- Thanks to Rubim for the idea!
 	-- Make sure we're a tank first and we're in a raid
-	if UnitGroupRolesAssigned("player") == "TANK" and IsInRaid() then
+	if IsInRaid() and UnitGroupRolesAssigned("player") == "TANK" then
 		local otherTank
 		for i = 1, GetNumGroupMembers() do
 			local other = "raid" .. i
