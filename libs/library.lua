@@ -28,32 +28,26 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		if objectName == unitName then
 			-- TODO: Loot lootable objects!
 			if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) )  then
-				local ax, ay, az = ObjectPosition("player")
-				local bx, by, bz = ObjectPosition(object)
-			    local ab = (UnitCombatReach("player"))
-				local bb = (UnitCombatReach(object))
-				local b = ab + bb
-				local objectDistance = math.abs(math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - b) -- Pythagorean theorem ftw
-				if objectDistance <= searchRange and not TraceLine(ax, ay, az+2.25, bx, by, bz+2.25, bit.bor(0x10, 0x100)) then -- LoS check.
+				local objectDistance = Distance("player", object)
+				if objectDistance <= searchRange then -- LoS check. --and not TraceLine(ax, ay, az+2.25, bx, by, bz+2.25, bit.bor(0x10, 0x100))
 					if objectDistance <= closestUnitDistance then
 						closestUnitObject = object
 						closestUnitDistance = objectDistance
-						--closestUnitDirection = math.fmod(math.atan2(math.sin(bx-ax)*math.cos(by), math.cos(ay)*math.sin(by)-math.sin(ay)*math.cos(lat2)*math.cos(bx-ax)), 2.0 * math.pi)
-						
-						local closestUnitDirection = rad(atan2(by - ay, bx - ax))
-						if closestUnitDirection < 0 then
-							closestUnitDirection = rad(atan2(by - ay, bx - ax) + 2 * math.pi)
-						end
 					end
 				end
 			end
 		end
 	end
 	
+	-- Clear targets.
+	if UnitIsDeadOrGhost("target") or (UnitIsTapped("target") and UnitThreatSituation("player", "target") and UnitThreatSituation("player", "target") < 2)  then
+		ClearTarget()
+	end
+	
 	-- Target unit.
 	if ( not UnitExists("target") and UnitExists(closestUnitObject) ) or ( UnitExists("target") and UnitExists(closestUnitObject) and not UnitIsUnit(closestUnitObject, "target") ) then
 		TargetUnit(closestUnitObject)
-		FaceDirection(closestUnitDirection)
+		FaceUnit(closestUnitObject)
 	end
 	
 	-- Move to unit.
@@ -93,13 +87,13 @@ end
 	-- return false
 -- end
 
--- function bbLib.stackCheck(spell, otherTank, stacks)
-	-- local debuffName, _, _, debuffCount = UnitDebuff(otherTank, spell)
-	-- if debuffName and debuffCount >= stacks and not UnitDebuff("player", spell) then
-		-- return true
-	-- end 
-	-- return false
--- end
+function bbLib.stackCheck(spell, otherTank, stacks)
+	local debuffName, _, _, debuffCount = UnitDebuff(otherTank, spell)
+	if debuffName and debuffCount >= stacks and not UnitDebuff("player", spell) then
+		return true
+	end 
+	return false
+end
 
 -- --function bbLib.worthDotting()
 -- --	if UnitHealth("target") > UnitHealth("player") or GetNumGroupMembers() < 2 then
@@ -118,154 +112,154 @@ end
 	-- return false
 -- end
 
--- function bbLib.bossTaunt()
-	-- -- TODO: May be double taunting if we dont get a stack before taunt comes back up.
-	-- -- Thanks to Rubim for the idea!
-	-- -- Make sure we're a tank first and we're in a raid
-	-- if UnitGroupRolesAssigned("player") == "TANK" and IsInRaid() then
-		-- local otherTank
-		-- for i = 1, GetNumGroupMembers() do
-			-- local other = "raid" .. i
-			-- if not otherTank and not UnitIsUnit("player", other) and UnitGroupRolesAssigned(other) == "TANK" then
-				-- otherTank = other
-			-- end
-		-- end
-		-- if otherTank and not UnitIsDeadOrGhost(otherTank) then
-			-- for j = 1, 4 do
-				-- local bossID = "boss" .. j
-				-- local boss = UnitID(bossID) -- /script print(UnitID("target"))
+function bbLib.bossTaunt()
+	-- TODO: May be double taunting if we dont get a stack before taunt comes back up.
+	-- Thanks to Rubim for the idea!
+	-- Make sure we're a tank first and we're in a raid
+	if UnitGroupRolesAssigned("player") == "TANK" and IsInRaid() then
+		local otherTank
+		for i = 1, GetNumGroupMembers() do
+			local other = "raid" .. i
+			if not otherTank and not UnitIsUnit("player", other) and UnitGroupRolesAssigned(other) == "TANK" then
+				otherTank = other
+			end
+		end
+		if otherTank and not UnitIsDeadOrGhost(otherTank) then
+			for j = 1, 4 do
+				local bossID = "boss" .. j
+				local boss = UnitID(bossID) -- /script print(UnitID("target"))
 				
-				-- -- START Siege of Orgrimmar
-				-- if     boss == 71543 then -- Immersus
-					-- if bbLib.stackCheck("Corrosive Blast", otherTank, 1) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end 
-				-- elseif boss == 72276 then -- Norushen
-					-- if bbLib.stackCheck("Self Doubt", otherTank, 3) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end 
-				-- elseif boss == 71734 then -- Sha of Pride
-					-- if bbLib.stackCheck("Wounded Pride", otherTank, 1) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 72249 then -- Galakras
-					-- if bbLib.stackCheck("Flames of Galakrond", otherTank, 3) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end  
-				-- elseif boss == 71466 then -- Iron Juggernaut
-					-- if bbLib.stackCheck("Ignite Armor", otherTank, 2) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end  
-				-- elseif boss == 71859 then -- Kor'kron Dark Shaman -- Earthbreaker Haromm
-					-- if bbLib.stackCheck("Froststorm Strike", otherTank, 5) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end   
-				-- elseif boss == 71515 then -- General Nazgrim
-					-- if bbLib.stackCheck("Sundering Blow", otherTank, 3) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 71454 then -- Malkorok
-					-- if bbLib.stackCheck("Fatal Strike", otherTank, 12) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 71529 then -- Thok the Bloodsthirsty
-					-- if bbLib.stackCheck("Panic", otherTank, 3)
-					  -- or bbLib.stackCheck("Acid Breath", otherTank, 3) 
-					  -- or bbLib.stackCheck("Freezing Breath", otherTank, 3)
-					  -- or bbLib.stackCheck("Scorching Breath", otherTank, 3) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 71504 then -- Siegecrafter Blackfuse
-					-- if bbLib.stackCheck("Electrostatic Charge", otherTank, 4) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 71865 then -- Garrosh Hellscream
-					-- if bbLib.stackCheck("Gripping Despair", otherTank, 3)
-					  -- or bbLib.stackCheck("Empowered Gripping Despair", otherTank, 3) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- end
-				-- -- END Siege of Orgrimmar
+				-- START Siege of Orgrimmar
+				if     boss == 71543 then -- Immersus
+					if bbLib.stackCheck("Corrosive Blast", otherTank, 1) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end 
+				elseif boss == 72276 then -- Norushen
+					if bbLib.stackCheck("Self Doubt", otherTank, 3) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end 
+				elseif boss == 71734 then -- Sha of Pride
+					if bbLib.stackCheck("Wounded Pride", otherTank, 1) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 72249 then -- Galakras
+					if bbLib.stackCheck("Flames of Galakrond", otherTank, 3) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end  
+				elseif boss == 71466 then -- Iron Juggernaut
+					if bbLib.stackCheck("Ignite Armor", otherTank, 2) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end  
+				elseif boss == 71859 then -- Kor'kron Dark Shaman -- Earthbreaker Haromm
+					if bbLib.stackCheck("Froststorm Strike", otherTank, 5) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end   
+				elseif boss == 71515 then -- General Nazgrim
+					if bbLib.stackCheck("Sundering Blow", otherTank, 3) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 71454 then -- Malkorok
+					if bbLib.stackCheck("Fatal Strike", otherTank, 12) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 71529 then -- Thok the Bloodsthirsty
+					if bbLib.stackCheck("Panic", otherTank, 3)
+					  or bbLib.stackCheck("Acid Breath", otherTank, 3) 
+					  or bbLib.stackCheck("Freezing Breath", otherTank, 3)
+					  or bbLib.stackCheck("Scorching Breath", otherTank, 3) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 71504 then -- Siegecrafter Blackfuse
+					if bbLib.stackCheck("Electrostatic Charge", otherTank, 4) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 71865 then -- Garrosh Hellscream
+					if bbLib.stackCheck("Gripping Despair", otherTank, 3)
+					  or bbLib.stackCheck("Empowered Gripping Despair", otherTank, 3) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				end
+				-- END Siege of Orgrimmar
 				
-				-- -- START Throne of Thunder
-				-- if boss == 69465 then -- Jin’rokh the Breaker
-					-- local debuffName, _, _, debuffCount = UnitDebuff(otherTank, "Static Wound")
-					-- local debuffName2, _, _, debuffCount2 = UnitDebuff("player", "Static Wound")
-					-- if debuffName 
-					  -- and ( not debuffName2 or debuffCount > debuffCount2) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 68476 then -- Horridon
-					-- if bbLib.stackCheck("Triple Puncture", otherTank, 9) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 69131 then -- Council of Elders - Frost King Malakk
-					-- if bbLib.stackCheck("Frigid Assault", otherTank, 13) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end				
-				-- elseif boss == 69712 then -- Ji-Kun
-					-- if bbLib.stackCheck("Talon Rake", otherTank, 2) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 68036 then -- Durumu the Forgotten
-					-- if bbLib.stackCheck("Hard Stare", otherTank, 5) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 69017 then -- Primordius
-					-- if bbLib.stackCheck("Malformed Blood", otherTank, 8) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 69699 then -- Dark Animus - Massive Anima Golem -- TODO: May not show up in boss frames.
-					-- if bbLib.stackCheck("Explosive Slam", otherTank, 5) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 68078 then -- Iron Qon -- TODO: check if boss id stays same during encounter
-					-- if bbLib.stackCheck("Impale", otherTank, 4) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 68905 then -- Twin Consorts - Lu’lin
-					-- if bbLib.stackCheck("Beast of Nightmare", otherTank, 1) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 68904 then -- Twin Consorts - Suen
-					-- if bbLib.stackCheck("Fan of Flames", otherTank, 3) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end
-				-- elseif boss == 68397 then -- Lei Shen
-					-- if bbLib.stackCheck("Decapitate", otherTank, 1) 
-					  -- or bbLib.stackCheck("Fusion Slash", otherTank, 1) 
-					  -- or bbLib.stackCheck("Overwhelming Power", otherTank, 12) then
-						-- PossiblyEngine.dsl.parsedTarget = bossID
-						-- return true
-					-- end 
-				-- end
-				-- -- END Throne of Thunder
-			-- end
-		-- end
-	-- end
-	-- return false
--- end
+				-- START Throne of Thunder
+				if boss == 69465 then -- Jin’rokh the Breaker
+					local debuffName, _, _, debuffCount = UnitDebuff(otherTank, "Static Wound")
+					local debuffName2, _, _, debuffCount2 = UnitDebuff("player", "Static Wound")
+					if debuffName 
+					  and ( not debuffName2 or debuffCount > debuffCount2) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 68476 then -- Horridon
+					if bbLib.stackCheck("Triple Puncture", otherTank, 9) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 69131 then -- Council of Elders - Frost King Malakk
+					if bbLib.stackCheck("Frigid Assault", otherTank, 13) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end				
+				elseif boss == 69712 then -- Ji-Kun
+					if bbLib.stackCheck("Talon Rake", otherTank, 2) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 68036 then -- Durumu the Forgotten
+					if bbLib.stackCheck("Hard Stare", otherTank, 5) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 69017 then -- Primordius
+					if bbLib.stackCheck("Malformed Blood", otherTank, 8) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 69699 then -- Dark Animus - Massive Anima Golem -- TODO: May not show up in boss frames.
+					if bbLib.stackCheck("Explosive Slam", otherTank, 5) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 68078 then -- Iron Qon -- TODO: check if boss id stays same during encounter
+					if bbLib.stackCheck("Impale", otherTank, 4) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 68905 then -- Twin Consorts - Lu’lin
+					if bbLib.stackCheck("Beast of Nightmare", otherTank, 1) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 68904 then -- Twin Consorts - Suen
+					if bbLib.stackCheck("Fan of Flames", otherTank, 3) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end
+				elseif boss == 68397 then -- Lei Shen
+					if bbLib.stackCheck("Decapitate", otherTank, 1) 
+					  or bbLib.stackCheck("Fusion Slash", otherTank, 1) 
+					  or bbLib.stackCheck("Overwhelming Power", otherTank, 12) then
+						PossiblyEngine.dsl.parsedTarget = bossID
+						return true
+					end 
+				end
+				-- END Throne of Thunder
+			end
+		end
+	end
+	return false
+end
 
 -- function bbLib.useAgiPot()
 	-- -- 76089 = Virmen's Bite

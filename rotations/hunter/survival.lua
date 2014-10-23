@@ -27,7 +27,7 @@
 
 --UnitsAroundUnit(unit, distance[, combat])
 --Distance(unit, unit)
---FaceUnit(unit) -- Returns FaceDirection(angle) BROKEN! atan2 returns 0 -> pi/2 -> pi -> -pi -> -pi/2 -> 0, with 0 being the +y-axis. Needs to be converted to (0,2pi], with +x-axis being (0,2pi].
+--FaceUnit(unit)
 --IterateObjects(callback, filter)
 
 --timeout(name, duration) -- Used to add a rate limit or stop double casting.
@@ -41,8 +41,8 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "player.buff(Food)" },
 	--{ "pause", "@bbLib.bossMods" },
 	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
-	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
-	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
+	{ "/targetenemy [noexists]", { "toggle.autotarget", "!toggle.frogs", "!target.exists" } },
+	{ "/targetenemy [dead]", { "toggle.autotarget", "!toggle.frogs", "target.exists", "target.dead" } },
 	
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
@@ -93,13 +93,13 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "Flare", true, "target.ground" },
 	
     -- Misdirect ( focus -> tank -> pet )
-	{ {
-		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
-		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
-		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "pet" },
-	},{
-		"!toggle.frogs", "!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
-	} },
+	--{ {
+	--	{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
+	--	{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
+	--	{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "pet" },
+	--},{
+	--	"!toggle.frogs", "!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
+	--} },
 
 	-- Stances
 	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
@@ -190,7 +190,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
-		{ "!Auto Shot" },
+		{ "!Auto Shot", "target.exists" },
 		{ "Glaive Toss", "talent(6, 1)" },
 		{ "Explosive Shot" },
 		{ "Arcane Shot" },

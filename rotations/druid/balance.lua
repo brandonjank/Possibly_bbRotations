@@ -33,9 +33,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	
 	{ {
 		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
-	},{
-		"toggle.frogs",
-	} },
+	}, "toggle.frogs" },
 	
 	-- Defensive Racials
 	--{ "20594", "player.health <= 70" }, 
@@ -53,9 +51,9 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	--{ "7744", "player.state.sleep" }, 
 	
 	-- Defensive Cooldowns
-	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss", (function() return GetItemCount(89640, false, false) > 1 and GetItemCooldown(89640) == 0 end) } }, -- Life Spirit (130649)
-	{ "#5512", { "toggle.consume", "player.health < 35", (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end) } }, -- Healthstone (5512)
-	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss", (function() return GetItemCount(76097, false, false) > 1 and GetItemCooldown(76097) == 0 end) } }, -- Master Healing Potion (76097)	
+	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
+	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
+	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)	
 	
 	-- Pre DPS Pause
 	{ "pause", "target.debuff(Wyvern Sting).any" },
