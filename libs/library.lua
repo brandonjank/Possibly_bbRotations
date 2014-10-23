@@ -13,6 +13,9 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee) -- TODO: Pass Unit Na
 		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
 			Cast("Divine Shield", "player")
 		end
+		if UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
+			Cast("Earth Elemental Totem", "player")
+		end
 		return false
 	end
 	
