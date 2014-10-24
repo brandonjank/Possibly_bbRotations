@@ -2,7 +2,7 @@
 -- Custom Elemental Shaman Rotation
 -- Updated on Oct 18th 2014
 -- PLAYER CONTROLLED SPELLS: Earthgrab Totem, Totemic Projection, Bloodlust
--- SUGGESTED TALENTS: Astral Shift, Earthgrab Totem, Totemic Projection, Elemental Mastery, Ancestral Guidance, Elemental Blast
+-- SUGGESTED TALENTS: Astral Shift, Earthgrab Totem, Totemic Projection, Elemental Mastery, Ancestral Guidance, Unleashed Flame
 -- SUGGESTED GLYPHS: Chain Lightning, Spiritwalker's Grace, (Your/Encounter Choice), Ghostly Speed(minor)
 -- CONTROLS: Pause - Left Control
 
@@ -11,8 +11,8 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Food)" },
-	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },
-	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "target.exists", "target.dead" } },
+	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!toggle.frogs", "!target.exists" } },
+	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!toggle.frogs", "target.exists", "target.dead" } },
 	
 	{ {
 		{ "Water Walking", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
@@ -52,11 +52,10 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	{ "Flame Shock", { "toggle.mouseovers", "mouseover.enemy", "mouseover.alive", "!mouseover.debuff(Flame Shock)", "mouseover.deathin > 20", }, "mouseover" },
 
 	-- DPS Cooldowns
-	{ "Stormlash Totem", { "modifier.cooldowns", "target.boss" } },
 	{ "Fire Elemental Totem", { "modifier.cooldowns", "target.boss" } },
 	{ "Earth Elemental Totem", { "modifier.cooldowns", "target.boss", "!player.totem(Fire Elemental Totem)" } },
-	{ "Elemental Mastery", { "talent(4, 1)", "modifier.cooldowns", "target.boss" } }, -- Should stack with Ascendance
-	{ "Ascendance", { "modifier.cooldowns", "target.boss", "!player.buff(Ascendance)", "target.debuff(Flame Shock).duration > 15"  } },
+	{ "Elemental Mastery", { "talent(4, 1)", "modifier.cooldowns" } }, -- Should stack with Ascendance
+	{ "Ascendance", { "modifier.cooldowns", "!player.buff(Ascendance)", "target.debuff(Flame Shock).duration > 15"  } },
 	{ "Spiritwalker's Grace", { "modifier.cooldowns", "player.moving", "player.buff(Ascendance)" } },
 	{ "Thunderstorm", "player.area(10).enemies > 9" },
 	
