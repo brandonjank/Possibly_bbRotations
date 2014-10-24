@@ -52,7 +52,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 2", "player.health < 80" }, "player" },
 	{ "Word of Glory", { "player.health < 70", "player.holypower > 4", "!talent(3, 2)" }, "player" },
 	{ "Word of Glory", { "player.health < 50", "player.holypower > 2", "!talent(3, 2)" }, "player" },
-	{ "Shield of the Righteous", { "player.holypower > 4" } }, --"target.spell(Crusader Strike).range"
+	{ "Shield of the Righteous", { "player.holypower > 4" } }, --"target.spell(Crusader Strike).range" --TODO: Use it to mitigate large, predictable physical damage boss attacks when 3-4 stax
 	{ "Shield of the Righteous", { "player.buff(Divine Purpose)" } }, --"target.spell(Crusader Strike).range"
 
 	-- Interrupts
@@ -97,40 +97,26 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 		"toggle.mouseovers", "player.health > 50",
 	}},
 	
-	-- RANGE ROTATION
-	{{
-		{ "Judgment" },
-		{ "Avenger's Shield" }, -- TODO: Check for single shield glyph
-		--{ "Holy Prism", { "!toggle.limitaoe", "talent(6, 1)" } },
-		--{ "Execution Sentence", { "player.health < 70", "talent(6, 3)" }, "player" },
-		--{ "Execution Sentence", { "player.health > 70", "talent(6, 3)" }, "target" },
-		--{ "Holy Prism", { "player.health < 71", "talent(6, 1)" }, "player" },
-		--{ "Holy Prism", { "!toggle.limitaoe", "player.health > 70", "talent(6, 1)" }, "target" },
-	}, {
-		"target.distance > 5",
-	}},
+	-- DPS ROTATION
+	{ "Avenger's Shield", { "player.buff(Grand Crusader)", "target.area(10).enemies > 2" } },
+	{ "Hammer of the Righteous", "target.area(10).enemies > 2" },
+	{ "Crusader Strike", "target.area(10).enemies < 3" },
+	{ "Judgment" },
+	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 6" } },
+	{ "Avenger's Shield" },
+	{ "Light's Hammer", "talent(6, 2)", "target.ground" },
+	{ "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
+	{ "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
+	{ "Consecration", { "!toggle.limitaoe", "target.distance < 6", "target.area(10).enemies > 2" } }, -- TODO: use target.ground if glyphed
+	{ "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
+	{ "Execution Sentence", { "talent(6, 3)", "player.health > 70" }, "target" },
+	{ "Hammer of Wrath", { "!target.dead", "target.health <= 20" }, "target" },
+	{ "Consecration", { "!toggle.limitaoe", "target.distance < 6" } }, -- TODO: use target.ground if glyphed
+	{ "Holy Wrath", { "!toggle.limitaoe", "target.distance < 6" } },
 	
-	-- MELEE ROTATION
-	{ "Avenger's Shield", "player.buff(Grand Crusader)" }, -- TODO: Check for single shield glyph
-	{ "Hammer of the Righteous", "target.area(10).enemies > 1" },
-	{ "Crusader Strike", "target.area(10).enemies < 2" },
-	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5" } },
-	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", "target.area(10).enemies > 3" } }, -- TODO: use target.ground if glyphed
-	{ "Judgment", true, "target" },
 	--{ "Seal of Insight", { "!modifier.last", "!player.buff", "!player.buff(Seal of Truth)" } },
 	--{ "Seal of Truth" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Righteousness)" } }, -- TODO: For T7 Talent Empowered Seals
 	--{ "Seal of Righteousness" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Insight)" } }, -- TODO: For T7 Talent Empowered Seals
-	--{ "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
-	--{ "Execution Sentence", { "talent(6, 3)", "player.health > 70" }, "target" },
-	{ "Avenger's Shield", true, "target" },
-	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", "target.area(10).enemies > 2" } }, -- TODO: use target.ground if glyphed
-	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5", "target.area(10).enemies < 3" } },
-	{ "Hammer of Wrath", { "!target.dead", "target.health <= 20" }, "target" },
-	{ "Light's Hammer", "talent(6, 2)", "target.ground" },
-	--{ "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
-	--{ "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
-	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5" } }, -- TODO: use target.ground if glyphed
-	{ "Holy Wrath", { "!toggle.limitaoe", "target.distance < 5" } },
 	
 },{
 -- OUT OF COMBAT ROTATION

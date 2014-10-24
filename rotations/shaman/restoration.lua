@@ -51,7 +51,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	
 	-- Healing Rain Mouseover
-	{ "Healing Rain", "modifier.lshift", "mouseover.ground" },
+	{ "Healing Rain", "modifier.lshift", "ground" },
 	
 	-- Buffs
 	{ "Water Shield", "!player.buff" },
@@ -114,6 +114,14 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	-- Dispel Self
 	--{ "Purify Spirit", "player.dispellable(Purify Spirit)", "player" },
 	
+	-- DPS ROTATION
+	-- Put down Searing Totem Icon Searing Totem and refresh it when it expires.
+	-- Apply Flame Shock Icon Flame Shock and refresh it when there are 9 seconds or less remaining.
+	-- Cast Lava Burst Icon Lava Burst.
+	-- Cast Frost Shock Icon Frost Shock.
+	-- Cast Lightning Bolt Icon Lightning Bolt, as a filler.
+	-- If you did not use your Fire Elemental Totem Icon Fire Elemental Totem and Earth Elemental Totem Icon Earth Elemental Totem to boost your healing (thanks to  Primal Elementalist Icon Primal Elementalist), then it is a good idea to use them for increased damage.
+			
 	-- Auto Follow
 	{ "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "focus.spell(Water Walking).range", "!focus.spell(Primal Strike).range" } }, -- TODO: NYI: isFollowing() -- Primal Strike was replaced by Lava Burst.
 	
