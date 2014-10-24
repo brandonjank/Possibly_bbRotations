@@ -49,39 +49,49 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	{ "pause", "target.status.sleep" },
 	
 	-- Mouseovers
-	{ "Flame Shock", { "toggle.mouseovers", "mouseover.enemy", "mouseover.alive", "!mouseover.debuff(Flame Shock)" }, "mouseover" }, -- "mouseover.deathin > 15",
+	{ "Flame Shock", { "toggle.mouseovers", "mouseover.enemy", "mouseover.alive", "!mouseover.debuff(Flame Shock)", "mouseover.deathin > 20", }, "mouseover" },
 
 	-- DPS Cooldowns
 	{ "Stormlash Totem", { "modifier.cooldowns", "target.boss" } },
 	{ "Fire Elemental Totem", { "modifier.cooldowns", "target.boss" } },
 	{ "Earth Elemental Totem", { "modifier.cooldowns", "target.boss", "!player.totem(Fire Elemental Totem)" } },
-	{ "Elemental Mastery", { "talent(4, 1)", "modifier.cooldowns", "target.boss" } },
-	{ "Ascendance", { "modifier.cooldowns", "target.boss", "!player.buff(Ascendance)" } },
-	{ "Spiritwalker's Grace", { "modifier.cooldowns", "player.movingfor > 1", "player.buff(Ascendance)" } },
+	{ "Elemental Mastery", { "talent(4, 1)", "modifier.cooldowns", "target.boss" } }, -- Should stack with Ascendance
+	{ "Ascendance", { "modifier.cooldowns", "target.boss", "!player.buff(Ascendance)", "target.debuff(Flame Shock).duration > 15"  } },
+	{ "Spiritwalker's Grace", { "modifier.cooldowns", "player.moving", "player.buff(Ascendance)" } },
+	{ "Thunderstorm", "player.area(10).enemies > 9" },
 	
-	-- DPS ROTATION
-	{ "Flame Shock", "!target.debuff(Flame Shock)" },
-	{ "Earthquake", { "!player.moving", "target.area(10).enemies > 2" }, "target.ground" },
-	{ "Chain Lightning", { "!player.moving", "player.spell(Earthquake).cooldown > 1", "target.area(10).enemies > 2" } },
+	-- AOE DPS ROTATION
+	{ {
+		{ "Earthquake", "!player.moving", "target.ground" },
+		{ "Lava Beam", "player.buff(Ascendance)" },
+		{ "Earth Shock", "player.buff(Lightning Shield).count > 14" },
+		{ "Searing Totem", { "!player.moving", "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } },
+		{ "Chain Lightning", "!player.moving" },
+	},{
+		"target.area(10).enemies > 1",
+	} },
 	
+	-- Single DPS ROTATION
 	{ "Unleash Flame", "talent(6, 1)" },
-	{ "Lava Burst", "!player.moving" },
+	{ "Lava Burst", "player.buff(Ascendance)" },
+	{ "Lava Burst", { "!player.moving", "target.debuff(Flame Shock).duration > 2" } },
+	{ "Flame Shock", "target.debuff(Flame Shock).duration < 9" },
+	{ "Earth Shock", "player.buff(Lightning Shield).count > 11" },
+	{ "Earthquake", "!player.moving" , "target.ground" },
 	{ "Elemental Blast", { "talent(6, 3)", "!player.moving" } },
-	{ "Earth Shock", { "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count > 9", "target.debuff(Flame Shock).duration < 5" } },
-	{ "Flame Shock", "target.debuff(Flame Shock).duration <= 9" },
-	{ "Searing Totem", { "!player.moving", "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } }, -- TODO: If the totem will last for more than 12 seconds.
+	{ "Lava Burst", "!player.moving" },
+	{ "Searing Totem", { "!player.moving", "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } },
 	
+	-- DPS Racial
+	{ "Rocket Barrage", "player.moving" },
+
 	-- Help Healers
 	{ "Healing Stream", { "lowest.alive", "lowest.health < 50", "lowest.distance < 40" } },
 	{ "Ancestral Guidance", { "talent(5, 2)", "lowest.alive", "lowest.health < 50", "lowest.distance < 20" } },
 	-- Healing Rain: Can be used when your raid stacks, not usually necessary
 	-- Healing Surge: Quick healing spell. Your first choice for self healing as it has a 100% bonus when used on yourself as Elemental
 	
-	-- DPS Racial
-	{ "Rocket Barrage", "player.moving" },
-	
 	-- Filler
-	{ "Chain Lightning", { "!player.moving", "target.area(10).enemies > 1" } },
 	{ "Lightning Bolt" }, -- TODO: CHeck if glyphed for moving lightning bolts.
 	
 }, {

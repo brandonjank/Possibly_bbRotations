@@ -67,9 +67,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
-	{ "Explosive Trap", "modifier.lalt", "mouseover.ground" },
-	{ "Ice Trap", "modifier.lalt", "mouseover.ground" },
-	{ "Freezing Trap", "modifier.ralt", "mouseover.ground" },
+	{ "Explosive Trap", "modifier.lalt", "ground" }, -- mouseover.ground?
+	{ "Ice Trap", "modifier.lalt", "ground" },
+	{ "Freezing Trap", "modifier.ralt", "ground" },
 
 	-- PvP Abilities
 	-- TODO: Automatic PvP mode isPlayer isPvP
@@ -145,24 +145,29 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss", (function() return GetItemCount(76089, false, false) > 1 and GetItemCooldown(76089) == 0 end) } }, -- Agility Potion (76089) Virmen's Bite
 	--{ "Blood Fury", "modifier.cooldowns" },
 	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
+	
+	-- DPS Rotation > 3 Enemies
+	{ "Multi-Shot", "target.area(8).enemies > 3" },
+	{ "Explosive Trap", { "target.enemy", "!target.moving", "target.area(10).enemies > 3" }, "target.ground" },
+	{ "Black Arrow", { "target.deathin > 10", "target.area(8).enemies > 3" } },
+	{ "Explosive Shot", { "player.buff(Lock and Load)", "target.area(10).enemies > 3" } },
+	{ "Cobra Shot", { "player.focus < 40", "target.area(10).enemies > 3" } },
 
-	-- Rotation
+	-- DPS Rotation < 4 Enemies
 	{ "Explosive Shot" },
-	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", "!target.debuff(Serpent Sting)", "target.area(12).enemies > 2" } },
-	{ "Arcane Shot",     { "player.focus >= 60", "!target.debuff(Serpent Sting)", "target.area(12).enemies < 3" } },
-	{ "Black Arrow" },
+	{ "Black Arrow", "target.deathin > 19" },
+	{ "A Murder of Crows", "talent(5, 1)" },
 	{ "Glaive Toss", "talent(6, 1)" },
 	--{ "Barrage", "talent(6, 3)" },
-	{ "A Murder of Crows", "talent(5, 1)" },
-	--{ "Stampede",        { "modifier.cooldowns", "pet.exists", "player.hashero", "talent(5, 3)" } },
 	{ "Dire Beast", "talent(4, 2)" },
+	--{ "Stampede", { "modifier.cooldowns", "pet.exists", "player.hashero", "talent(5, 3)" } },
+	{ "Explosive Trap", { "target.enemy", "!target.moving", "target.area(12).enemies > 1" }, "target.ground" },
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "player.movingfor > 1", "!target.immune.snare" } },
-	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", "target.area(12).enemies > 3" }, "target.ground" },
-	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", "target.area(12).enemies > 2" } },
-	{ "Arcane Shot",     { "player.focus >= 60", "target.area(12).enemies < 3" } },
-	{ "Cobra Shot",      "player.focus < 40" },
-	{ "Cobra Shot",      "player.spell(Explosive Shot).cooldown > 0.5" },
+	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
+	{ "Multi-Shot", { "player.focus > 50", "target.area(12).enemies > 1" } }, 
+	{ "Arcane Shot", { "player.focus > 50", "target.area(12).enemies < 2" } },
+	{ "Cobra Shot", "player.focus < 50" },
+	{ "Cobra Shot", "player.spell(Explosive Shot).cooldown > 1" },
 	
 },
 {
@@ -176,15 +181,16 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Camouflage", { "toggle.camomode", "!player.buff", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- Pet
+	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
 	{ "883", { "!player.moving", "!pet.exists", "!pet.alive" } }, -- Call Pet 1
 	{ "Revive Pet", { "!player.moving", "!pet.alive" } },
 	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health <= 90", "!pet.buff(Mend Pet)", "pet.distance < 45" } },
 
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
-	{ "Explosive Trap", "modifier.lalt", "mouseover.ground" },
-	{ "Ice Trap", "modifier.lalt", "mouseover.ground" },
-	{ "Freezing Trap", "modifier.ralt", "mouseover.ground" },
+	{ "Explosive Trap", "modifier.lalt", "ground" }, -- mouseover.ground?
+	{ "Ice Trap", "modifier.lalt", "ground" },
+	{ "Freezing Trap", "modifier.ralt", "ground" }, 
 	
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
@@ -206,7 +212,6 @@ function()
 	PossiblyEngine.toggle.create('consume', 'Interface\\Icons\\inv_alchemy_endlessflask_06', 'Use Consumables', 'Toggle the usage of Flasks/Food/Potions etc..')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\ability_hunter_quickshot', 'Use Mouseovers', 'Toggle automatic usage of stings/scatter/etc on eligible mouseover targets.')	
-	PossiblyEngine.toggle.create('cleavemode', 'Interface\\Icons\\ability_upgrademoonglaive', 'Cleave Mode', 'Toggle the automatic usage of AoE abilities for 3+ enemies.')
 	PossiblyEngine.toggle.create('camomode', 'Interface\\Icons\\ability_hunter_displacement', 'Use Camouflage', 'Toggle the usage Camouflage when out of combat.')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
 	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
