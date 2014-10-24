@@ -93,16 +93,16 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Moonfire", { "player.balance.moon", "player.buff(Lunar Peak)", "!modifier.last" } },
 	-- Sunfire: TODO: Cast right as Solar phase begins
 	{ "Sunfire", { "player.balance.sun", "player.buff(Solar Peak)", "!modifier.last" } }, 
-	{ "Starfall", { "player.buff(Starsurge).count > 1", (function() return UnitsAroundUnit('target', 40) > 2 end) } }, -- TODO: favor spending during Lunar Eclipse when possible
+	{ "Starfall", { "player.buff(Starsurge).count > 1", "target.area(40).enemies > 2" } }, -- TODO: favor spending during Lunar Eclipse when possible
 	{ "Starsurge", { "player.buff(Lunar Empowerment).count < 1", "player.buff(Solar Empowerment).count < 2", "player.buff(Shooting Stars)" } },
-	{ "Starsurge", { "player.buff(Lunar Empowerment).count < 1", "player.buff(Solar Empowerment).count < 2", (function() return UnitsAroundUnit('target', 40) < 3 end) } },
+	{ "Starsurge", { "player.buff(Lunar Empowerment).count < 1", "player.buff(Solar Empowerment).count < 2", "target.area(40).enemies < 3" } },
 	-- At 0 or 1 charge, plan to  Starsurge shortly before your next Lunar or Solar peak.
 	-- Stellar Flare (T7) cast it every time you cross the midpoint between Lunar and Solar.
 	-- Astral Communion. Good to use while moving (with  Glyph of Astral Communion), to skip to the next peak, getting a little use out of your movement time. You can also use it to set up a peak for key moment of burst DPS, but you'd generally rather have Celestial Alignment for this if possible.
-	{ "Astral Storm", { "player.balance.moon", (function() return UnitsAroundUnit('target', 35) > 4 end) }, "target.ground" },
-	{ "Hurricane", { "player.balance.sun", (function() return UnitsAroundUnit('target', 35) > 4 end) }, "target.ground" },
-	{ "Starfire", { "player.balance.moon", (function() return UnitsAroundUnit('target', 35) < 5 end) } },
-	{ "Wrath", { "player.balance.sun", (function() return UnitsAroundUnit('target', 35) < 5 end) } }, 
+	{ "Astral Storm", { "player.balance.moon", "target.area(35).enemies > 4" }, "target.ground" },
+	{ "Hurricane", { "player.balance.sun", "target.area(35).enemies > 4" }, "target.ground" },
+	{ "Starfire", { "player.balance.moon", "target.area(35).enemies < 5" } },
+	{ "Wrath", { "player.balance.sun", "target.area(35).enemies < 5" } }, 
 	
 	-- "Lunar Peak" "Solar Peak" Buff (2)
 	

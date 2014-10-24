@@ -10,7 +10,6 @@
 -- TODO: Pet's Range to the target
 -- TODO: How to check if target has incoming heal? UnitGetIncomingHeals()
 
---enemies: (function() return UnitsAroundUnit('target', 10) > 2 end) 
 --IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
 --LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
 --HealPot: (function() return GetItemCount(76097, false, false) > 0 and GetItemCooldown(76097) == 0 end)
@@ -149,8 +148,8 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 
 	-- Rotation
 	{ "Explosive Shot" },
-	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", "!target.debuff(Serpent Sting)", (function() return UnitsAroundUnit('target', 12) > 2 end) } },
-	{ "Arcane Shot",     { "player.focus >= 60", "!target.debuff(Serpent Sting)", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
+	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", "!target.debuff(Serpent Sting)", "target.area(12).enemies > 2" } },
+	{ "Arcane Shot",     { "player.focus >= 60", "!target.debuff(Serpent Sting)", "target.area(12).enemies < 3" } },
 	{ "Black Arrow" },
 	{ "Glaive Toss", "talent(6, 1)" },
 	--{ "Barrage", "talent(6, 3)" },
@@ -159,9 +158,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Dire Beast", "talent(4, 2)" },
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "player.movingfor > 1", "!target.immune.snare" } },
 	{ "Widow Venom",     { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", (function() return UnitsAroundUnit('target', 12) > 3 end) }, "target.ground" },
-	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", (function() return UnitsAroundUnit('target', 12) > 2 end) } },
-	{ "Arcane Shot",     { "player.focus >= 60", (function() return UnitsAroundUnit('target', 12) < 3 end) } },
+	{ "Explosive Trap",  { "toggle.cleavemode", "target.enemy", "target.area(12).enemies > 3" }, "target.ground" },
+	{ "Multi-Shot",      { "toggle.cleavemode", "player.focus >= 60", "target.area(12).enemies > 2" } },
+	{ "Arcane Shot",     { "player.focus >= 60", "target.area(12).enemies < 3" } },
 	{ "Cobra Shot",      "player.focus < 40" },
 	{ "Cobra Shot",      "player.spell(Explosive Shot).cooldown > 0.5" },
 	

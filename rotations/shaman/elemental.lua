@@ -61,8 +61,8 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	
 	-- DPS ROTATION
 	{ "Flame Shock", "!target.debuff(Flame Shock)" },
-	{ "Earthquake", { "!player.moving", (function() return UnitsAroundUnit('target', 10) > 2 end) }, "target.ground" },
-	{ "Chain Lightning", { "!player.moving", "player.spell(Earthquake).cooldown > 1", (function() return UnitsAroundUnit('target', 10) > 2 end) } },
+	{ "Earthquake", { "!player.moving", "target.area(10).enemies > 2" }, "target.ground" },
+	{ "Chain Lightning", { "!player.moving", "player.spell(Earthquake).cooldown > 1", "target.area(10).enemies > 2" } },
 	
 	{ "Unleash Flame", "talent(6, 1)" },
 	{ "Lava Burst", "!player.moving" },
@@ -81,7 +81,7 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	{ "Rocket Barrage", "player.moving" },
 	
 	-- Filler
-	{ "Chain Lightning", { "!player.moving", (function() return UnitsAroundUnit('target', 10) > 1 end) } },
+	{ "Chain Lightning", { "!player.moving", "target.area(10).enemies > 1" } },
 	{ "Lightning Bolt" }, -- TODO: CHeck if glyphed for moving lightning bolts.
 	
 }, {

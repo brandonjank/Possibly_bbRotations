@@ -33,7 +33,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 			local object = ObjectWithIndex(i)
 			local objectName = ObjectName(object) or 0
 			if objectName == unitName then
-				-- TODO: Loot lootable objects!
+				-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
 				if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) ) then
 					local objectDistance = Distance("player", object)
 					if objectDistance <= searchRange and objectDistance <= closestUnitDistance and LineOfSight("player", object) then

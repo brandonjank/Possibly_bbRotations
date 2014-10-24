@@ -112,10 +112,10 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	
 	-- MELEE ROTATION
 	{ "Avenger's Shield", "player.buff(Grand Crusader)" }, -- TODO: Check for single shield glyph
-	{ "Hammer of the Righteous", (function() return UnitsAroundUnit('target', 10) > 1 end) },
-	{ "Crusader Strike", (function() return UnitsAroundUnit('target', 10) < 2 end) },
+	{ "Hammer of the Righteous", "target.area(10).enemies > 1" },
+	{ "Crusader Strike", "target.area(10).enemies < 2" },
 	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5" } },
-	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) > 3 end) } }, -- TODO: use target.ground if glyphed
+	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", "target.area(10).enemies > 3" } }, -- TODO: use target.ground if glyphed
 	{ "Judgment", true, "target" },
 	--{ "Seal of Insight", { "!modifier.last", "!player.buff", "!player.buff(Seal of Truth)" } },
 	--{ "Seal of Truth" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Righteousness)" } }, -- TODO: For T7 Talent Empowered Seals
@@ -123,8 +123,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	--{ "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
 	--{ "Execution Sentence", { "talent(6, 3)", "player.health > 70" }, "target" },
 	{ "Avenger's Shield", true, "target" },
-	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) > 2 end) } }, -- TODO: use target.ground if glyphed
-	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5", (function() return UnitsAroundUnit('target', 10) < 3 end) } },
+	{ "Consecration", { "!toggle.limitaoe", "target.distance < 5", "target.area(10).enemies > 2" } }, -- TODO: use target.ground if glyphed
+	{ "Holy Wrath", { "talent(5, 2)", "!toggle.limitaoe", "target.distance < 5", "target.area(10).enemies < 3" } },
 	{ "Hammer of Wrath", { "!target.dead", "target.health <= 20" }, "target" },
 	{ "Light's Hammer", "talent(6, 2)", "target.ground" },
 	--{ "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },

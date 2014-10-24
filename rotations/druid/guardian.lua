@@ -47,14 +47,14 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 		{ "Incarnation: Son of Ursoc", { "player.buff(Nature's Vigil)" }},
 		{ "Berserk", { "player.time > 10", "!player.buff(Incarnation: Son of Ursoc)", "player.buff(Nature's Vigil).duration > 10" } },
 		},{ 
-			"!target.dead", "target.distance <= 5", "player.spell(Nature's Vigil).exists", "modifier.cooldowns" --, "target.ttd > 45"
+			"!target.dead", "target.distance <= 5", "player.spell(Nature's Vigil).exists", "modifier.cooldowns", "target.deathin > 45"
 		} }, --Nature's Vigil
 
 		{{
 		{ "Incarnation: Son of Ursoc" },
 		{ "Berserk", { "player.time >= 90", "!player.buff(Incarnation: Son of Ursoc)" }},
 		}, { 
-			"!target.dead", "target.distance <= 5", "!player.spell(Nature's Vigil).exists", "modifier.cooldowns" --, "target.ttd > 45"
+			"!target.dead", "target.distance <= 5", "!player.spell(Nature's Vigil).exists", "modifier.cooldowns", "target.deathin > 45"
 		} }, --Nature's Vigil
 
 		-- Mob Control
@@ -67,7 +67,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 		{ "Maul", { "target.threat < 100", "!modifier.last" } },
 		{ "Lacerate", { "target.debuff.duration < 3" } },
 		{ "Lacerate", { "!modifier.last" } },
-		{ "Swipe", { "target.distance <= 5", (function() return UnitsAroundUnit('target', 8) > 3 end) } },
+		{ "Swipe", { "target.distance <= 5", "target.area(8).enemies > 3" } },
 		{ "Thrash", { "target.distance <= 5" }},
 		{ "Swipe", { "target.distance <= 5" }},
 		{ "Faerie Fire" },
