@@ -1,6 +1,27 @@
 bbLib = {}
 --TODO: Alpha, Beta, and Raid Ready Alert
 
+--IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
+--LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
+--HealPot: (function() return GetItemCount(76097, false, false) > 0 and GetItemCooldown(76097) == 0 end)
+--AgiPot: (function() return GetItemCount(76089, false, false) > 0 and GetItemCooldown(76089) == 0 end)
+--HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
+--Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) != nil end)
+--Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) != nil end)
+--AttackPower (function() return select(1,GetRaidBuffTrayAuraInfo(3)) != nil end)
+--AttackSpeed (function() return select(1,GetRaidBuffTrayAuraInfo(4)) != nil end)
+--SpellPower (function() return select(1,GetRaidBuffTrayAuraInfo(5)) != nil end)
+--SpellHaste (function() return select(1,GetRaidBuffTrayAuraInfo(6)) != nil end)
+--CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) != nil end)
+--Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) != nil end)
+
+--UnitsAroundUnit(unit, distance[, combat])
+--Distance(unit, unit)
+--FaceUnit(unit)
+--IterateObjects(callback, filter)
+
+--timeout(name, duration) -- Used to add a rate limit or stop double casting.
+
 function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 	-- Don't run when dead or targeting a friend.
 	if UnitIsDeadOrGhost("player") or ( UnitExists("target") and UnitIsFriend("player", "target") ) or GetMinimapZoneText() ~= "Croaking Hollow" then return false end

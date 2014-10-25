@@ -1,28 +1,13 @@
--- PossiblyEngine Rotation Packager
--- Custom Protection Paladin Rotation
--- Created on Dec 25th 2013 1:00 am
-PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
+-- PossiblyEngine Rotation
+-- Protection Paladin - WoD 6.0.2
+-- Created on Dec 25th 2013
+
 -- PLAYER CONTROLLED: Guardian of Ancient Kings, Divine Shield
 -- SUGGESTED TALENTS: Persuit of Justice, Fist of Justice, Sacred Shield, Unbreakable Spirit, Sactified Wrath, Light's Hammer, Empowered Seals
 -- SUGGESTED GLYPHS: Alabaster Shield, Ardent Defender, Final Wrath,  Righteous Retreat
 -- CONTROLS: Pause - Left Control
 
---talent: , "talent(6, 1)"
---enemies: (function() return UnitsAroundUnit('target', 10) > 2 end) 
---IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
---LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
---HealPot: (function() return GetItemCount(76097, false, false) > 0 and GetItemCooldown(76097) == 0 end)
---AgiPot: (function() return GetItemCount(76089, false, false) > 0 and GetItemCooldown(76089) == 0 end)
---HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
---Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end)
---Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) == nil end)
---AttackPower (function() return select(1,GetRaidBuffTrayAuraInfo(3)) == nil end)
---AttackSpeed (function() return select(1,GetRaidBuffTrayAuraInfo(4)) == nil end)
---SpellPower (function() return select(1,GetRaidBuffTrayAuraInfo(5)) == nil end)
---SpellHaste (function() return select(1,GetRaidBuffTrayAuraInfo(6)) == nil end)
---CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) == nil end)
---Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) == nil end)
-
+PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 -- COMBAT ROTATION
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },

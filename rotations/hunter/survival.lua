@@ -51,26 +51,26 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	} },
 	
 	-- Feign Death
-	{ "Feign Death", { "modifier.raid", "target.exists", "target.enemy", "target.boss", "target.agro", "target.distance < 30" } },
-	{ "Feign Death", { "modifier.raid", "player.debuff(Aim)", "player.debuff(Aim).duration > 3" } }, --SoO: Paragons - Aim
+	--{ "Feign Death", { "modifier.raid", "target.exists", "target.enemy", "target.boss", "target.agro", "target.distance < 30" } },
+	--{ "Feign Death", { "modifier.raid", "player.debuff(Aim)", "player.debuff(Aim).duration > 3" } }, --SoO: Paragons - Aim
 
 	-- Interrupts
 	{ "Counter Shot", "modifier.interrupt" },
 
 	-- Tranq Shot
 	{ "Tranquilizing Shot", "target.dispellable", "target" },
-	{ "Tranquilizing Shot", "mouseover.dispellable", "mouseover" },
+	--{ "Tranquilizing Shot", "mouseover.dispellable", "mouseover" },
 
 	-- Pet
 	{ "883", { "!pet.exists", "!pet.alive" } }, -- Call Pet 1
 	{ "Heart of the Phoenix", { "!pet.exists", "!pet.alive" } },
-	{ "Mend Pet", { "pet.health < 70", "pet.exists", "!pet.buff" } }, -- Mend Pet and Revive Pet on same button now , "pet.distance < 40"
+	--{ "Mend Pet", { "pet.health < 70", "pet.exists", "!pet.buff" } }, -- Mend Pet and Revive Pet on same button now , "pet.distance < 40"
 	
 	-- Traps
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
-	{ "Explosive Trap", "modifier.lalt", "ground" }, -- mouseover.ground?
-	{ "Ice Trap", "modifier.lalt", "ground" },
-	{ "Freezing Trap", "modifier.ralt", "ground" },
+	{ "Explosive Trap", "modifier.lalt", "mouseover.ground" }, -- mouseover.ground?
+	{ "Ice Trap", "modifier.lalt", "mouseover.ground" },
+	{ "Freezing Trap", "modifier.ralt", "mouseover.ground" },
 
 	-- PvP Abilities
 	-- TODO: Automatic PvP mode isPlayer isPvP
@@ -86,14 +86,11 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
 	--{ "Ice Trap", { "modifier.rcontrol", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "mouseover.status.disorient", -- Ice Trap on Scatter Shot targets
 	--	"!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
-	{ "Binding Shot", { "modifier.rcontrol", "talent(2, 1)", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", 
-	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
-	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" }, 
+	--{ "Binding Shot", { "modifier.rcontrol", "talent(2, 1)", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", 
+	--"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root", 
+	--"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" }, 
 	
-	-- Flare
-	--{ "Flare", true, "target.ground" },
-	
-    -- Misdirect ( focus -> tank -> pet )
+	-- Misdirect ( focus -> tank -> pet )
 	--{ {
 	--	{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
 	--	{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
@@ -122,9 +119,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	-- Defensive Cooldowns
 	--{ "Exhilaration", { "modifier.cooldowns", "player.health < 40", "talent(3, 1)" } },
-	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss", (function() return GetItemCount(89640, false, false) > 1 and GetItemCooldown(89640) == 0 end) } }, -- Life Spirit (130649)
-	{ "#5512", { "toggle.consume", "player.health < 35", (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end) } }, -- Healthstone (5512)
-	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss", (function() return GetItemCount(76097, false, false) > 1 and GetItemCooldown(76097) == 0 end) } }, -- Master Healing Potion (76097)	
+	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
+	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
+	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)	
 	{ "Master's Call", "player.state.disorient" },
 	{ "Master's Call", "player.state.stun" },
 	{ "Master's Call", "player.state.root" },
@@ -143,16 +140,21 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "107079",          "modifier.interrupts" }, 
 	
 	-- Offensive Cooldowns
-	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss", (function() return GetItemCount(76089, false, false) > 1 and GetItemCooldown(76089) == 0 end) } }, -- Agility Potion (76089) Virmen's Bite
-	--{ "Blood Fury", "modifier.cooldowns" },
+	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
+	{ "Blood Fury", "modifier.cooldowns" },
 	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
 	
 	-- DPS Rotation > 3 Enemies
-	{ "Multi-Shot", "target.area(8).enemies > 3" },
-	{ "Explosive Trap", { "target.enemy", "!target.moving", "target.area(10).enemies > 3" }, "target.ground" },
-	{ "Black Arrow", { "target.deathin > 10", "target.area(8).enemies > 3" } },
-	{ "Explosive Shot", { "player.buff(Lock and Load)", "target.area(10).enemies > 3" } },
-	{ "Cobra Shot", { "player.focus < 40", "target.area(10).enemies > 3" } },
+	{ {
+		{ "Multi-Shot" },
+		{ "Explosive Trap", { "target.enemy", "!target.moving"  }, "target.ground" },
+		{ "Black Arrow", "target.deathin > 10" },
+		{ "Explosive Shot", "player.buff(Lock and Load)" },
+		{ "Cobra Shot", "player.focus < 40" },
+	},{
+		"target.area(10).enemies > 3",
+	} },
+
 
 	-- DPS Rotation < 4 Enemies
 	{ "Explosive Shot" },
@@ -188,10 +190,10 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health <= 90", "!pet.buff(Mend Pet)", "pet.distance < 45" } },
 
 	-- Traps
-	{ "Trap Launcher", { "modifier.lalt", "!player.buff" } },
-	{ "Explosive Trap", "modifier.lalt", "ground" }, -- mouseover.ground?
-	{ "Ice Trap", "modifier.lalt", "ground" },
-	{ "Freezing Trap", "modifier.ralt", "ground" }, 
+	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
+	{ "Explosive Trap", "modifier.lalt", "mouseover.ground" }, -- mouseover.ground?
+	{ "Ice Trap", "modifier.lalt", "mouseover.ground" },
+	{ "Freezing Trap", "modifier.ralt", "mouseover.ground" }, 
 	
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
