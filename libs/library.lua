@@ -4,8 +4,12 @@ bbLib = {}
 function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 	-- Don't run when dead or targeting a friend.
 	if UnitIsDeadOrGhost("player") or ( UnitExists("target") and UnitIsFriend("player", "target") ) or GetMinimapZoneText() ~= "Croaking Hollow" then return false end
-		
-	-- Pause if debuff is too high from frogs.
+	
+	if UnitClass("player") == "Hunter" and UnitBuff("player", "Sniper Training") ~= nil then
+		searchRange = searchRange + 5
+	end
+	
+	-- Shorten search range if debuff is too high from frogs.
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
 	if toxin > 6 then
 		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
@@ -14,7 +18,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 		if UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
 			Cast("Earth Elemental Totem", "player")
 		end
-		return false
+		searchRange = 5
 	end
 	
 	-- Clear targets.

@@ -6,6 +6,7 @@
 libs\library.lua
 rotations\hunter\survival.lua
 rotations\hunter\beastmastery.lua
+rotations\hunter\marksmanship.lua
 rotations\druid\restoration.lua
 rotations\druid\guardian.lua
 rotations\druid\feral.lua

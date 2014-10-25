@@ -1,8 +1,9 @@
 -- PossiblyEngine Rotation
--- Custom Survival Hunter Rotation
+-- Custom Marksmanship Hunter Rotation
 -- Created on Dec 25th 2013 1:00 am
--- PLAYER CONTROLLED: Rabid MUST be on Auto-Cast for Stampede pets to use them :)
--- SUGGESTED BUILD: Troll Alchemist Enchanter w/ DB, AMoC, GT
+-- PLAYER CONTROLLED: 
+-- TALENTS: Crouching Tiger, Binding Shot, Iron Hawk, Thrill of the Hunt, A Murder of Crows, and Barrage or Glaive Toss
+-- GLYPHS: Major: Animal Bond, Deterrence, Disengage  Minor: Aspect of the Cheetah, Play Dead, Fetch
 -- CONTROLS: Pause - Left Control, Explosive/Ice/Snake Traps - Left Alt, Freezing Trap - Right Alt, Scatter Shot - Right Control
 -- TODO: Explosive Trap timer cooldown OSD
 -- TODO: Boss Functions + hold cooldowns
@@ -32,7 +33,7 @@
 --timeout(name, duration) -- Used to add a rate limit or stop double casting.
 
 
-PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
+PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 -- COMBAT
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
@@ -103,7 +104,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--} },
 
 	-- Stances
-	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
+	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!player.buff(Aspect of the Fox)", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	
 	-- Defensive Racials
 	--{ "20594", "player.health <= 70" }, 
@@ -122,9 +123,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	
 	-- Defensive Cooldowns
 	--{ "Exhilaration", { "modifier.cooldowns", "player.health < 40", "talent(3, 1)" } },
-	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss", (function() return GetItemCount(89640, false, false) > 1 and GetItemCooldown(89640) == 0 end) } }, -- Life Spirit (130649)
-	{ "#5512", { "toggle.consume", "player.health < 35", (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end) } }, -- Healthstone (5512)
-	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss", (function() return GetItemCount(76097, false, false) > 1 and GetItemCooldown(76097) == 0 end) } }, -- Master Healing Potion (76097)	
+	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
+	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
+	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)	
 	{ "Master's Call", "player.state.disorient" },
 	{ "Master's Call", "player.state.stun" },
 	{ "Master's Call", "player.state.root" },
@@ -140,35 +141,37 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "target.status.sleep" },
 	
 	-- Offensive Racials
-	--{ "107079",          "modifier.interrupts" }, 
+	--{ "107079", "modifier.interrupts" }, 
 	
 	-- Offensive Cooldowns
-	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss", (function() return GetItemCount(76089, false, false) > 1 and GetItemCooldown(76089) == 0 end) } }, -- Agility Potion (76089) Virmen's Bite
-	--{ "Blood Fury", "modifier.cooldowns" },
-	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero" } },
+	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
+	{ "Rapid Fire", { "modifier.cooldowns", "player.focus > 60" } },
+	{ "Rapid Fire", { "modifier.cooldowns", "player.focus > 40", "player.buff(Thrill of the Hunt)" } },
+	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero", "!player.buff(Rapid Fire)" } },
 	
-	-- DPS Rotation > 3 Enemies
-	{ "Multi-Shot", "target.area(8).enemies > 3" },
-	{ "Explosive Trap", { "target.enemy", "!target.moving", "target.area(10).enemies > 3" }, "target.ground" },
-	{ "Black Arrow", { "target.deathin > 10", "target.area(8).enemies > 3" } },
-	{ "Explosive Shot", { "player.buff(Lock and Load)", "target.area(10).enemies > 3" } },
-	{ "Cobra Shot", { "player.focus < 40", "target.area(10).enemies > 3" } },
-
-	-- DPS Rotation < 4 Enemies
-	{ "Explosive Shot" },
-	{ "Black Arrow", "target.deathin > 19" },
+	-- DPS ROTATION -- Always want a minimum of 35 focus
+	{ "Aspect of the Fox", { "target.enemy", "target.health > 1", "player.movingfor > 4", "player.buff(Sniper Training)" } },
 	{ "A Murder of Crows", "talent(5, 1)" },
-	{ "Glaive Toss", "talent(6, 1)" },
-	--{ "Barrage", "talent(6, 3)" },
-	{ "Dire Beast", "talent(4, 2)" },
-	--{ "Stampede", { "modifier.cooldowns", "pet.exists", "player.hashero", "talent(5, 3)" } },
-	{ "Explosive Trap", { "target.enemy", "!target.moving", "target.area(12).enemies > 1" }, "target.ground" },
+	{ "Chimaera Shot" },
+	{ "Kill Shot" },
+	{ "Aimed Shot", "player.buff(Thrill of the Hunt)" },
+	{ "Glaive Toss", { "talent(6, 1)", "target.health < 80", "!player.buff(Rapid Fire)" } },
+	{ "Glaive Toss", { "talent(6, 1)", "target.area(10).enemies > 3" } },
+	{ "Barrage", { "talent(6, 3)", "target.health < 80", "!player.buff(Rapid Fire)" } }, --  you can change where Barrage is directed by turning your character while channeling the spell. This allows you to hit more targets than those you were initially facing.
+	{ "Barrage", { "talent(6, 3)", "target.area(20).enemies > 3" } },
+	{ "Explosive Trap", { "!target.moving", "target.area(10).enemies > 3" }, "target.ground" },
+	{ "Multi-Shot", { "player.focus > 65", "target.area(8).enemies > 3", "!player.buff(Rapid Fire)", "target.health < 80" } },
+	{ "Multi-Shot", { "player.focus > 45", "player.buff(Thrill of the Hunt)", "target.area(8).enemies > 3", "!player.buff(Rapid Fire)", "target.health < 80" } },
+	{ "Multi-Shot", { "player.focus > 40", "player.buff(Bombardment)", "target.area(8).enemies > 3", "!player.buff(Rapid Fire)", "target.health < 80" } },
+	{ "Aimed Shot", { "player.focus > 60", "target.area(12).enemies < 4" } },
+	{ "Aimed Shot", { "player.focus > 40", "target.area(12).enemies < 4", "player.buff(Thrill of the Hunt)" } },
+	{ "Aimed Shot", { "player.focus > 60", "player.buff(Rapid Fire)" } },
+	{ "Aimed Shot", { "player.focus > 40", "player.buff(Rapid Fire)", "player.buff(Thrill of the Hunt)" } },
+	{ "Aimed Shot", { "player.focus > 60", "target.health >= 80" } },
+	{ "Aimed Shot", { "player.focus > 40", "target.health >= 80", "player.buff(Thrill of the Hunt)" } },
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "player.movingfor > 1", "!target.immune.snare" } },
 	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Multi-Shot", { "player.focus > 50", "target.area(12).enemies > 1" } }, 
-	{ "Arcane Shot", { "player.focus > 50", "target.area(12).enemies < 2" } },
-	{ "Cobra Shot", "player.focus < 50" },
-	{ "Cobra Shot", "player.spell(Explosive Shot).cooldown > 1" },
+	{ "Steady Shot", "player.focus < 75" },
 	
 },
 {
@@ -176,6 +179,10 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
+	
+	-- Glyph of Fetch Autoloot!
+	-- TODO: Engineer Loot-A-Rang
+	{ "Fetch", { "!modifier.last", "!player.movingfor > 2"} }, --/targetlasttarget /use [@target,exists,dead] Fetch
 	
 	-- Aspects
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
@@ -197,9 +204,8 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
 		{ "!Auto Shot", { "target.exists", "target.health > 1" } },
 		{ "Glaive Toss", "talent(6, 1)" },
-		{ "Explosive Shot" },
+		{ "Chimaera Shot" },
 		{ "Arcane Shot" },
-		
 	},{
 		"toggle.frogs",
 	} },
