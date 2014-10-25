@@ -22,6 +22,26 @@ bbLib = {}
 
 --timeout(name, duration) -- Used to add a rate limit or stop double casting.
 
+function bbLib.GCDOver(spell)
+	local spellID
+	if spell == nil then 
+		spellID = 61304
+	else
+		spellID = GetSpellID(spell)
+	end
+	local _, _, lagHome, lagWorld = GetNetStats()
+	local lagSeconds = (lagHome + lagWorld) / 1000 + .025
+	if lagSeconds < 0.05 then
+		lagSeconds = 0.05
+	elseif lagSeconds > 0.3 then
+		lagSeconds = 0.3
+	end
+	if GetSpellCooldown(spellID) - lagSeconds <= 0 then
+		return true
+	end
+	return false
+end
+
 function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 	-- Don't run when dead or targeting a friend.
 	if UnitIsDeadOrGhost("player") or ( UnitExists("target") and UnitIsFriend("player", "target") ) or GetMinimapZoneText() ~= "Croaking Hollow" then return false end

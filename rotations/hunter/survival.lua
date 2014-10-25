@@ -152,7 +152,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 		{ "Explosive Shot", "player.buff(Lock and Load)" },
 		{ "Cobra Shot", "player.focus < 40" },
 	},{
-		"target.area(10).enemies > 3",
+		"@bbLib.GCDOver('Multi-Shot')", "target.area(10).enemies > 3",
 	} },
 
 
@@ -164,11 +164,11 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--{ "Barrage", "talent(6, 3)" },
 	{ "Dire Beast", "talent(4, 2)" },
 	--{ "Stampede", { "modifier.cooldowns", "pet.exists", "player.hashero", "talent(5, 3)" } },
-	{ "Explosive Trap", { "target.enemy", "!target.moving", "target.area(12).enemies > 1" }, "target.ground" },
-	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "player.movingfor > 1", "!target.immune.snare" } },
+	{ "Explosive Trap", { "target.enemy", "!target.moving", "timeout(Explosive Trap, 10)", "target.area(12).enemies > 1" }, "target.ground" },
+	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.movingfor > 1", "!target.immune.snare" } },
 	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Multi-Shot", { "player.focus > 50", "target.area(12).enemies > 1" } }, 
-	{ "Arcane Shot", { "player.focus > 50", "target.area(12).enemies < 2" } },
+	{ "Multi-Shot", { "player.focus > 50", "timeout(Multi-Shot, 1)", "target.area(12).enemies > 1" } }, 
+	{ "Arcane Shot", { "player.focus > 50", "timeout(Arcane Shot, 1)", "target.area(12).enemies < 2" } },
 	{ "Cobra Shot", "player.focus < 50" },
 	{ "Cobra Shot", "player.spell(Explosive Shot).cooldown > 1" },
 	
