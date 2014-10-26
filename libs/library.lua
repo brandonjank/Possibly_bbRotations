@@ -231,7 +231,7 @@ function bbLib.bossTaunt()
 	-- Make sure we're a tank first and we're in a raid
 	if IsInRaid() and UnitGroupRolesAssigned("player") == "TANK" then
 		local otherTank
-		if UnitExists("focus") and UnitIsFriend("player", "focus") and not UnitIsDeadOrGhost(otherTank) then
+		if UnitExists("focus") and UnitIsFriend("player", "focus") and not UnitIsDeadOrGhost("focus") then
 			otherTank = "focus"
 		else
 			otherTank = nil
@@ -434,16 +434,16 @@ end
 	-- return true
 -- end
 
--- -- Thanks to PCMD
--- bbLib.darkSimSpells = { "Froststorm Bolt", "Arcane Shock", "Rage of the Empress", "Chain Lightning", "Hex", "Mind Control", "Cyclone", "Polymorph", "Pyroblast", "Tranquility", "Divine Hymn", "Hymn of Hope", "Ring of Frost", "Entangling Roots" }
--- function bbLib.canDarkSimulacrum(unit)
-	-- for _,v in pairs(bbLib.darkSimSpells) do
-		-- if PossiblyEngine.condition["casting"](unit, v) then
-			-- return true
-		-- end
-	-- end
-	-- return false
--- end
+-- Thanks to PCMD
+bbLib.darkSimSpells = { "Froststorm Bolt", "Arcane Shock", "Rage of the Empress", "Chain Lightning", "Hex", "Mind Control", "Cyclone", "Polymorph", "Pyroblast", "Tranquility", "Divine Hymn", "Hymn of Hope", "Ring of Frost", "Entangling Roots" }
+function bbLib.canDarkSimulacrum(unit)
+	for _,v in pairs(bbLib.darkSimSpells) do
+ 		if PossiblyEngine.condition["casting"](unit, v) then
+			return true
+		end
+	end
+	return false
+end
 
 -- function bbLib.isTargetingMe(target)
 	-- if UnitExists(target) then
