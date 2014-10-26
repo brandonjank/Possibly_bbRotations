@@ -53,9 +53,23 @@ PossiblyEngine.rotation.register_custom(268, "bbBrewmasterMonk", {
 	{ "Chi Burst" },
 	{ "Invoke Xuen, the White Tiger" },
 	{ "Tiger's Lust", "target.range >= 15" },
-	
+
 	-- Threat Rotation
+	{ "Tiger Palm", "!player.buff(Tiger Power)" },
+
+
+
+
+	-- CHI BUILD
+	{ "Keg Smash", "player.chi <= 2" },
+	{ "Expel Harm", { "player.chi < 4", "player.health < 95" } },
+	{ "Jab", "player.chi <= 2" },
+
 	-- CHI DUMP
+	{ "Blackout Kick" }, -- at least once every 6 seconds, to maintain high uptime on Shuffle
+
+
+
 	-- Purifying Brew to remove your Stagger DoT when Yellow or Red.
 	{ "Purifying Brew", "player.debuff(Moderate Stagger)" },
 	{ "Purifying Brew", "player.debuff(Heavy Stagger)" },
@@ -64,29 +78,25 @@ PossiblyEngine.rotation.register_custom(268, "bbBrewmasterMonk", {
 	-- Guard on cooldown. Delay up to 10-15 sec for anticipated damage.
 	{ "Guard", "player.buff(Power Guard)" },
 	-- Blackout Kick as often as possible. Aim for ~80% uptime on Shuffle.
-	{ "Blackout Kick" },
+
 	-- Tiger Palm does not cost Chi, but is used like a finisher (see explanation).
 	{ "Tiger Palm", "player.buff(Tiger Power).duration < 4" },
-	
+
 	-- Multitarget
 	{ "Keg Smash", { "modifier.multitarget", "modifier.enemies > 2", "!target.debuff(Dizzying Haze)" } },
 	{ "Breath of Fire", { "modifier.multitarget", "modifier.enemies > 2", "target.debuff(Dizzying Haze)", "!target.debuff(Breath of Fire)" } },
 	{ "Rushing Jade Wind", { "modifier.multitarget", "!player.buff(Rushing Jade Wind)" } },
 	{ "Spinning Crane Kick", { "modifier.multitarget", "modifier.enemies > 9" } },
-	
-	-- CHI BUILD
-	-- Keg Smash on cooldown when at < 3 Chi. Applies Weakened Blows.
-	{ "Keg Smash", "player.chi < 3" },
-	-- Expel Harm when you are not at full health.
-	{ "Expel Harm", "player.health < 95" },
-	-- Jab use to build Chi and prevent Energy capping.
-	{ "Jab" },
-	
+
+
+
+
+
   },{
 -- OUT OF COMBAT
 	-- Pause
 	{ "pause", "modifier.lcontrol" },
-	
+
 	-- Buffs
 	{ "Legacy of the Emperor", "!player.buff(Legacy of the Emperor).any" },
 
