@@ -3,8 +3,8 @@
 -- Updated on Oct 25th 2014
 
 -- PLAYER CONTROLLED:
--- TALENTS: Feline Swiftness, Ysera's Gift, Typhoon, Soul of the Forest, Mighty Bash, Dream of Cenarius
--- GLYPHS:
+-- TALENTS: (Feline Swiftness or Wild Charge), Ysera's Gift, Typhoon, Soul of the Forest, Mighty Bash, Dream of Cenarius
+-- GLYPHS: Glyph of Maul, Glyph of Rebirth, Glyph of Fae Silence, Glyph of Grace (minor)
 -- CONTROLS: Pause - Left Control
 
 PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
@@ -15,7 +15,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 	-- BATTLE REZ
 	{ "Rebirth", { "!player.buff(Bear Form)", "target.friend", "target.dead" }, "target" },
-	{ "Rebirth", { "toggle.mouseovers", "!player.buff(Bear Form)", "target.friend", "mouseover.dead" }, "mouseover" },
+	{ "Rebirth", { "toggle.mouseovers", "!player.buff(Bear Form)", "mouseover.friend", "mouseover.dead" }, "mouseover" },
 
 	-- AUTO TARGET
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
@@ -39,6 +39,10 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 			{ "Healing Touch", "targettarget.health <= 90", "targettarget" },
 			{ "Healing Touch", "lowest.health <= 50", "lowest" },
 		},{ "player.buff(Dream of Cenarius)" },
+
+		-- RANGED PULLS
+		{ "Faerie Fire", "target.distance > 5" },
+		{ "Faerie Fire", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "!mouseover.dead", "mouseover.distance > 5" }, "mouseover" },
 
 		-- DEFENSIVE CONSUMABLES
 		{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
