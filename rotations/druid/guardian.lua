@@ -22,7 +22,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "!target.friend" } },
 
 	-- BEAR FORM
-	{ "Bear Form", { "!player.buff(Bear Form)", "target.exists", "!target.agro" },
+	{ "Bear Form", { "!player.buff(Bear Form)", "target.exists", "!target.agro" } },
 
 	{ {
 		-- INTERRUPTS
@@ -38,7 +38,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 			{ "Healing Touch", "player.health <= 90" },
 			{ "Healing Touch", "targettarget.health <= 90", "targettarget" },
 			{ "Healing Touch", "lowest.health <= 50", "lowest" },
-		},{ "player.buff(Dream of Cenarius)" },
+		},{ "player.buff(Dream of Cenarius)" } },
 
 		-- RANGED PULLS
 		{ "Faerie Fire", "target.distance > 5" },
@@ -46,8 +46,8 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 		-- DEFENSIVE CONSUMABLES
 		{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
-		{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
-		{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)
+		{ "#5512", { "toggle.consume", "player.health < 40" } }, -- Healthstone (5512)
+		{ "#76097", { "toggle.consume", "player.health < 20", "target.boss" } }, -- Master Healing Potion (76097)
 
 		-- DEFENSIVE COOLDOWNS
 		{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
