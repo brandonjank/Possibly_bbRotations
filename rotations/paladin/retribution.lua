@@ -97,7 +97,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Blessing of Might", { "!modifier.last", (function() return select(1,GetRaidBuffTrayAuraInfo(8)) == nil end), "!player.buff(Blessing of Kings)", "!player.buff(Blessing of Might)" } },
 
   -- SEALS
-  { "Seal of Truth", { "!player.buff(Seal of Truth)", "!modifier.last" } },
+  --{ "Seal of Truth", { "!player.buff(Seal of Truth)", "!modifier.last" } },
 
   { {
     { "Blessing of Kings", { "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
