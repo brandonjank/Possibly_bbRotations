@@ -59,7 +59,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Swiftmend", { "lowest.health < 80", "lowest.buff(Rejuvination)" }, "lowest" },
   { "Swiftmend", { "lowest.health < 80", "lowest.buff(Regrowth)" }, "lowest" },
   { "Rejuvination", { "!lowest.buff(Rejuvination)", "player.mana > 80" }, "lowest" },
-  { "Rejuvination", { "!lowest.buff(Rejuvination)", "lowst.health < 95" }, "lowest" },
+  { "Rejuvination", { "!lowest.buff(Rejuvination)", "lowest.health < 95" }, "lowest" },
   { "Regrowth", { "lowest.health < 60", "!lowest.buff(Regrowth)" }, "lowest" }, -- when no instant cast spells are available,  if Glyph of Regrowth, then replaces Healing Touch
   { "Healing Touch", "player.health < 60", "player" },
   { "Healing Touch", "lowest.health < 60", "lowest" },
@@ -67,7 +67,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
     { "Swiftmend", true, "lowest"},
     { "Regrowth", true, "lowest"},
     { "Healing Touch", true, "lowest"},
-  }, "player.buff(Harmony) < 3", "!lowest.range > 40" },
+  },{ "player.buff(Harmony) < 3", "!lowest.range > 40", } },
 
 }, {
 -- OUT OF COMBAT ROTATION

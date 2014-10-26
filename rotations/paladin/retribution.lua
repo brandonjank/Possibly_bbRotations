@@ -101,12 +101,11 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
 
 
 -- Cast Templar's Verdict Icon Templar's Verdict (when you have 5 Holy Power).
--- Cast Hammer of Wrath Icon Hammer of Wrath on cooldown
 -- Cast Execution Sentence Icon Execution Sentence.
--- It is only available when the target is below 20% health or when Avenging Wrath Icon Avenging Wrath is active.
+-- Cast Hammer of Wrath Icon Hammer of Wrath on cooldown -- It is only available when the target is below 20% health or when Avenging Wrath Icon Avenging Wrath is active.
 -- Cast Crusader Strike Icon Crusader Strike on cooldown (it generates Holy Power).
--- Cast Divine Storm Icon Divine Storm if you have the 4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
 -- Cast Judgment Icon Judgment on cooldown (it generates Holy Power).
+-- Cast Divine Storm Icon Divine Storm if you have the 4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
 -- Cast Exorcism Icon Exorcism on cooldown (it generates Holy Power).
 -- Cast Templar's Verdict Icon Templar's Verdict (when you have 3 Holy Power).
 
@@ -125,7 +124,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
 
   -- Stance
   { "Righteous Fury", { "!player.buff(Righteous Fury)", "!modifier.last" } },
-  { "Seal of Insight", { "player.seal != 3", "!modifier.last" } },
+  { "Seal of Truth", { "player.seal != 3", "!modifier.last" } },
 
 
   { {
