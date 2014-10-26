@@ -22,6 +22,10 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "pause", "player.seal = 1" }, -- Bear Form
   { "pause", "player.seal = 3" }, -- Cat Form
 
+  -- BATTLE REZ
+  { "Rebirth", { "target.friend", "target.dead" }, "target" },
+  { "Rebirth", { "target.friend", "mouseover.dead" }, "mouseover" },
+
   -- DISPELLS
   { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Aqua Bomb)" }, "mouseover" }, -- Proving Grounds
   { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Shadow Word: Bane)" }, "mouseover" }, -- Fallen Protectors
@@ -67,7 +71,11 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
 
 }, {
 -- OUT OF COMBAT ROTATION
+  -- PAUSE
   { "pause", "modifier.lalt" },
+
+  -- BUFFS
+  { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" }
 
 },
 function()
