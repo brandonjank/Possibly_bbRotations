@@ -35,7 +35,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 		-- DREAM PROCS
 		{ {
-			{ "Healing Touch", "player.health <= 90" },
+			{ "Healing Touch", "player.health <= 90", "player" },
 			{ "Healing Touch", "targettarget.health <= 90", "targettarget" },
 			{ "Healing Touch", "lowest.health <= 50", "lowest" },
 		}, "player.buff(Dream of Cenarius)" },
@@ -53,7 +53,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 		{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
 		{ "Survival Instincts", { "target.agro", "player.health < 60" } },
 		{ "Savage Defense", { "target.agro", "target.distance <= 5", "!player.buff(Savage Defense)", "timeout(Savage Defense, 12)" } },
-		{ "Barkskin", { "player.health <= 90" } },
+		{ "Barkskin", { "player.health <= 90", "target.distance <= 5" } },
 		{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
 
 		-- DPS COOLDOWNS
@@ -63,12 +63,12 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 		-- THREAT ROTATION -- need a minimum for 60 range for savage defense
 		{ "Mangle" },
-		{ "Thrash", { "!target.debuff(Thrash)" } },
+		{ "Thrash", "!target.debuff(Thrash)" },
 		{ "Thrash", { "target.debuff(Thrash)", "target.debuff(Thrash).remaining <= 1" } },
-		{ "Maul", { "player.rage >= 80", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown = > 0.5" } },
+		{ "Maul", { "player.rage >= 80", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown => 0.5" } },
 		{ "Maul", "player.rage >= 95" },
-		{ "Lacerate", { "player.spell(Mangle).cooldown = > 0.5", "timeout(Lacerate, 1)", "target.area(8).enemies < 2" } },
-		{ "Thrash", { "player.spell(Mangle).cooldown = > 0.5", "timeout(Thrash, 1)", "target.area(8).enemies > 2" } },
+		{ "Lacerate", { "player.spell(Mangle).cooldown => 0.5", "timeout(Lacerate, 1)", "target.area(8).enemies < 2" } },
+		{ "Thrash", { "player.spell(Mangle).cooldown => 0.5", "timeout(Thrash, 1)", "target.area(8).enemies > 2" } },
 
 	}, "player.buff(Bear Form)" },
 
@@ -79,7 +79,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "pause", "player.buff(Food)" },
 
 	-- RAID BUFFS
-  { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" }
+  { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
 },
 -- TOGGLE BUTTONS
 function()
