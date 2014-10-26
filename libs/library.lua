@@ -121,20 +121,27 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 
 	-- Find closest unit.
 	if not UnitExists("target") or ( UnitExists("target") and UnitIsTapped("target") and not UnitIsTappedByPlayer("target") ) then
+		local objectCount = 0
 		for i = 1, totalObjects do
 			local object = ObjectWithIndex(i)
-			local objectName = ObjectName(object) or 0
-			if objectName == unitName then
-				-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
-				if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) ) then
-					local objectDistance = Distance("player", object)
-					if objectDistance <= searchRange and objectDistance <= closestUnitDistance and LineOfSight("player", object) then
-						closestUnitObject = object
-						closestUnitDistance = objectDistance
+			if object then
+				local objectName = ObjectName(object) or 0
+				if objectName == unitName then
+					-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
+					if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) or (UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1) ) then
+						local objectDistance = Distance("player", object)
+						if objectDistance <= searchRange and objectDistance <= closestUnitDistance and LineOfSight("player", object) then
+							closestUnitObject = object
+							closestUnitDistance = objectDistance
+							objectCount = objectCount + 1
+						end
 					end
 				end
+			else
+				return false
 			end
 		end
+		if objectCount == 0 then return false end
 	end
 
 	-- Target unit.
