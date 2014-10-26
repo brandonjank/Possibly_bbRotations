@@ -99,6 +99,17 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Consecration", { "!toggle.limitaoe", "target.distance < 6" } }, -- TODO: use target.ground if glyphed
   { "Holy Wrath", { "!toggle.limitaoe", "target.distance < 6" } },
 
+
+-- Cast Templar's Verdict Icon Templar's Verdict (when you have 5 Holy Power).
+-- Cast Hammer of Wrath Icon Hammer of Wrath on cooldown
+-- Cast Execution Sentence Icon Execution Sentence.
+-- It is only available when the target is below 20% health or when Avenging Wrath Icon Avenging Wrath is active.
+-- Cast Crusader Strike Icon Crusader Strike on cooldown (it generates Holy Power).
+-- Cast Divine Storm Icon Divine Storm if you have the 4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
+-- Cast Judgment Icon Judgment on cooldown (it generates Holy Power).
+-- Cast Exorcism Icon Exorcism on cooldown (it generates Holy Power).
+-- Cast Templar's Verdict Icon Templar's Verdict (when you have 3 Holy Power).
+
   --{ "Seal of Insight", { "!modifier.last", "!player.buff", "!player.buff(Seal of Truth)" } },
   --{ "Seal of Truth" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Righteousness)" } }, -- TODO: For T7 Talent Empowered Seals
   --{ "Seal of Righteousness" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Insight)" } }, -- TODO: For T7 Talent Empowered Seals

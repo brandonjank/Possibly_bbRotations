@@ -13,10 +13,10 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "pause", "modifier.lcontrol" },
 	--{ "pause", "@bbLib.bossMods" },
 	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
-	
+
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
-	
+
 	-- Racials
 	-- { "Stoneform", "player.health <= 65" },
 	-- { "Every Man for Himself", "player.state.charm" },
@@ -24,14 +24,14 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- { "Every Man for Himself", "player.state.incapacitate" },
 	-- { "Every Man for Himself", "player.state.sleep" },
 	-- { "Every Man for Himself", "player.state.stun" },
-	
+
 	{ {
 		-- { "Divine Shield", "player.debuff(Gulp Frog Toxin).count > 7" }, -- Divine shield does not work!?
 		{ "Blessing of Kings", { "!target.friend", "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
 	},{
 		"toggle.frogs",
 	} },
-  
+
 	-- OFF GCD
 	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 4" }, "player" },
 	{ "Eternal Flame", { "talent(3, 2)", "!player.buff", "player.buff(Bastion of Glory).count > 2", "player.health < 80" }, "player" },
@@ -43,7 +43,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- Interrupts
 	{ "Arcane Torrent", { "modifier.interrupt", "target.distance < 8" } },
 	{ "Rebuke", "modifier.interrupt" }, --TODO: Interrupt at 50% cast
-	
+
 	-- Survivability
 	{{
 		{ "Ardent Defender", "player.health < 25" },
@@ -59,11 +59,11 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "Sacred Shield", { "talent(3, 3)", "!player.buff" } },
 	{ "#5512", { "modifier.cooldowns", "player.health < 30" } }, -- Healthstone (5512)
 	{ "Cleanse", { "!modifier.last", "player.dispellable(Cleanse)" }, "player" }, -- Cleanse Poison or Disease
-	
+
 	-- BossMods
 	{ "Reckoning", { "toggle.autotaunt", "@bbLib.bossTaunt" } }, -- TODO: Fix boss mods
 	{ "Hand of Sacrifice", { "toggle.usehands", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "mouseover.debuff(Assassin's Mark)" }, "mouseover" }, -- Off GCD now
-	
+
 	-- Raid Survivability
 	{ "Hand of Protection", { "toggle.usehands", "lowest.exists", "lowest.alive", "lowest.friend", "lowest.isPlayer", "!lowest.role(tank)", "!lowest.immune.melee", "lowest.health <= 15" }, "lowest" }, -- TODO: Don't cast on tanks.
 	--{ "Hand of Sacrifice", { "tank.exists", "tank.alive", "tank.friend", "tank.range <= 40", "tank.health < 75" }, "tank" }, --TODO: Only if tank is not the player.
@@ -71,7 +71,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	--{ "Flash of Light", { "player.health < 60", "!modifier.last" }, "player" },
 	--{ "Hand of Purity", "talent(4, 1)", "player" }, -- TODO: Only if dots on player
 	-- Hand of Salvation – Prevents a group/raid member from generating threat for a period of time or saves you the embarrassment of ripping aggro when offtanking. Useful for putting on healers when a group of adds spawns and is immediately drawn to them due to passive healing aggro.
-	
+
 	-- Mouseovers
 	{{
 		{ "Hand of Freedom", { "toggle.usehands", "!modifier.last(Cleanse)", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "mouseover.state.root", "!mouseover.buff" }, "mouseover" },
@@ -81,7 +81,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	}, {
 		"toggle.mouseovers", "player.health > 50",
 	}},
-	
+
 	-- DPS ROTATION
 	{ "Avenger's Shield", { "player.buff(Grand Crusader)", "target.area(10).enemies > 2" } },
 	{ "Hammer of the Righteous", "target.area(10).enemies > 2" },
@@ -98,11 +98,11 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	{ "Hammer of Wrath", { "!target.dead", "target.health <= 20" }, "target" },
 	{ "Consecration", { "!toggle.limitaoe", "target.distance < 6" } }, -- TODO: use target.ground if glyphed
 	{ "Holy Wrath", { "!toggle.limitaoe", "target.distance < 6" } },
-	
+
 	--{ "Seal of Insight", { "!modifier.last", "!player.buff", "!player.buff(Seal of Truth)" } },
 	--{ "Seal of Truth" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Righteousness)" } }, -- TODO: For T7 Talent Empowered Seals
 	--{ "Seal of Righteousness" { "talent(7, 1)", "!modifier.last", "!player.buff", "!player.buff(Seal of Insight)" } }, -- TODO: For T7 Talent Empowered Seals
-	
+
 },{
 -- OUT OF COMBAT ROTATION
 	-- Pause
@@ -115,7 +115,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	-- Stance
 	{ "Righteous Fury", { "!player.buff(Righteous Fury)", "!modifier.last" } },
 	{ "Seal of Insight", { "player.seal != 3", "!modifier.last" } },
-	
+
 
 	{ {
 		{ "Blessing of Kings", { "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
@@ -125,8 +125,8 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 	},{
 		"toggle.frogs"
 	} },
-	
-  
+
+
 },
 function()
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\inv_pet_lilsmoky', 'Use Mouseovers', 'Automatically cast spells on mouseover targets.')

@@ -75,7 +75,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "pause", "modifier.lalt" },
 
   -- BUFFS
-  { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" }
+  { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
 
 },
 function()
