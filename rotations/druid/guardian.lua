@@ -38,7 +38,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 			{ "Healing Touch", "player.health <= 90" },
 			{ "Healing Touch", "targettarget.health <= 90", "targettarget" },
 			{ "Healing Touch", "lowest.health <= 50", "lowest" },
-		},{ "player.buff(Dream of Cenarius)" } },
+		}, "player.buff(Dream of Cenarius)" },
 
 		-- RANGED PULLS
 		{ "Faerie Fire", "target.distance > 5" },
