@@ -1,12 +1,14 @@
--- PossiblyEngine Rotation Packager
--- Custom Brewmaster Monk Rotation
--- Created on Dec 25th 2013 1:00 am
-PossiblyEngine.rotation.register_custom(268, "bbBrewmasterMonk", {
+-- PossiblyEngine Rotation
+-- Brewmaster Monk - WoD 6.0.2
+-- Updated on Oct 25th 2014
+
 -- PLAYER CONTROLLED:
--- SUGGESTED TALENTS:
+-- TALENTS:
+-- GLYPHS:
 -- CONTROLS: Pause - Left Control
 
--- COMBAT
+PossiblyEngine.rotation.register_custom(268, "bbMonk Brewmaster", {
+-- COMBAT ROTATION
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "@bbLib.bossMods" },
@@ -93,7 +95,7 @@ PossiblyEngine.rotation.register_custom(268, "bbBrewmasterMonk", {
 
 
   },{
--- OUT OF COMBAT
+-- OUT OF COMBAT ROTATION
 	-- Pause
 	{ "pause", "modifier.lcontrol" },
 

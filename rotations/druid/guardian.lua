@@ -1,9 +1,11 @@
 -- PossiblyEngine Rotation
--- Custom Guardian Druid Rotation
--- Created on Oct 15th 2014
+-- Guardian Druid - WoD 6.0.2
+-- Updated on Oct 25th 2014
+
 -- PLAYER CONTROLLED:
--- SUGGESTED BUILD:
--- CONTROLS:
+-- TALENTS:
+-- GLYPHS:
+-- CONTROLS: Pause - Left Control
 
 PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	-- COMBAT ROTATION
@@ -46,14 +48,14 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 		{ "Nature's Vigil", { "player.spell(Incarnation: Son of Ursoc).cooldown = 0" }},
 		{ "Incarnation: Son of Ursoc", { "player.buff(Nature's Vigil)" }},
 		{ "Berserk", { "player.time > 10", "!player.buff(Incarnation: Son of Ursoc)", "player.buff(Nature's Vigil).duration > 10" } },
-		},{ 
+		},{
 			"!target.dead", "target.distance <= 5", "player.spell(Nature's Vigil).exists", "modifier.cooldowns", "target.deathin > 45"
 		} }, --Nature's Vigil
 
 		{{
 		{ "Incarnation: Son of Ursoc" },
 		{ "Berserk", { "player.time >= 90", "!player.buff(Incarnation: Son of Ursoc)" }},
-		}, { 
+		}, {
 			"!target.dead", "target.distance <= 5", "!player.spell(Nature's Vigil).exists", "modifier.cooldowns", "target.deathin > 45"
 		} }, --Nature's Vigil
 
@@ -71,7 +73,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 		{ "Thrash", { "target.distance <= 5" }},
 		{ "Swipe", { "target.distance <= 5" }},
 		{ "Faerie Fire" },
-	}, { 
+	}, {
 		"player.buff(Bear Form)",
 	}},
 },{
