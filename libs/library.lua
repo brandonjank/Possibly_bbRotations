@@ -408,12 +408,12 @@ end
 	-- return false
 -- end
 
--- function bbLib.isMounted()
-	-- if IsMounted() then
-		-- return true
-	-- end
-	-- return false
--- end
+function bbLib.isMounted()
+	if IsMounted() then
+		return true
+	end
+	return false
+end
 
 -- function bbLib.conjureManaGem()
 	-- -- 36799 = Mana Gem
