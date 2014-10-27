@@ -57,7 +57,7 @@ PossiblyEngine.rotation.register_custom(72, "bbWarrior Fury", {
 		{ "Dragon Roar", "talent(4, 3)" },
 		{ "Wild Strike", "player.buff(Bloodsurge)" },
 		{ "Bloodthirst", "talent(3, 3)" },
-	},{ "target.area(8).enemies > 1" },
+	},{ "target.area(8).enemies > 1" } },
 
 	-- EXECUTE ROTATION
 	{ {
@@ -74,7 +74,7 @@ PossiblyEngine.rotation.register_custom(72, "bbWarrior Fury", {
 		{ "Storm Bolt", "talent(4, 1)" },
 		{ "Dragon Roar", "talent(4, 3)" },
 		{ "Bloodthirst", "talent(3, 3)" },
-	},{	"target.health <= 20" },
+	},{	"target.health <= 20" } },
 
 	-- SINGLE ROTATION
 	{ "Execute", "talent(3, 2)" },
