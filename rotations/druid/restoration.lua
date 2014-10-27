@@ -84,7 +84,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Swiftmend", { "lowest.health <= 80", "lowest.buff(Regrowth)" }, "lowest" },
   { "Wild Mushroom", { "lowest.health < 100", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "lowest" },
   { "Regrowth", { "lowest.health <= 80", "!lowest.buff(Regrowth)", "!player.moving" }, "lowest" },
-  { "Healing Touch", { "lowest.health <= 100", "!player.moving" }, "lowest" },
+  { "Healing Touch", { "lowest.health < 100", "!player.moving" }, "lowest" },
 
   { "Wrath", "lowest.health > 99", "target" },
 

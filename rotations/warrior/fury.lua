@@ -78,6 +78,7 @@ PossiblyEngine.rotation.register_custom(72, "bbWarrior Fury", {
 
 	-- SINGLE ROTATION
 	{ "Execute", "talent(3, 2)" },
+	{ "Execute", "player.buff(Death Sentence)" },
 	{ "Berserker Rage", "!player.buff(Enrage)" },
 	{ "Berserker Rage", { "talent(3, 3)", "!player.buff(Raging Blow!)" } },
 	{ "Wild Strike", "player.rage > 90" },
