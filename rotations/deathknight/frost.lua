@@ -23,6 +23,11 @@ PossiblyEngine.rotation.register_custom(251, "bbDeathKnight Frost", {
   { "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
   { "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 
+  -- FROGGING
+  { {
+    { "Path of Frost", "@bbLib.engaugeUnit('Gulp Frog', 30, false)" },
+  }, "toggle.frogs" },
+
   -- Blood Tap
   { {
     { "Blood Tap", "player.runes(unholy).count = 0" },
@@ -150,6 +155,16 @@ PossiblyEngine.rotation.register_custom(251, "bbDeathKnight Frost", {
   { "Army of the Dead", { "target.boss", "modifier.rshift" } },
   { "Death Grip", "modifier.lalt" },
 
+  -- FROGGING
+  { {
+    { "Path of Frost", "@bbLib.engaugeUnit('Gulp Frog', 30, false)" },
+    { "Death Grip", true, "target" },
+    { "Mind Freeze", true, "target" },
+    { "Chains of Ice", true, "target" },
+  },{
+    "toggle.frogs",
+  } },
+
 },
 function ()
   PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\inv_pet_lilsmoky', 'Toggle Mouseovers', 'Automatically cast spells on mouseover targets')
@@ -157,4 +172,5 @@ function ()
   PossiblyEngine.toggle.create('limitaoe', 'Interface\\Icons\\spell_fire_flameshock', 'Limit AoE', 'Toggle to avoid using CC breaking aoe effects.')
   PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automaticaly target the nearest enemy when target dies or does not exist.')
   PossiblyEngine.toggle.create('autotaunt', 'Interface\\Icons\\spell_nature_reincarnation', 'Auto Taunt', 'Automaticaly taunt the boss at the appropriate stacks')
+  PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
 end)

@@ -51,24 +51,6 @@ function bbLib.NeedHealsAroundUnit(unit, count, distance, threshold)
 	return false
 end
 
-PossiblyEngine.raid.needsHealing = function (threshold)
-  if not threshold then threshold = 80 end
-
-  local start, groupMembers = getGroupMembers()
-  local needsHealing = 0
-  local unit
-  for i = start, groupMembers do
-    unit = PossiblyEngine.raid.roster[i]
-    if canHeal(unit.unit) and unit.health and unit.health <= threshold then
-      needsHealing = needsHealing + 1
-    end
-  end
-
-  return needsHealing
-end
-
-
-
 function bbLib.GCDOver(spell)
 	local spellID
 	if spell == nil then
@@ -480,4 +462,97 @@ end
 	-- return false
 -- end
 
+function bbLib.isNPC(unit)
+	if unit and UnitExists(unit) then
+		if string.find(UnitGUID(unit), "Creature") and UnitReaction("player", unit) == 5 then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isPlayer(unit)
+	if unit and UnitExists(unit) then
+		if string.find(UnitGUID(unit), "Player") then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isCreature(unit)
+	if unit and UnitExists(unit) then
+		if string.find(UnitGUID(unit), "Creature") then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isPet(unit)
+	if unit and UnitExists(unit) then
+		if string.find(UnitGUID(unit), "Pet") then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isGameObject(unit)
+	if unit and UnitExists(unit) then
+		if string.find(UnitGUID(unit), "GameObject") then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isVehicle(unit)
+	if unit and UnitExists(unit) then
+		if string.find(UnitGUID(unit), "Vehicle") then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isVignette(unit)
+	if unit and UnitExists(unit) then
+		if string.find(UnitGUID(unit), "Vignette") then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isTank(unit)
+	if unit and UnitExists(unit) then
+		if GetPartyAssignment("MAINTANK", unit) or UnitGroupRolesAssigned(unit) == "TANK" then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.isNotTank(unit)
+	if unit and UnitExists(unit) then
+		if GetPartyAssignment("MAINTANK", unit) or UnitGroupRolesAssigned(unit) == "TANK" then
+			return false
+		end
+	end
+	return true
+end
+
 PossiblyEngine.library.register("bbLib", bbLib)
+
+if not myErrorFrame then
+	local myErrorFrame = CreateFrame('Frame')
+	myErrorFrame:RegisterEvent('UI_ERROR_MESSAGE')
+	myErrorFrame:SetScript('OnEvent', function(self, event, message)
+		if UnitClass("player") == "Druid" then -- Get out of shapeshift when needed.
+			if message and string.find(message, "shapeshift") and GetShapeshiftForm() ~= 0 then
+				CancelShapeshiftForm()
+			end
+		end
+	end)
+end
