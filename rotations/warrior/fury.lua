@@ -52,7 +52,7 @@ PossiblyEngine.rotation.register_custom(72, "bbWarrior Fury", {
 		{ "Execute", "talent(3, 2)" },
 		{ "Bloodthirst", { "!player.buff(Enrage)" } },
 		{ "Bloodthirst", { "player.buff(Raging Blow!).count < 2" } },
-		-- Use Whirlwind to gain stacks of Meat Cleaver as necessary for the amount of current targets. Max 3
+		{ "Whirlwind", { "player.buff(Meat Cleaver).count < 3" } },-- Use Whirlwind to gain stacks of Meat Cleaver as necessary for the amount of current targets. Max 3
 		{ "Raging Blow" },
 		{ "Dragon Roar", "talent(4, 3)" },
 		{ "Wild Strike", "player.buff(Bloodsurge)" },
