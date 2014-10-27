@@ -21,6 +21,9 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- FROGGING
 	{ {
 		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
+		{ "Rejuvenation", { "player.health < 99", "!player.buff(Rejuvenation)" }, "player" },
+		{ "Healing Touch", "lowest.health < 80", "lowest" },
 	}, "toggle.frogs" },
 
 	-- DEFENSIVE COOLDOWNS
