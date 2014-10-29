@@ -81,14 +81,18 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 
 	-- Shorten search range if debuff is too high from frogs.
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
-	if toxin > 6 then
+	if toxin > 4 then
 		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
 			Cast("Divine Shield", "player")
 		end
 		if UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
 			Cast("Earth Elemental Totem", "player")
 		end
-		searchRange = 5
+		searchRange = 3
+	end
+
+	if ((UnitHealth("player") / UnitHealthMax("player")) * 100) < 50 then
+		return false
 	end
 
 	-- Clear targets.

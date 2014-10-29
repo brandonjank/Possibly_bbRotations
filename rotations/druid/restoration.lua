@@ -30,11 +30,11 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Rebirth", { "mouseover.exists", "mouseover.dead", "!player.moving", "@bbLib.isPlayer('mouseover')" }, "mouseover" },
 
   -- DISPELLS
-  { "Nature's Cure", { "toggle.dispel", "player.debuff(Aqua Bomb)" }, "player" }, -- Proving Grounds
-  { "Nature's Cure", { "toggle.dispel", "player.debuff(Shadow Word: Bane)" }, "player" }, -- Fallen Protectors
-  { "Nature's Cure", { "toggle.dispel", "player.debuff(Lingering Corruption)" }, "player" }, -- Norushen
-  { "Nature's Cure", { "toggle.dispel", "player.debuff(Mark of Arrogance)", "player.buff(Power of the Titans)" }, "player" }, -- Sha of Pride
-  { "Nature's Cure", { "toggle.dispel", "player.debuff(Corrosive Blood)" }, "player" }, -- Thok
+  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Aqua Bomb)" }, "mouseover" }, -- Proving Grounds
+  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Shadow Word: Bane)" }, "mouseover" }, -- Fallen Protectors
+  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Lingering Corruption)" }, "mouseover" }, -- Norushen
+  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Mark of Arrogance)", "player.buff(Power of the Titans)" }, "mouseover" }, -- Sha of Pride
+  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Corrosive Blood)" }, "mouseover" }, -- Thok
 
   -- HEALING COOLDOWNS
   { "Tranquility", "@coreHealing.needsHealing(70, 8)" },

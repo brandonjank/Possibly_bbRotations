@@ -23,7 +23,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
 		{ "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
 		{ "Rejuvenation", { "player.health < 99", "!player.buff(Rejuvenation)" }, "player" },
-		{ "Healing Touch", "lowest.health < 80", "lowest" },
+		{ "Healing Touch", { "player.health < 70" }, "player" },
 	}, "toggle.frogs" },
 
 	-- DEFENSIVE COOLDOWNS
@@ -92,6 +92,19 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- BUFFS
 	{ "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
 	{ "Moonkin Form", { "!player.buff(Moonkin Form)", "!player.buff(Swift Flight Form)", "!player.buff(Flight Form)" } }, -- Force Moonkin Form
+
+	-- HEALING
+	{ "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
+	{ "Rejuvenation", { "player.health < 99", "!player.buff(Rejuvenation)" }, "player" },
+	{ "Healing Touch", { "player.health < 70" }, "player" },
+
+	--REZ
+	{ "Revive", { "target.exists", "target.dead", "!player.moving", "@bbLib.isPlayer('target')" }, "target" },
+	{ "Revive", { "mouseover.exists", "mouseover.dead", "!player.moving", "@bbLib.isPlayer('mouseover')" }, "mouseover" },
+	{ "Revive", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
+	{ "Revive", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
+	{ "Revive", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
+	{ "Revive", { "party4.exists", "party4.dead", "!player.moving", "party4.range < 35" }, "party4" },
 
 	-- FROGGING
 	{ {
