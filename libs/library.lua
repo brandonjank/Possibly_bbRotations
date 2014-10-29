@@ -112,12 +112,13 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 		end
 	end
 
-	local totalObjects = ObjectCount() or 0
-	local closestUnitObject
-	local closestUnitDistance = 9999
+
 
 	-- Find closest unit.
-	if totalObjects > 0 and not UnitExists("target") then
+	if not UnitExists("target") then
+		local totalObjects = ObjectCount() or 0
+		local closestUnitObject
+		local closestUnitDistance = 9999
 		local objectCount = 0
 		for i = 1, totalObjects do
 			local object = ObjectWithIndex(i)
