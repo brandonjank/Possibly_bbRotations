@@ -13,7 +13,7 @@ PossiblyEngine.rotation.register_custom(269, "bbWindwalkerMonk", {
 	{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "target.exists", "target.dead" } },
-	
+
 	-- Racials
 	{ "Will of the Forsaken", "player.state.fear" },
 	{ "Will of the Forsaken", "player.state.charm" },
@@ -40,18 +40,18 @@ PossiblyEngine.rotation.register_custom(269, "bbWindwalkerMonk", {
 
 	-- Keybinds
 	{ "Paralysis", "modifier.shift", "mouseover" },
-	{ "Healing Sphere", "modifier.alt", "ground" }, 
+	{ "Healing Sphere", "modifier.alt", "ground" },
 	{ "Crackling Jade Lightning", "modifier.control", "target" },
 
-	
-	
+
+
 	{ "Tiger's Lust", "target.range >= 15" },
-	
+
 -- Chi Builders
 	{ "Expel Harm", "player.health < 80" },
 -- actions+=/rushing_jade_wind,if=talent.rushing_jade_wind.enabled
 	{ "Rushing Jade Wind", "modifier.multitarget" },
-	
+
 
 -- PRE COMBAT
 -- flask,type=spring_blossoms
@@ -115,7 +115,7 @@ PossiblyEngine.rotation.register_custom(269, "bbWindwalkerMonk", {
 	{ "Jab", "player.chi <= 3" }, --TODO: chi.max-chi>=2
 -- blackout_kick,if=energy+energy.regen*cooldown.rising_sun_kick.remains>=40
 	{ "Blackout Kick", { "player.chi >= 2", "target.debuff(Rising Sun Kick)", "player.buff(Tiger Power)"} },
-	
+
 
 },{
 -- OUT OF COMBAT
@@ -128,7 +128,7 @@ PossiblyEngine.rotation.register_custom(269, "bbWindwalkerMonk", {
 
 	-- Keybinds
 	{ "Paralysis", "modifier.shift", "mouseover" },
-	{ "Healing Sphere", "modifier.alt", "ground" }, 
+	{ "Healing Sphere", "modifier.alt", "ground" },
 	{ "Crackling Jade Lightning", "modifier.control", "target" },
 
 	-- Buffs

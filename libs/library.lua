@@ -71,42 +71,53 @@ function bbLib.GCDOver(spell)
 	return false
 end
 
-function bbLib.engaugeUnit(unitName, searchRange, isMelee)
-	-- Don't run when dead or targeting a friend.
-	if UnitIsDeadOrGhost("player") or ( UnitExists("target") and UnitIsFriend("player", "target") ) or GetMinimapZoneText() ~= "Croaking Hollow" then return false end
+function bbLib.rateLimit(miliseconds)
+    return ((GetTime()*1000) % miliseconds) == 0
+end
 
-	if UnitClass("player") == "Hunter" and UnitBuff("player", "Sniper Training") ~= nil then
+function bbLib.engaugeUnit(unitName, searchRange, isMelee)
+	if UnitIsDeadOrGhost("player")
+		or ( UnitExists("target") and UnitIsFriend("player", "target") )
+		or ((UnitHealth("player") / UnitHealthMax("player")) * 100) < 60
+	then
+		return false
+	end
+
+	if UnitClass("player") == "Hunter"
+		and UnitBuff("player", "Sniper Training") ~= nil
+	then
 		searchRange = searchRange + 5
 	end
 
-	-- Shorten search range if debuff is too high from frogs.
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
 	if toxin > 4 then
-		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
+		if UnitClass("player") == "Paladin"
+			and GetSpellCooldown("Divine Shield") == 0
+		then
 			Cast("Divine Shield", "player")
 		end
-		if UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
+		if UnitClass("player") == "Shaman"
+			and GetSpellCooldown("Earth Elemental Totem") == 0
+		then
 			Cast("Earth Elemental Totem", "player")
 		end
 		searchRange = 3
 	end
 
-	if ((UnitHealth("player") / UnitHealthMax("player")) * 100) < 50 then
-		return false
-	end
-
-	-- Clear targets.
-	if UnitIsDeadOrGhost("target") or ( UnitIsTapped("target") and UnitThreatSituation("player", "target") and UnitThreatSituation("player", "target") < 2 )  then
-		ClearTarget()
+	if UnitExists("target") then
+		if UnitIsDeadOrGhost("target")
+			or ( UnitIsTapped("target") and not UnitIsTappedByPlayer("target") and UnitThreatSituation("player", "target") and UnitThreatSituation("player", "target") < 2 )
+		then
+			ClearTarget()
+		end
 	end
 
 	local totalObjects = ObjectCount() or 0
 	local closestUnitObject
 	local closestUnitDistance = 9999
-	local closestUnitDirection
 
 	-- Find closest unit.
-	if not UnitExists("target") or ( UnitExists("target") and UnitIsTapped("target") and not UnitIsTappedByPlayer("target") ) then
+	if totalObjects > 0 and not UnitExists("target") then
 		local objectCount = 0
 		for i = 1, totalObjects do
 			local object = ObjectWithIndex(i)
@@ -114,12 +125,14 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 				local objectName = ObjectName(object) or 0
 				if objectName == unitName then
 					-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
-					if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) and ( not UnitIsTapped(object) or UnitIsTappedByPlayer(object) or (UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1) ) then
-						local objectDistance = Distance("player", object)
-						if objectDistance <= searchRange and objectDistance <= closestUnitDistance and LineOfSight("player", object) then
-							closestUnitObject = object
-							closestUnitDistance = objectDistance
-							objectCount = objectCount + 1
+					if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) then
+						if not UnitIsTapped(object) or UnitIsTappedByPlayer(object) or ( UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1 ) then
+							local objectDistance = Distance("player", object)
+							if objectDistance <= searchRange and objectDistance < closestUnitDistance and LineOfSight("player", object) then
+								closestUnitObject = object
+								closestUnitDistance = objectDistance
+								objectCount = objectCount + 1
+							end
 						end
 					end
 				end
@@ -127,25 +140,24 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 				return false
 			end
 		end
-		if objectCount == 0 then return false end
-	end
-
-	-- Target unit.
-	if ( not UnitExists("target") and UnitExists(closestUnitObject) ) or ( UnitExists("target") and UnitExists(closestUnitObject) and not UnitIsUnit(closestUnitObject, "target") ) then
+		if objectCount == 0 or closestUnitObject == nil then return false end
 		TargetUnit(closestUnitObject)
+		FaceUnit(closestUnitObject)
 	end
 
-	--Face Unit
-	if UnitExists("target") then
-		FaceUnit("target")
-	end
+-- /script print(GetSpellCooldown(61304)) Global Cooldown
 
-	-- Tap Unit
-	if UnitExists("target") and not UnitIsTapped("target") and not UnitIsTappedByPlayer("target") then
-		if UnitClass("player") == "Shaman" and closestUnitDistance <= 30 then
-			Cast("Purge", closestUnitObject)
-		end
-	end
+	--  Force tapping
+	--if UnitExists("target") and not UnitIsTapped("target") and not UnitIsTappedByPlayer("target") then
+	--	if UnitClass("player") == "Shaman" and Distance("player", "target") <= 30 and GetSpellCooldown("Purge") == 0 then
+	--		Cast("Purge", "target")
+	--	end
+	--end
+
+	-- Always Face Target
+	--if UnitExists("target") then
+	--	FaceUnit("target")
+	--end
 
 	-- Move to unit.
 	-- TODO: Move back to original position after kill.
@@ -557,6 +569,9 @@ if not myErrorFrame then
 			if message and string.find(message, "shapeshift") and GetShapeshiftForm() ~= 0 then
 				CancelShapeshiftForm()
 			end
+		end
+		if message and string.find(message, "front of you") and UnitExists("target") then
+			FaceUnit("target")
 		end
 	end)
 end
