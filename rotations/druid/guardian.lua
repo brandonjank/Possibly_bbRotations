@@ -18,11 +18,11 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "!target.friend" } },
 
 	-- BATTLE REZ
-	{ "Rebirth", { "target.friend", "target.dead", "!player.buff(Bear Form)" }, "target" },
+	{ "Rebirth", { "target.friend", "target.dead", "!player.form = 1" }, "target" },
 	{ "Rebirth", { "target.friend", "target.dead", "player.buff(Dream of Cenarius)" }, "target" },
 
 	-- BEAR FORM
-	{ "Bear Form", { "!player.buff(Bear Form)", "target.exists", "target.agro" } },
+	{ "Bear Form", { "!player.form = 1", "target.exists", "target.distance < 5" } },
 
 	-- INTERRUPTS
 	{ "Skull Bash", "target.interrupt" },
@@ -70,7 +70,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "pause", "player.buff(Food)" },
 
 	-- BUFFS
-	{ "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
+	{ "Mark of the Wild", { "!player.buffs.stats", "lowest.distance <= 30", "player.form = 0" }, "lowest" },
 
 	-- REZ
 	{ "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
@@ -80,12 +80,12 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Healing Touch", { "player.health < 80", "!player.moving)" }, "player" },
 
 	-- PAUSE FORM
-	--{ "/cancelform", { "target.exists", (function() return not UnitCanAttack("player", "target") and GetShapeshiftForm() == 0 end), "target.range < 1", "@bbLib.isCreature('target')" } },
+	{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
 	{ "pause", { "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
 
 	-- AUTO FORM
-	{ "Travel Form", { "!player.buff(Travel Form)", (function() return not IsIndoors() end) } },
-	{ "Cat Form", { "!player.buff(Cat Form)", "!player.buff(Travel Form)" } },
+	{ "Travel Form", { "!target.enemy", "!player.form = 4", (function() return not IsIndoors() end) } },
+	{ "Cat Form", { "!player.form = 3", "!player.form = 4" } },
 
 },
 -- TOGGLE BUTTONS
