@@ -26,7 +26,6 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 	-- BATTLE REZ
 	{ "Rebirth", { "target.friend", "target.dead", "!player.form = 1" }, "target" },
-	{ "Rebirth", { "target.friend", "target.dead", "player.buff(Dream of Cenarius)" }, "target" },
 
 	-- BEAR FORM
 	{ "Bear Form", { "!player.form = 1", "target.exists", "target.distance < 5" } },
@@ -36,9 +35,15 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Mighty Bash", { "talent(5, 3)", "target.interrupt" } },
 
 	-- DREAM PROCS
-	--{ "Healing Touch", { "player.health < 90", "player.buff(Dream of Cenarius)" }, "player" },
-	--{ "Healing Touch", { "targettarget.health < 90", "player.buff(Dream of Cenarius)" }, "targettarget" },
-	--{ "Healing Touch", { "lowest.health < 60", "player.buff(Dream of Cenarius)" }, "lowest" },
+	{ {
+		{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
+		{ "Rebirth", { "target.friend", "target.dead" }, "target" },
+		{ "Healing Touch", "player.health < 90", "player" },
+		{ "Healing Touch", "targettarget.health < 90", "targettarget" },
+		{ "Healing Touch", "lowest.health < 60", "lowest" },
+	},{
+		"player.buff(Dream of Cenarius)",
+	} },
 
 	-- RANGED PULLS
 	--{ "Faerie Fire", "target.distance > 5" },
@@ -54,7 +59,6 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Survival Instincts", { "target.agro", "player.health < 60" } },
 	{ "Savage Defense", { "target.agro", "target.distance < 5", "!player.buff(Savage Defense)", "timeout(Savage Defense, 12)" } },
 	{ "Barkskin", { "player.health < 90", "target.distance < 5" } },
-	{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
 
 	-- DPS COOLDOWNS
 	{ "Berserking", { "!player.hashero", "target.distance < 5" } },
