@@ -17,6 +17,13 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "!target.friend" } },
 
+	-- FROGGING
+	{ {
+		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 30, false)" },
+	},{
+		"toggle.frogs",
+	} },
+
 	-- BATTLE REZ
 	{ "Rebirth", { "target.friend", "target.dead", "!player.form = 1" }, "target" },
 	{ "Rebirth", { "target.friend", "target.dead", "player.buff(Dream of Cenarius)" }, "target" },
@@ -50,9 +57,9 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	--{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
 
 	-- DPS COOLDOWNS
-	--{ "Berserking", { "!player.hashero", "target.distance < 5" } },
-	--{ "Berserk", { "player.hashero", "!player.buff(Incarnation: Son of Ursoc)" } },
-	--{ "Berserk", { "target.boss", "!player.buff(Incarnation: Son of Ursoc)" } },
+	{ "Berserking", { "!player.hashero", "target.distance < 5" } },
+	{ "Berserk", { "player.hashero", "!player.buff(Incarnation: Son of Ursoc)" } },
+	{ "Berserk", { "target.boss", "!player.buff(Incarnation: Son of Ursoc)" } },
 
 	-- THREAT ROTATION -- need a minimum for 60 range for savage defense
 	{ "Mangle" },
@@ -78,6 +85,14 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	-- HEAL
 	{ "Rejuvenation", { "player.health < 99", "!player.buff(Rejuvenation)" }, "player" },
 	{ "Healing Touch", { "player.health < 80", "!player.moving)" }, "player" },
+
+	-- FROGGING
+	{ {
+		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Soothe", true, "target" },
+	},{
+		"toggle.frogs",
+	} },
 
 	-- PAUSE FORM
 	{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
