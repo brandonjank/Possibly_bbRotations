@@ -31,8 +31,8 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Bear Form", { "!player.form = 1", "target.exists", "target.distance < 5" } },
 
 	-- INTERRUPTS
-	{ "Skull Bash", "target.interrupt" },
-	{ "Mighty Bash", { "talent(5, 3)", "target.interrupt" } },
+	{ "Skull Bash", "modifier.interrupt" },
+	{ "Mighty Bash", { "talent(5, 3)", "modifier.interrupt" } },
 
 	-- DREAM PROCS
 	{ {
