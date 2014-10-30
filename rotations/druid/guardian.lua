@@ -47,8 +47,8 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	} },
 
 	-- RANGED PULLS
-	--{ "Faerie Fire", "target.distance > 5" }, -- "player.glyph(114237)" -- Glyph of Fae Silence (114237)
-	--{ "Faerie Fire", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "!mouseover.dead", "mouseover.distance > 5" }, "mouseover" },
+	--{ "Faerie Fire", { "target.exists", target.distance > 5" } }, -- "player.glyph(114237)" -- Glyph of Fae Silence (114237)
+	--{ "Faerie Fire", { "toggle.mouseovers", "mouseover.alive", "mouseover.enemy", "mouseover.distance > 5" }, "mouseover" },
 
 	-- DEFENSIVE CONSUMABLES
 	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
@@ -104,8 +104,8 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "pause", { "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
 
 	-- AUTO FORM
-	{ "Travel Form", { "!player.form = 4", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
-	{ "Cat Form", { "!player.form = 3", "!player.form = 4", "player.moving", "!target.enemy" } },
+	{ "Travel Form", { "!player.buff(Travel Form)", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
+	{ "Cat Form", { "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
 
 },
 -- TOGGLE BUTTONS
