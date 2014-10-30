@@ -50,11 +50,11 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	--{ "#76097", { "toggle.consume", "player.health < 20", "target.boss" } }, -- Master Healing Potion (76097)
 
 	-- DEFENSIVE COOLDOWNS
-	--{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
-	--{ "Survival Instincts", { "target.agro", "player.health < 60" } },
-	--{ "Savage Defense", { "target.agro", "target.distance < 5", "!player.buff(Savage Defense)", "timeout(Savage Defense, 12)" } },
-	--{ "Barkskin", { "player.health < 90", "target.distance < 5" } },
-	--{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
+	{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
+	{ "Survival Instincts", { "target.agro", "player.health < 60" } },
+	{ "Savage Defense", { "target.agro", "target.distance < 5", "!player.buff(Savage Defense)", "timeout(Savage Defense, 12)" } },
+	{ "Barkskin", { "player.health < 90", "target.distance < 5" } },
+	{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
 
 	-- DPS COOLDOWNS
 	{ "Berserking", { "!player.hashero", "target.distance < 5" } },
