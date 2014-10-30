@@ -26,8 +26,8 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last" } },
 
   -- BATTLE REZ
-  { "Rebirth", { "target.exists", "target.dead", "!player.moving", "@bbLib.isPlayer('target')" }, "target" },
-  { "Rebirth", { "mouseover.exists", "mouseover.dead", "!player.moving", "@bbLib.isPlayer('mouseover')" }, "mouseover" },
+  { "Rebirth", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
+  --{ "Rebirth", { "mouseover.exists", "mouseover.dead", "!player.moving", "@bbLib.isPlayer('mouseover')" }, "mouseover" },
 
   -- DISPELLS
   { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Aqua Bomb)" }, "mouseover" }, -- Proving Grounds
@@ -78,7 +78,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
 
   -- RAID HEALING
   { "Regrowth", { "lowest.health < 100", "!lowest.buff(Regrowth)", "player.buff(Clearcasting)" }, "lowest" },
-  { "Rejuvenation", { "lowest.health < 100", "!lowest.buff(774)" }, "lowest" },
+  { "774", { "lowest.health < 100", "!lowest.buff(774)" }, "lowest" },
   { "Wild Growth", { "lowest.health <= 90", "!player.moving", "@coreHealing.needsHealing(90, 2)" }, "lowest" },
   { "Swiftmend", { "lowest.health <= 80", "lowest.buff(Rejuvenation)" }, "lowest" },
   { "Swiftmend", { "lowest.health <= 80", "lowest.buff(Regrowth)" }, "lowest" },
@@ -98,8 +98,8 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
 
   -- REZ
-  { "Revive", { "target.exists", "target.dead", "!player.moving", "@bbLib.isPlayer('target')" }, "target" },
-  { "Revive", { "mouseover.exists", "mouseover.dead", "!player.moving", "@bbLib.isPlayer('mouseover')" }, "mouseover" },
+  { "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
+  { "Revive", { "mouseover.exists", "mouseover.dead", "!player.moving", "mouseover.player" }, "mouseover" },
 
   -- HEAL
   { "Lifebloom", { "focus.exists", "focus.alive", "!focus.buff(Lifebloom)" }, "focus" },
