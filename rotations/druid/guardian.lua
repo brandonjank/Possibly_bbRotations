@@ -32,6 +32,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 	-- INTERRUPTS
 	{ "Skull Bash", "modifier.interrupt" },
+	{ "Faerie Fire", { "modifier.interrupt", "player.glyph(114237)" } }, -- Glyph of Fae Silence (114237)
 	{ "Mighty Bash", { "talent(5, 3)", "modifier.interrupt" } },
 
 	-- DREAM PROCS
@@ -46,7 +47,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	} },
 
 	-- RANGED PULLS
-	--{ "Faerie Fire", "target.distance > 5" },
+	--{ "Faerie Fire", "target.distance > 5" }, -- "player.glyph(114237)" -- Glyph of Fae Silence (114237)
 	--{ "Faerie Fire", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "!mouseover.dead", "mouseover.distance > 5" }, "mouseover" },
 
 	-- DEFENSIVE CONSUMABLES
