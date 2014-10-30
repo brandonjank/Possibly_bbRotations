@@ -25,43 +25,43 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Bear Form", { "!player.form = 1", "target.exists", "target.distance < 5" } },
 
 	-- INTERRUPTS
-	{ "Skull Bash", "target.interrupt" },
-	{ "Mighty Bash", { "talent(5, 3)", "target.interrupt" } },
+	--{ "Skull Bash", "target.interrupt" },
+	--{ "Mighty Bash", { "talent(5, 3)", "target.interrupt" } },
 
 	-- DREAM PROCS
-	{ "Healing Touch", { "player.health < 90", "player.buff(Dream of Cenarius)" }, "player" },
-	{ "Healing Touch", { "targettarget.health < 90", "player.buff(Dream of Cenarius)" }, "targettarget" },
-	{ "Healing Touch", { "lowest.health < 60", "player.buff(Dream of Cenarius)" }, "lowest" },
+	--{ "Healing Touch", { "player.health < 90", "player.buff(Dream of Cenarius)" }, "player" },
+	--{ "Healing Touch", { "targettarget.health < 90", "player.buff(Dream of Cenarius)" }, "targettarget" },
+	--{ "Healing Touch", { "lowest.health < 60", "player.buff(Dream of Cenarius)" }, "lowest" },
 
 	-- RANGED PULLS
-	{ "Faerie Fire", "target.distance > 5" },
-	{ "Faerie Fire", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "!mouseover.dead", "mouseover.distance > 5" }, "mouseover" },
+	--{ "Faerie Fire", "target.distance > 5" },
+	--{ "Faerie Fire", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "!mouseover.dead", "mouseover.distance > 5" }, "mouseover" },
 
 	-- DEFENSIVE CONSUMABLES
-	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
-	{ "#5512", { "toggle.consume", "player.health < 40" } }, -- Healthstone (5512)
-	{ "#76097", { "toggle.consume", "player.health < 20", "target.boss" } }, -- Master Healing Potion (76097)
+	--{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
+	--{ "#5512", { "toggle.consume", "player.health < 40" } }, -- Healthstone (5512)
+	--{ "#76097", { "toggle.consume", "player.health < 20", "target.boss" } }, -- Master Healing Potion (76097)
 
 	-- DEFENSIVE COOLDOWNS
-	{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
-	{ "Survival Instincts", { "target.agro", "player.health < 60" } },
-	{ "Savage Defense", { "target.agro", "target.distance <= 5", "!player.buff(Savage Defense)", "timeout(Savage Defense, 12)" } },
-	{ "Barkskin", { "player.health <= 90", "target.distance <= 5" } },
-	{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
+	--{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
+	--{ "Survival Instincts", { "target.agro", "player.health < 60" } },
+	--{ "Savage Defense", { "target.agro", "target.distance < 5", "!player.buff(Savage Defense)", "timeout(Savage Defense, 12)" } },
+	--{ "Barkskin", { "player.health < 90", "target.distance < 5" } },
+	--{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
 
 	-- DPS COOLDOWNS
-	{ "Berserking", { "!player.hashero", "target.distance <= 5" } },
-	{ "Berserk", { "player.hashero", "!player.buff(Incarnation: Son of Ursoc)" } },
-	{ "Berserk", { "target.boss", "!player.buff(Incarnation: Son of Ursoc)" } },
+	--{ "Berserking", { "!player.hashero", "target.distance < 5" } },
+	--{ "Berserk", { "player.hashero", "!player.buff(Incarnation: Son of Ursoc)" } },
+	--{ "Berserk", { "target.boss", "!player.buff(Incarnation: Son of Ursoc)" } },
 
 	-- THREAT ROTATION -- need a minimum for 60 range for savage defense
 	{ "Mangle" },
 	{ "Thrash", "!target.debuff(Thrash)" },
 	{ "Thrash", { "target.debuff(Thrash)", "target.debuff(Thrash).remaining <= 1" } },
-	{ "Maul", { "player.rage >= 80", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown => 0.5" } },
-	{ "Maul", "player.rage >= 95" },
-	{ "Lacerate", { "player.spell(Mangle).cooldown => 0.5", "timeout(Lacerate, 1)", "target.area(8).enemies < 2" } },
-	{ "Thrash", { "player.spell(Mangle).cooldown => 0.5", "timeout(Thrash, 1)", "target.area(8).enemies > 2" } },
+	{ "Maul", { "player.rage > 79", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown > 0.5" } },
+	{ "Maul", "player.rage > 94" },
+	{ "Lacerate", { "player.spell(Mangle).cooldown > 0.5", "timeout(Lacerate, 1)", "target.area(8).enemies < 2" } },
+	{ "Thrash", { "player.spell(Mangle).cooldown > 0.5", "timeout(Thrash, 1)", "target.area(8).enemies > 2" } },
 
 },{
 -- OUT OF COMBAT ROTATION
@@ -70,7 +70,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "pause", "player.buff(Food)" },
 
 	-- BUFFS
-	{ "Mark of the Wild", { "!player.buffs.stats", "lowest.distance <= 30", "player.form = 0" }, "lowest" },
+	{ "Mark of the Wild", { "!player.buffs.stats", "lowest.distance <= 30" }, "lowest" },
 
 	-- REZ
 	{ "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
