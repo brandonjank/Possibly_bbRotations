@@ -47,8 +47,8 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	} },
 
 	-- RANGED PULLS
-	--{ "Faerie Fire", { "target.exists", target.distance > 5" } }, -- "player.glyph(114237)" -- Glyph of Fae Silence (114237)
-	--{ "Faerie Fire", { "toggle.mouseovers", "mouseover.alive", "mouseover.enemy", "mouseover.distance > 5" }, "mouseover" },
+	{ "Faerie Fire", { "target.exists", "target.distance > 5" } },
+	{ "Faerie Fire", { "toggle.mouseovers", "mouseover.alive", "mouseover.enemy", "mouseover.distance > 5" }, "mouseover" },
 
 	-- DEFENSIVE CONSUMABLES
 	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
