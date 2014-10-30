@@ -51,9 +51,9 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	--{ "Faerie Fire", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "!mouseover.dead", "mouseover.distance > 5" }, "mouseover" },
 
 	-- DEFENSIVE CONSUMABLES
-	--{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
-	--{ "#5512", { "toggle.consume", "player.health < 40" } }, -- Healthstone (5512)
-	--{ "#76097", { "toggle.consume", "player.health < 20", "target.boss" } }, -- Master Healing Potion (76097)
+	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
+	{ "#5512", { "toggle.consume", "player.health < 40" } }, -- Healthstone (5512)
+	{ "#76097", { "toggle.consume", "player.health < 20", "target.boss" } }, -- Master Healing Potion (76097)
 
 	-- DEFENSIVE COOLDOWNS
 	{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
@@ -104,8 +104,8 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "pause", { "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
 
 	-- AUTO FORM
-	{ "Travel Form", { "!target.enemy", "!player.form = 4", (function() return not IsIndoors() end) } },
-	{ "Cat Form", { "!player.form = 3", "!player.form = 4" } },
+	{ "Travel Form", { "!player.form = 4", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
+	{ "Cat Form", { "!player.form = 3", "!player.form = 4", "player.moving", "!target.enemy" } },
 
 },
 -- TOGGLE BUTTONS
