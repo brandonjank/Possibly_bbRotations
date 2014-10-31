@@ -21,13 +21,12 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "pause", "modifier.lalt" },
   { "pause", "player.buff(Food)" },
   --{ "pause", "player.seal = 1" }, -- Bear Form
-  --{ "pause", "player.seal = 3" }, -- Cat Form
+  --{ "pause", "player.seal = 2" }, -- Cat Form
 
   { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last" } },
 
   -- BATTLE REZ
   { "Rebirth", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
-  --{ "Rebirth", { "mouseover.exists", "mouseover.dead", "!player.moving", "@bbLib.isPlayer('mouseover')" }, "mouseover" },
 
   -- DISPELLS
   { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Aqua Bomb)" }, "mouseover" }, -- Proving Grounds
@@ -99,7 +98,6 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
 
   -- REZ
   { "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
-  { "Revive", { "mouseover.exists", "mouseover.dead", "!player.moving", "mouseover.player" }, "mouseover" },
 
   -- HEAL
   { "Lifebloom", { "focus.exists", "focus.alive", "!focus.buff(Lifebloom)" }, "focus" },
@@ -107,12 +105,12 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Regrowth", { "lowest.health < 99", "!lowest.buff(Regrowth)" }, "lowest" },
 
   -- PAUSE FORM
-  --{ "/cancelform", { "target.exists", (function() return not UnitCanAttack("player", "target") and GetShapeshiftForm() == 0 end), "target.range < 1", "@bbLib.isCreature('target')" } },
+  { "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
   { "pause", { "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
 
   -- AUTO FORM
-  { "Travel Form", { "!player.buff(Travel Form)", (function() return not IsIndoors() end) } },
-  { "Cat Form", { "!player.buff(Cat Form)", "!player.buff(Travel Form)" } },
+  { "Travel Form", { "!player.buff(Travel Form)", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
+  { "Cat Form", { "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
 
   -- AUTO FOLLOW
   { "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "!focus.range < 3", "focus.range < 20" } }, -- TODO: NYI: isFollowing()

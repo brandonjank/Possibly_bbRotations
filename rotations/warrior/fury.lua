@@ -34,7 +34,7 @@ PossiblyEngine.rotation.register_custom(72, "bbWarrior Fury", {
 	{ "Pummel", "modifier.interrupt" },
 
 	-- RANGED ROTATION
-	{ "Charge", { "target.range > 8", "target.range < 25"  } },
+	--{ "Charge", { "target.range > 8", "target.range < 25"  } },
 	-- Heroic Leap
 	{ "Heroic Throw", "target.range > 10" },
 
@@ -98,8 +98,11 @@ PossiblyEngine.rotation.register_custom(72, "bbWarrior Fury", {
 	{ "pause", "modifier.lcontrol" },
 
 	-- BUFFS
-	-- Battle Shout - Attack Power (priority)
-	-- Commanding Shout - Stamina
+	{ "Battle Shout", { "!player.buffs.attackpower", "lowest.distance <= 30" }, "lowest" },
+	{ "Commanding Shout", { "!player.buffs.attackpower", "!player.buffs.stamina", "lowest.distance <= 30" }, "lowest" },
+
+	-- PRE COMBAT
+	{ "#76095", { "toggle.consume", "target.exists", "target.boss", "@bbLib.pullingIn(3)" } }, -- Strength Potion (76095) Potion of Mogu Power
 
 	-- FROGGING
 	{ {

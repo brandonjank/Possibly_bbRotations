@@ -22,6 +22,19 @@ bbLib = {}
 
 --timeout(name, duration) -- Used to add a rate limit or stop double casting.
 
+function bbLib.pullingIn(seconds)
+	-- DBM Options -> Global and Spam Filters -> un-check "Do not show Pull/Break Timer bar"
+	if DBM.Bars.numBars and DBM.Bars.numBars > 0 then
+		for bar in pairs(DBM.Bars.bars) do
+			if bar.id == "Pull in" and bar.timer < seconds then
+				-- print("Found pull bar! ID: "..bar.id.."  Time Left: "..bar.timer.."  Total Time: "..bar.totalTime)
+				return true
+			end
+		end
+	end
+	return false
+end
+
 function bbLib.NeedHealsAroundUnit(unit, count, distance, threshold)
 	if unit and unit == 'lowest' then unit = PossiblyEngine.raid.lowestHP() end
 	if unit and UnitExists(unit) then
