@@ -3,8 +3,8 @@
 -- Updated on Oct 25th 2013
 
 -- PLAYER CONTROLLED:
--- SUGGESTED TALENTS:
--- SUGGESTED GLYPHS:
+-- SUGGESTED TALENTS: Pursuit of Justice, Fist of Justice, Sacred Shield, Unbreakable Spirit, Sanctified Wrath, Execution Sentence
+-- SUGGESTED GLYPHS: Glyph of Judgment, Glyph of Templar's Verdict, Glyph of Divine Storm
 -- CONTROLS: Pause - Left Control
 
 PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {

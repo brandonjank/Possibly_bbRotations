@@ -82,6 +82,16 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 		"toggle.mouseovers", "player.health > 50",
 	}},
 
+	-- RANGED ROTATION
+	{{
+		{ "Judgment" },
+		{ "Avenger's Shield" },
+		{ "Light's Hammer", "talent(6, 2)", "target.ground" },
+		{ "Execution Sentence", { "talent(6, 3)", "player.health > 70" }, "target" },
+	}, {
+		"target.exists", "target.range > 5",
+	}},
+
 	-- DPS ROTATION
 	{ "Avenger's Shield", { "player.buff(Grand Crusader)", "target.area(10).enemies > 2" } },
 	{ "Hammer of the Righteous", "target.area(10).enemies > 2" },
@@ -121,7 +131,7 @@ PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 		{ "Blessing of Kings", { "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
 		{ "Avenger's Shield", true, "target" },
 		{ "Judgment", true, "target" },
-		{ "Reckoning", true, "target" },
+		{ "Reckoning", "!target.agro", "target" },
 	},{
 		"toggle.frogs"
 	} },
