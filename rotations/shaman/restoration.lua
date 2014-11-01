@@ -31,16 +31,16 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	--{ "Lifeblood", { "modifier.cooldowns", "player.spell(Lifeblood).cooldown < 1" }, "player" },
 
 	-- PvP
-	{ "Wind Walk Totem", "player.state.root" },
-	{ "Wind Walk Totem", "player.state.snare" },
-	{ "Tremor Totem", "player.state.fear" },
-	{ "Tremor Totem", "player.state.charm" },
-	{ "Tremor Totem", "player.state.sleep" },
 	{ "Call of the Elements", { "player.state.root", "player.spell(Wind Walk Totem).cooldown > 1", "talent(3, 1)" } },
 	{ "Call of the Elements", { "player.state.snare", "player.spell(Wind Walk Totem).cooldown > 1", "talent(3, 1)" } },
 	{ "Call of the Elements", { "player.state.fear", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	{ "Call of the Elements", { "player.state.charm", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
 	{ "Call of the Elements", { "player.state.sleep", "player.spell(Tremor Totem).cooldown > 1", "talent(3, 1)" } },
+	{ "Wind Walk Totem", "player.state.root" },
+	{ "Wind Walk Totem", "player.state.snare" },
+	{ "Tremor Totem", "player.state.fear" },
+	{ "Tremor Totem", "player.state.charm" },
+	{ "Tremor Totem", "player.state.sleep" },
 
 	-- Healing Rain Mouseover
 	{ "Healing Rain", "modifier.lshift", "ground" },

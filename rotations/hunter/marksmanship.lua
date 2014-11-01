@@ -37,9 +37,9 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- TRAPS
 	{ {
 		{ "Trap Launcher", "!player.buff(Trap Launcher)" },
-		{ "Explosive Trap", true, "mouseover.ground" },
-		{ "Ice Trap", true, "mouseover.ground" },
-		{ "Freezing Trap", true, "mouseover.ground" },
+		{ "Explosive Trap", true, "ground" },
+		{ "Ice Trap", true, "ground" },
+		{ "Freezing Trap", true, "ground" },
 	},{
 		"modifier.lalt",
 	} },
@@ -105,15 +105,15 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero", "!player.buff(Rapid Fire)" } },
 
 	-- DPS ROTATION -- Always want a minimum of 35 focus
-	{ "Aspect of the Fox", { "target.enemy", "target.health > 1", "player.movingfor > 3", "player.buff(Sniper Training)" } },
+	{ "Aspect of the Fox", { "target.enemy", "target.health > 1", "player.movingfor > 2", "player.buff(Sniper Training)" } },
 	{ "A Murder of Crows" }, --, "talent(5, 1)"
 	{ "Chimaera Shot" },
 	{ "Kill Shot", "target.health <= 20" },
 	{ "Aimed Shot", "player.buff(Thrill of the Hunt)" },
 	{ "Glaive Toss", { "talent(6, 1)", "target.health < 80", "!player.buff(Rapid Fire)" } },
 	{ "Glaive Toss", { "talent(6, 1)", "timeout(Glaive Toss, 10)", "target.area(10).enemies > 3" } },
-	{ "Barrage", { "talent(6, 3)", "target.health < 80", "!player.buff(Rapid Fire)" } }, --  you can change where Barrage is directed by turning your character while channelling the spell. This allows you to hit more targets than those you were initially facing.
-	{ "Barrage", { "talent(6, 3)", "timeout(Barrage, 10)", "target.area(10).enemies > 3" } },
+	--{ "Barrage", { "talent(6, 3)", "target.health < 80", "!player.buff(Rapid Fire)" } }, --  you can change where Barrage is directed by turning your character while channelling the spell. This allows you to hit more targets than those you were initially facing.
+	--{ "Barrage", { "talent(6, 3)", "timeout(Barrage, 10)", "target.area(10).enemies > 3" } },
 	{ "Explosive Trap", { "!target.moving", "timeout(Explosive Trap, 10)", "target.area(10).enemies > 3" }, "target.ground" },
 	{ {
 		{ "Multi-Shot", "player.focus > 75" },
@@ -160,9 +160,9 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- Traps
 	{ {
 		{ "Trap Launcher", "!player.buff(Trap Launcher)" },
-		{ "Explosive Trap", true, "mouseover.ground" },
-		{ "Ice Trap", true, "mouseover.ground" },
-		{ "Freezing Trap", true, "mouseover.ground" },
+		{ "Explosive Trap", true, "ground" },
+		{ "Ice Trap", true, "ground" },
+		{ "Freezing Trap", true, "ground" },
 	},{
 		"modifier.lalt",
 	} },
