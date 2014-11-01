@@ -81,12 +81,12 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Riptide", { "boss2target.exists", "boss2target.friend", "!boss2target.buff(Riptide)" }, "boss2target" },
 	{ "Riptide", { "boss3target.exists", "boss3target.friend", "!boss3target.buff(Riptide)" }, "boss3target" },
 	{ "Riptide", { "boss4target.exists", "boss4target.friend", "!boss4target.buff(Riptide)" }, "boss4target" },
-	{ "Riptide", { "lowest.health < 100", "!lowest.buff(Riptide)" }, "lowest" },
-	{ "Riptide", "!target.buff(Riptide)", "target" },
+	{ "Riptide", { "target.health < 100", "target.friend", "!target.buff(Riptide)" }, "target" },
 	{ "Riptide", { "mouseover.exists", "!mouseover.buff(Riptide)" }, "mouseover" },
+	{ "Riptide", { "lowest.health < 100", "!lowest.buff(Riptide)" }, "lowest" },
 
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.
-
+	{ "Healing Rain", { "lowest.health <= 90", "@bbLib.NeedHealsAroundUnit" }, "lowest.ground" },
 
 	--Cast Chain Heal on  Riptided targets for additional AoE healing.
 	{ "Chain Heal", { "lowest.health <= 90", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
