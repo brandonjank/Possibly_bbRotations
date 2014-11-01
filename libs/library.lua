@@ -24,6 +24,7 @@ bbLib = {}
 
 function bbLib.prePot()
 	-- DBM Options -> Global and Spam Filters -> un-check "Do not show Pull/Break Timer bar"
+	-- /script if DBM.Bars.numBars and DBM.Bars.numBars > 0 then for bar in pairs(DBM.Bars.bars) do if bar.id == "Pull in" and bar.timer < 3 then print("Found pull bar! ID: "..bar.id.."  Time Left: "..bar.timer.."  Total Time: "..bar.totalTime) end end end
 	if DBM.Bars.numBars and DBM.Bars.numBars > 0 then
 		for bar in pairs(DBM.Bars.bars) do
 			if bar.id == "Pull in" and bar.timer < 3 then
@@ -36,16 +37,16 @@ function bbLib.prePot()
 end
 
 function bbLib.NeedHealsAroundUnit(unit, count, distance, threshold)
-	if unit and unit == 'lowest' then unit = PossiblyEngine.raid.lowestHP() end
-	if unit and UnitExists(unit) then
+	if not unit or ( unit and unit == 'lowest' ) then unit = PossiblyEngine.raid.lowestHP() end
+	if UnitExists(unit) then
 		if not count then count = 2 end
 		if not distance then distance = 15 end
-		if not threshold then threshold = 80 end
+		if not threshold then threshold = 90 end
 		local total = 0
-		local totalObjects = ObjectCount()
+		local totalObjects = ObjectCount() or 0
 		for i = 1, totalObjects do
 			local object = ObjectWithIndex(i)
-			if bit.band(ObjectType(object), ObjectTypes.Player) > 0 then
+			if ObjectExists(object) and ObjectIsType(object, ObjectTypes.Player) then
 				if UnitCanAssist("player", unit) and UnitIsFriend("player", unit)
 				 	and UnitIsConnected(unit) and not UnitIsDeadOrGhost(unit)
 					and not UnitUsingVehicle(unit) and UnitInParty(unit) then
@@ -57,7 +58,7 @@ function bbLib.NeedHealsAroundUnit(unit, count, distance, threshold)
 				end
 			end
 		end
-		if count >= total then
+		if total >= count then
 			return true
 		end
 	end

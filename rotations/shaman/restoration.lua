@@ -80,7 +80,8 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Riptide", { "boss1target.exists", "boss1target.friend", "!boss1target.buff(Riptide)" }, "boss1target" },
 	{ "Riptide", { "boss2target.exists", "boss2target.friend", "!boss2target.buff(Riptide)" }, "boss2target" },
 	{ "Riptide", { "boss3target.exists", "boss3target.friend", "!boss3target.buff(Riptide)" }, "boss3target" },
-	{ "Riptide", "!lowest.buff(Riptide)", "lowest" }, --, "lowest.health < 100"
+	{ "Riptide", { "boss4target.exists", "boss4target.friend", "!boss4target.buff(Riptide)" }, "boss4target" },
+	{ "Riptide", { "lowest.health < 100", "!lowest.buff(Riptide)" }, "lowest" },
 	{ "Riptide", "!target.buff(Riptide)", "target" },
 	{ "Riptide", { "mouseover.exists", "!mouseover.buff(Riptide)" }, "mouseover" },
 

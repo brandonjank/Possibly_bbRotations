@@ -78,7 +78,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ {
 		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100" }, "focus" },
 		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
-		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "pet" },
+		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "target" },
 	},{
 		"!toggle.pvpmode", "!player.buff(Misdirection)", "target.threat > 30",
 	} },
