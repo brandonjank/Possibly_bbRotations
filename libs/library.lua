@@ -30,6 +30,7 @@ function bbLib.prePot()
 			if bar.id == "Pull in" and bar.timer < 3 then
 				-- print("Found pull bar! ID: "..bar.id.."  Time Left: "..bar.timer.."  Total Time: "..bar.totalTime)
 				return true
+				-- TODO: force usage of pot because pe is dumb. based on class
 			end
 		end
 	end
@@ -37,7 +38,9 @@ function bbLib.prePot()
 end
 
 function bbLib.NeedHealsAroundUnit(unit, count, distance, threshold)
-	if not unit or ( unit and unit == 'lowest' ) then unit = PossiblyEngine.raid.lowestHP() end
+	if not unit or ( unit and unit == 'lowest' ) then
+		unit = PossiblyEngine.raid.lowestHP()
+	end
 	if UnitExists(unit) then
 		if not count then count = 2 end
 		if not distance then distance = 15 end
@@ -46,20 +49,13 @@ function bbLib.NeedHealsAroundUnit(unit, count, distance, threshold)
 		local totalObjects = ObjectCount() or 0
 		for i = 1, totalObjects do
 			local object = ObjectWithIndex(i)
-			if ObjectExists(object) and ObjectIsType(object, ObjectTypes.Player) then
-				if UnitCanAssist("player", unit) and UnitIsFriend("player", unit)
-				 	and UnitIsConnected(unit) and not UnitIsDeadOrGhost(unit)
-					and not UnitUsingVehicle(unit) and UnitInParty(unit) then
-					if ((UnitHealth(unit) / UnitHealthMax(unit)) * 100) <= threshold then
-						if Distance(object, unit) <= distance then
-								total = total + 1
-						end
-					end
-				end
+			if ObjectExists(object) and ObjectIsType(object, ObjectTypes.Player)
+				and UnitCanAssist("player", object)
+				and ((UnitHealth(object) / UnitHealthMax(object)) * 100) <= threshold
+				and Distance(object, unit) <= distance then
+					total = total + 1
 			end
-		end
-		if total >= count then
-			return true
+			if total >= count then return true end
 		end
 	end
 	return false
@@ -136,11 +132,11 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 		local objectCount = 0
 		for i = 1, totalObjects do
 			local object = ObjectWithIndex(i)
-			if object then
+			if ObjectExists(object) and ObjectIsType(object, ObjectTypes.Unit) and not ObjectIsType(object, ObjectTypes.Corpse) then
 				local objectName = ObjectName(object) or 0
 				if objectName == unitName then
 					-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
-					if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) then
+					if UnitExists(object) and UnitIsVisible(object) then
 						if not UnitIsTapped(object) or UnitIsTappedByPlayer(object) or ( UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1 ) then
 							local objectDistance = Distance("player", object)
 							if objectDistance <= searchRange and objectDistance < closestUnitDistance and LineOfSight("player", object) then
