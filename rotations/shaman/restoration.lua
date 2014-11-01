@@ -89,22 +89,23 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 
 
 	--Cast Chain Heal on  Riptided targets for additional AoE healing.
-	{ "Chain Heal", { "lowest.buff(Riptide)", "@coreHealing.needsHealing(80, 3)" }, "lowest" },
+	{ "Chain Heal", { "lowest.health <= 90", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
+	{ "Chain Heal", { "lowest.health <= 80", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
 
 	--Spend Tidal Waves procs on Healing Surges for tank healing.
 	{ "Healing Surge", { "focus.health < 95", "player.buff(Tidal Waves)" }, "focus" },
 	{ "Healing Surge", { "tank.health < 95", "player.buff(Tidal Waves)" }, "tank" },
 
 	-- Quick Healing Surge
-	{ "Healing Surge", "lowest.health < 65", "lowest" }, -- only if you feel that the target will die before you have a chance to complete a Greater Healing Wave
+	{ "Healing Surge", "lowest.health < 70", "lowest" }, -- only if you feel that the target will die before you have a chance to complete a Greater Healing Wave
 
 	-- Interrupt
 	--{ "Quaking Palm", "modifier.interrupts" }, -- Pandaren Racial
 	{ "Wind Shear", "modifier.interrupt" },
 
 	--Cast  Healing Wave on injured targets during periods of low damage.
-	{ "Healing Wave", { "focus.health < 80" }, "focus" },
-	{ "Healing Wave", { "tank.health < 80" }, "tank" },
+	{ "Healing Wave", { "focus.health < 100" }, "focus" },
+	{ "Healing Wave", { "tank.health < 100" }, "tank" },
 	{ "Healing Wave", { "lowest.health < 100" }, "lowest" },
 
 	-- Dispel Self
