@@ -168,7 +168,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	} },
 
 	-- PRE COMBAT
-	{ "#76089", { "toggle.consume", "target.exists", "target.boss", "@bbLib.pullingIn(3)" } }, -- Agility Potion (76089) Virmen's Bite
+	{ "#76089", { "toggle.consume", "target.exists", "target.boss", "@bbLib.prePot" } }, -- Agility Potion (76089) Virmen's Bite
 
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },

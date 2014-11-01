@@ -75,11 +75,14 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Unleash Life", "lowest.health < 65" },
 
 	--Keep Riptide on 3 players at all times.
-	{ "Riptide", { "focus.exists", "focus.alive", "!focus.buff(Riptide)" }, "focus" },
-	{ "Riptide", { "tank.exists", "tank.alive", "!tank.buff(Riptide)" }, "tank" },
+	{ "Riptide", { "focus.exists", "focus.friend", "!focus.buff(Riptide)" }, "focus" },
+	{ "Riptide", { "tank.exists", "tank.friend", "!tank.buff(Riptide)" }, "tank" },
+	{ "Riptide", { "boss1target.exists", "boss1target.friend", "!boss1target.buff(Riptide)" }, "boss1target" },
+	{ "Riptide", { "boss2target.exists", "boss2target.friend", "!boss2target.buff(Riptide)" }, "boss2target" },
+	{ "Riptide", { "boss3target.exists", "boss3target.friend", "!boss3target.buff(Riptide)" }, "boss3target" },
 	{ "Riptide", "!lowest.buff(Riptide)", "lowest" }, --, "lowest.health < 100"
 	{ "Riptide", "!target.buff(Riptide)", "target" },
-	{ "Riptide", "!mouseover.buff(Riptide)", "mouseover" },
+	{ "Riptide", { "mouseover.exists", "!mouseover.buff(Riptide)" }, "mouseover" },
 
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.
 

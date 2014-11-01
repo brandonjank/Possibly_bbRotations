@@ -195,6 +195,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Ice Trap", "modifier.lalt", "mouseover.ground" },
 	{ "Freezing Trap", "modifier.ralt", "mouseover.ground" },
 
+	-- PRE COMBAT
+	{ "#76089", { "toggle.consume", "target.exists", "target.boss", "@bbLib.prePot" } }, -- Agility Potion (76089) Virmen's Bite
+
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
 		{ "!Auto Shot", { "target.exists", "target.health > 1" } },
