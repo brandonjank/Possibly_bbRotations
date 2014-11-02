@@ -161,7 +161,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Black Arrow", "target.deathin > 19" },
 	{ "A Murder of Crows", "talent(5, 1)" },
 	{ "Glaive Toss", "talent(6, 1)" },
-	--{ "Barrage", "talent(6, 3)" },
+	{ "Barrage", "talent(6, 3)" },
 	{ "Dire Beast", "talent(4, 2)" },
 	--{ "Stampede", { "modifier.cooldowns", "pet.exists", "player.hashero", "talent(5, 3)" } },
 	{ "Explosive Trap", { "target.enemy", "!target.moving", "timeout(Explosive Trap, 10)", "target.area(12).enemies > 1" }, "target.ground" },

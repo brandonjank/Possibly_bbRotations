@@ -72,7 +72,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Master's Call", "player.state.root" },
 	{ "Master's Call", "player.state.snare" },
 	-- TODO: Proactive Deterrence
-	{ "Deterrence", "player.health < 20" },
+	--{ "Deterrence", "player.health < 20" },
 
 	-- MISDIRECTION ( focus -> tank -> pet )
 	{ {
@@ -112,8 +112,8 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Aimed Shot", "player.buff(Thrill of the Hunt)" },
 	{ "Glaive Toss", { "talent(6, 1)", "target.health < 80", "!player.buff(Rapid Fire)" } },
 	{ "Glaive Toss", { "talent(6, 1)", "timeout(Glaive Toss, 10)", "target.area(10).enemies > 3" } },
-	--{ "Barrage", { "talent(6, 3)", "target.health < 80", "!player.buff(Rapid Fire)" } }, --  you can change where Barrage is directed by turning your character while channelling the spell. This allows you to hit more targets than those you were initially facing.
-	--{ "Barrage", { "talent(6, 3)", "timeout(Barrage, 10)", "target.area(10).enemies > 3" } },
+	{ "Barrage", { "talent(6, 3)", "target.health < 80", "!player.buff(Rapid Fire)" } }, --  you can change where Barrage is directed by turning your character while channelling the spell. This allows you to hit more targets than those you were initially facing.
+	{ "Barrage", { "talent(6, 3)", "timeout(Barrage, 10)", "target.area(10).enemies > 3" } },
 	{ "Explosive Trap", { "!target.moving", "timeout(Explosive Trap, 10)", "target.area(10).enemies > 3" }, "target.ground" },
 	{ {
 		{ "Multi-Shot", "player.focus > 75" },

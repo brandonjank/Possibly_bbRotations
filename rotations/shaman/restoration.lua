@@ -20,10 +20,9 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 -- COMBAT
 	-- Rotation Utilities
 	{ "pause", "modifier.lcontrol" },
-	--{ "pause", "@bbLib.bossMods" },
-	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
-	--{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
-	--{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
+
+	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
+	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 
 	-- Racials
 	--{ "Stoneform", "player.health <= 65" },
@@ -53,9 +52,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 
 	-- Cooldowns
 	--{ "Elemental Mastery", { "modifier.cooldowns", "focustarget.boss", "talent(4, 1)" } }, -- T4
-	--{ "#gloves", { "modifier.cooldowns", "player.totem(Healing Tide Totem)" } },
-	--{ "#gloves", { "modifier.cooldowns", "player.totem(Spirit Link Totem)" } },
-	--{ "#gloves", { "modifier.cooldowns", "player.buff(Ascendance)" } },
 	{ "Spirit Walker's Grace", { "modifier.cooldowns", "player.buff(Ascendance)", "player.movingfor > 1" } },
 
 
@@ -86,11 +82,11 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Riptide", { "lowest.health < 100", "!lowest.buff(Riptide)" }, "lowest" },
 
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.
-	{ "Healing Rain", { "lowest.health <= 90", "@bbLib.NeedHealsAroundUnit" }, "lowest.ground" },
+	{ "Healing Rain", { "lowest.health <= 90", "!lowest.moving", "@bbLib.NeedHealsAroundUnit" }, "lowest.ground" }, -- lowest.ground is not working
 
 	--Cast Chain Heal on  Riptided targets for additional AoE healing.
-	{ "Chain Heal", { "lowest.health <= 90", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
-	{ "Chain Heal", { "lowest.health <= 80", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
+	{ "Chain Heal", { "!modifier.last", "lowest.health <= 90", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
+	{ "Chain Heal", { "!modifier.last", "lowest.health <= 80", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
 
 	--Spend Tidal Waves procs on Healing Surges for tank healing.
 	{ "Healing Surge", { "focus.health < 95", "player.buff(Tidal Waves)" }, "focus" },
