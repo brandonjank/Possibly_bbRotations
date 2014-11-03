@@ -91,13 +91,13 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	--"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
 
 	-- Misdirect ( focus -> tank -> pet )
-	{ {
-		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
-		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
-		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "target" },
-	},{
-		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
-	} },
+	--{ {
+	--	{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
+	--	{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
+	--	{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "target" },
+	--},{
+	--	"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
+	--} },
 
 	-- Stances
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed

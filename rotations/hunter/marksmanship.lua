@@ -75,13 +75,13 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	--{ "Deterrence", "player.health < 20" },
 
 	-- MISDIRECTION ( focus -> tank -> pet )
-	{ {
-		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100" }, "focus" },
-		{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
-		{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "target" },
-	},{
-		"!toggle.pvpmode", "!player.buff(Misdirection)", "target.threat > 30",
-	} },
+	--{ {
+	--	{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100" }, "focus" },
+	--	{ "Misdirection", { "tank.exists", "tank.alive", "!focus.exists", "tank.distance < 100" }, "tank" },
+	--	{ "Misdirection", { "pet.exists", "pet.alive", "!focus.exists", "!tank.exists", "pet.distance < 100" }, "target" },
+	--},{
+	--	"!toggle.pvpmode", "!player.buff(Misdirection)", "target.threat > 30",
+	--} },
 
 	-- Pre-DPS PAUSE
 	{ "pause", "target.debuff(Wyvern Sting).any" },
