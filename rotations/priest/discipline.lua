@@ -2,9 +2,9 @@
 -- Discipline Priest - WoD 6.0.2
 -- Updated on Nov 2nd 2014
 
--- PLAYER CONTROLLED:
+-- PLAYER CONTROLLED (TODO): Leap of Faith, Levitate, Shackle Undead, Mass Dispel, Dispel Magic, Purify, Fear Ward
 -- TALENTS: Desperate Prayer, Body and Soul, Surge of Light, Psychic Scream, Power Infusion, Cascade
--- GLYPHS: Glyph of Penance, Glyph of Weakened Soul, Glyph of Prayer of Mending
+-- GLYPHS: Glyph of Penance, Glyph of Weakened Soul, Glyph of Prayer of Mending or Glyph of Mass Dispel
 -- CONTROLS: Pause - Left Control
 
 -- TODO: Actually use talents, mouseover rez/rebirth, OOC rotation.
@@ -33,10 +33,10 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
 
   -- DEFENSIVE COOLDOWNS
   { "Psychic Scream", { "talent(4, 2)", "player.area(8).enemies > 1" } },
-  { "Fade", "player.area(1).enemies > 1" },
   { "Fade", "player.state.stun" },
   { "Fade", "player.state.root" },
   { "Fade", "player.state.snare" },
+  { "Fade", "player.area(1).enemies > 1" },
 
   -- HEALING COOLDOWNS
   -- Pain Suppression should be used on a tank, before a damage spike. Alternatively, it can be used on a raid member who is targeted by a very damaging ability.
@@ -54,6 +54,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   -- RAID HEALING
   -- Prayer of Healing is your go-to AoE heal. To make optimal use of it, the members of your target's party must be significantly damaged.
   -- Holy Nova is another AoE heal that does a surprisingly good amount of healing. As an added bonus, this can be cast while moving.
+  { "Holy Nova", { "!modifer.last", "@bbLib.NeedHealsAroundUnit('player', 3, 12, 90)" } }
 
   -- SURGE OF LIGHT
   { "Flash Heal", { "lowest.exists", "lowest.health < 90", "player.buff(Surge of Light)" }, "lowest" },

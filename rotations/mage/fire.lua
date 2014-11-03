@@ -42,7 +42,7 @@ PossiblyEngine.rotation.register_custom(63, "bbFireMage", {
 
 	-- Pre DPS Cooldowns
 	{ "#36799", { "@bbLib.useManaGem", "player.mana < 70" } }, -- Mana Gem
-	{ "Dragon's Breath", { "target.enemy", "target.range <= 5" } }, 
+	{ "Dragon's Breath", { "target.enemy", "target.range <= 5" } },
 
 	--  DPS Rotation
 	{ "Time Warp", { "modifier.cooldowns", "target.boss", "target.health < 25", "player.time > 5" } },
@@ -75,12 +75,55 @@ PossiblyEngine.rotation.register_custom(63, "bbFireMage", {
 	{ "Scorch", "player.moving" },
 	{ "Fireball", "!player.moving" },
 
+	-- PRE COMBAT
+	-- flask,type=warm_sun
+  -- food,type=mogu_fish_stew
+  -- arcane_brilliance
+  -- snapshot_stats
+  -- rune_of_power
+  -- mirror_image
+  -- potion,name=jade_serpent
+  -- pyroblast
+
+	-- COMBUST_SEQUENCE
+	-- stop_pyro_chain,if=cooldown.combustion.duration-cooldown.combustion.remains<15
+	-- prismatic_crystal
+	-- blood_fury
+	-- berserking
+	-- arcane_torrent
+	-- potion,name=jade_serpent
+	-- meteor
+	-- pyroblast,if=set_bonus.tier17_4pc&buff.pyromaniac.up
+	-- inferno_blast,if=set_bonus.tier16_4pc_caster&(buff.pyroblast.up^buff.heating_up.up)
+	-- fireball,if=!dot.ignite.ticking&!in_flight
+	-- pyroblast,if=buff.pyroblast.up
+	-- inferno_blast,if=talent.meteor.enabled&cooldown.meteor.duration-cooldown.meteor.remains<gcd.max*3
+  -- combustion
+
+	-- INIT_COMBUST
+	-- start_pyro_chain,if=talent.meteor.enabled&cooldown.meteor.up&((cooldown.combustion.remains<gcd.max*3&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight))|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
+	-- start_pyro_chain,if=talent.prismatic_crystal.enabled&cooldown.prismatic_crystal.up&((cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight))|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
+	-- start_pyro_chain,if=talent.prismatic_crystal.enabled&!glyph.combustion.enabled&cooldown.prismatic_crystal.remains>20&((cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight)|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
+	-- start_pyro_chain,if=!talent.prismatic_crystal.enabled&!talent.meteor.enabled&((cooldown.combustion.remains<gcd.max*4&buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight)|(buff.pyromaniac.up&cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*(gcd.max+talent.kindling.enabled)))
+
+	-- SINGLE_TARGET
+	-- inferno_blast,if=(dot.combustion.ticking&active_dot.combustion<active_enemies)|(dot.living_bomb.ticking&active_dot.living_bomb<active_enemies)
+	-- pyroblast,if=buff.pyroblast.up&buff.pyroblast.remains<action.fireball.execute_time
+	-- pyroblast,if=set_bonus.tier16_2pc_caster&buff.pyroblast.up&buff.potent_flames.up&buff.potent_flames.remains<gcd.max
+	-- pyroblast,if=set_bonus.tier17_4pc&buff.pyromaniac.react
+	-- pyroblast,if=buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight
+	-- inferno_blast,if=buff.pyroblast.down&buff.heating_up.up
+	-- call_action_list,name=active_talents
+	-- inferno_blast,if=buff.pyroblast.up&buff.heating_up.down&!action.fireball.in_flight
+	-- fireball
+	-- scorch,moving=1
+
 },{
 	-- OUT OF COMBAT
 	{ "Arcane Brilliance", "!player.buff" },
 	{ "Molten Armor", "!player.buff" },
 	{ "Conjure Mana Gem", { "!player.moving", "@bbLib.conjureManaGem" } },
-	
+
 	-- TODO: Opener Toggle
 	-- flask,type=warm_sun
 	-- food,type=mogu_fish_stew
