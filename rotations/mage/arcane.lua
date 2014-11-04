@@ -3,8 +3,8 @@
 -- Updated on Nov 3rd 2014
 
 -- PLAYER CONTROLLED:
--- TALENTS:
--- GLYPHS:
+-- TALENTS: Ice Floes, Alter Time, Frostjaw, Cauterize, Nether Tempest, Rune of Power
+-- GLYPHS: Glyph of Arcane Power, Glyph of Arcane Explosion, Glyph of Cone of Cold, Minor: Glyph of Momentum
 -- CONTROLS: Pause - Left Control
 
 PossiblyEngine.rotation.register_custom(62, "bbMage Arcane", {
@@ -24,6 +24,7 @@ PossiblyEngine.rotation.register_custom(62, "bbMage Arcane", {
 
 	-- Interrupts
 	{ "Counterspell", "modifier.interrupt" },
+	{ "Frostjaw", { "talent(3, 3)", "modifier.interrupts" } },
 	-- TODO: Spellsteal
 
 	-- Decurse

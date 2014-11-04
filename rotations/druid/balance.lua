@@ -65,22 +65,19 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- Force of Nature (talent): Summons a pet that DPSes for 15 seconds. This is on the charge system, so it's okay to let 1 or 2 charges pool up at any time. You can slightly add to their damage by trying to dump charges while procs or temporary buffs are up.
 
 	-- DPS ROTATION
-	{ "Moonfire", { "player.balance.moon", "!target.debuff(Moonfire)", "!modifier.last" } }, -- Cast at lunar peak when buff is active. Multi-Target: Moonfire may not be worth it on very short-lived targets.
-	{ "Moonfire", { "player.balance.moon", "player.buff(Lunar Peak)", "!modifier.last" } },
-	-- Sunfire: TODO: Cast right as Solar phase begins
-	{ "Sunfire", { "player.balance.sun", "player.buff(Solar Peak)", "!modifier.last" } },
-	{ "Starfall", { "player.buff(Starsurge).count > 1", "target.area(40).enemies > 2" } }, -- TODO: favor spending during Lunar Eclipse when possible
-	{ "Starsurge", { "player.buff(Lunar Empowerment).count < 1", "player.buff(Solar Empowerment).count < 2", "player.buff(Shooting Stars)" } },
-	{ "Starsurge", { "player.buff(Lunar Empowerment).count < 1", "player.buff(Solar Empowerment).count < 2", "target.area(40).enemies < 3" } },
-	-- At 0 or 1 charge, plan to  Starsurge shortly before your next Lunar or Solar peak.
-	-- Stellar Flare (T7) cast it every time you cross the midpoint between Lunar and Solar.
-	-- Astral Communion. Good to use while moving (with  Glyph of Astral Communion), to skip to the next peak, getting a little use out of your movement time. You can also use it to set up a peak for key moment of burst DPS, but you'd generally rather have Celestial Alignment for this if possible.
+	{ "Starsurge", { "!player.buff(Lunar Empowerment)", (function() return UnitPower("player", 8) > 20 end) } },
+	{ "Starsurge", { "!player.buff(Solar Empowerment)", (function() return UnitPower("player", 8) > 20 end) } },
+	{ "Starsurge", "player.buff(Solar Empowerment).count > 2" },
+	{ "Starsurge", "player.buff(Shooting Stars)" },
+	{ "Sunfire", "player.buff(Solar Peak)" },
+	{ "Sunfire", "!target.debuff(Sunfire)" },
+	{ "Moonfire", "player.buff(Lunar Peak)" },
+	{ "Moonfire", "!target.debuff(Moonfire)" },
+	{ "Starfall", { "player.buff(Starsurge).count > 1", "target.area(40).enemies > 2" } },
 	{ "Astral Storm", { "player.balance.moon", "target.area(35).enemies > 4" }, "target.ground" },
 	{ "Hurricane", { "player.balance.sun", "target.area(35).enemies > 4" }, "target.ground" },
-	{ "Starfire", { "player.balance.moon", "target.area(35).enemies < 5" } },
 	{ "Wrath", { "player.balance.sun", "target.area(35).enemies < 5" } },
-
-	-- "Lunar Peak" "Solar Peak" Buff (2)
+	{ "Starfire", { "player.balance.moon", "target.area(35).enemies < 5" } },
 
 },
 {
