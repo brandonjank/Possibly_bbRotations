@@ -84,7 +84,7 @@ PossiblyEngine.rotation.register_custom(269, "bbMonk Windwalker", {
 
 	-- Buffs
 	{ "Legacy of the White Tiger", "!player.buffs.stats" },
-	{ "Legacy of the White Tiger", "!player.buffs.crit" },
+	--{ "Legacy of the White Tiger", "!player.buffs.crit" },
 
 	{ {
 		{ "Legacy of the White Tiger", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
