@@ -7,7 +7,7 @@
 -- GLYPHS: Glyph of Maul, Glyph of Rebirth, Glyph of Fae Silence, Glyph of Grace (minor)
 -- CONTROLS: Pause - Left Control
 
-PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
+PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |cFFFF9966Druid Guardian", {
 -- COMBAT ROTATION
 	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
@@ -28,12 +28,13 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Rebirth", { "target.friend", "target.dead", "!player.form = 1" }, "target" },
 
 	-- BEAR FORM
-	{ "Bear Form", { "!player.form = 1", "target.exists", "target.distance < 5" } },
+	{ "Bear Form", { "!player.form = 1", "target.exists", "target.distance < 15" } },
 
 	-- INTERRUPTS
 	{ "Skull Bash", "modifier.interrupt" },
 	{ "Faerie Fire", { "modifier.interrupt", "player.glyph(114237)" } }, -- Glyph of Fae Silence (114237)
 	{ "Mighty Bash", { "talent(5, 3)", "modifier.interrupt" } },
+	{ "War Stomp", "modifier.interrupt" }, -- Stun -- War Stomp if player is Tauren race if Interrupts is toggled
 
 	-- DREAM PROCS
 	{ {
@@ -56,9 +57,9 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "#76097", { "toggle.consume", "player.health < 20", "target.boss" } }, -- Master Healing Potion (76097)
 
 	-- DEFENSIVE COOLDOWNS
-	{ "Frenzied Regeneration", { "!modifier.last", "target.agro", "!player.buff(Frenzied Regeneration)", "player.health < 60" } },
-	{ "Survival Instincts", { "target.agro", "player.health < 60" } },
-	{ "Savage Defense", { "target.agro", "target.distance < 5", "!player.buff(Savage Defense)", "timeout(Savage Defense, 12)" } },
+	{ "Frenzied Regeneration", { "player.level >= 68", "!modifier.last", "player.health < 60" } },
+	{ "Survival Instincts", { "player.level >= 56", "player.health < 50" } },
+	{ "Savage Defense", { "player.rage >= 60", "target.distance < 5", "!player.buff(Savage Defense)", "player.health <= 80" } }, --"timeout(Savage Defense, 12)"
 	{ "Barkskin", { "player.health < 90", "target.distance < 5" } },
 
 	-- DPS COOLDOWNS
@@ -70,9 +71,11 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Mangle" },
 	{ "Thrash", "!target.debuff(Thrash)" },
 	{ "Thrash", { "target.debuff(Thrash)", "target.debuff(Thrash).remaining <= 1" } },
+	{ "Lacerate", "!target.debuff(Lacerate)" }, 
+	{ "Lacerate", "target.debuff(Lacerate).remaining <= 3" }, 
+	{ "Lacerate", "target.debuff(Lacerate).count < 3" }, 
 	{ "Maul", { "player.rage > 79", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown > 0.5" } },
 	{ "Maul", "player.rage > 94" },
-	{ "Lacerate", { "player.spell(Mangle).cooldown > 0.5", "timeout(Lacerate, 1)", "target.area(8).enemies < 2" } },
 	{ "Thrash", { "player.spell(Mangle).cooldown > 0.5", "timeout(Thrash, 1)", "target.area(8).enemies > 2" } },
 
 },{
