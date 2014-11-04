@@ -16,6 +16,12 @@ PossiblyEngine.rotation.register_custom(269, "bbMonk Windwalker", {
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "target.exists", "target.dead" } },
 
+	{ {
+		{ "Legacy of the White Tiger", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
+	},{
+		"toggle.frogs"
+	} },
+
 	-- Interrupts
 	{ "Spear Hand Strike", "modifier.interrupt" },
 	{ "Leg Sweep", { "talent(4, 3)", "modifier.interrupt", "target.range <= 5" } },
@@ -40,22 +46,22 @@ PossiblyEngine.rotation.register_custom(269, "bbMonk Windwalker", {
 	{ "Touch of Death", "player.buff(Death Note)" },
 
 -- MULTI TARGET 4+
-	{{
+	{ {
 		{ "Rising Sun Kick", "!target.debuff(Rising Sun Kick)" },
 		{ "Rising Sun Kick", "target.debuff(Rising Sun Kick).duration < 3" },
-		{ "Tiger Palm", "!player.buff(Tiger Power)"  },
+		{ "Tiger Palm", "!player.buff(Tiger Power)" },
 		{ "Tiger Palm", "player.buff(Tiger Power).duration <= 2" },
 		{ "Fists of Fury", { "player.buff(Tiger Power).duration > 4", "target.debuff(Rising Sun Kick).duration > 4" } },
 		{ "Spinning Crane Kick", "player.chi < 4" },
 		-- TODO: To effectively use Storm, Earth, and Fire you need to be facing 2-3 targets with an equal DPS priority, expect the targets to live for 10 or more seconds, and be able to remain in range of the targets at all times.
 	},{
-		"player.area(8).enemies > 3",
-	},
+		"player.area(8).enemies > 3"
+	} },
 
 -- SINGLE TARGET
 	-- CHI BUILDERS
-	{ "Expel Harm", { "player.chi < 4", "player.health < 80" },
-	{ "Jab", "player.chi < 4" }
+	{ "Expel Harm", { "player.chi < 4", "player.health < 80" } },
+	{ "Jab", "player.chi < 4" },
 
 	-- CHI FINISHERS
 	{ "Tiger Palm", "!player.buff(Tiger Power)"  },
@@ -76,15 +82,20 @@ PossiblyEngine.rotation.register_custom(269, "bbMonk Windwalker", {
 	-- OOC HEAL
 	{ "Expel Harm", "player.health < 80" },
 
-	-- Keybinds
-	--{ "Crackling Jade Lightning", "modifier.control", "target" },
-
 	-- Buffs
-	{ "Legacy of the White Tiger", "!player.buff(Legacy of the White Tiger)" },
-	{ "Legacy of the Emperor", "!player.buff(Legacy of the Emperor)" },
+	{ "Legacy of the White Tiger", "!player.buffs.stats" },
+	{ "Legacy of the White Tiger", "!player.buffs.crit" },
+
+	{ {
+		{ "Legacy of the White Tiger", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
+		{ "Crackling Jade Lightning", true, "target" },
+	},{
+		"toggle.frogs"
+	} },
 
 },
 function()
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'PvP', 'Toggle the usage of PvP abilities.')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automaticaly target the nearest enemy when target dies or does not exist.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
 end)
