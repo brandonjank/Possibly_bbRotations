@@ -75,7 +75,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   -- HEAL
   { "Desperate Prayer", { "talent(1, 1)", "player.health < 78" }, "player" },
   { "Prayer of Mending", { "!player.moving", "player.health < 90", "!player.buff(Prayer of Mending)" }, "player" },
-  { "Power Word: Shield", { "!player.debuff(Weakened Soul)" }, "player" },
+  { "Power Word: Shield", { "player.moving", "!player.debuff(Weakened Soul)" }, "player" },
   { "Flash Heal", { "!player.moving", "player.health < 50" }, "player" },
   { "Heal", { "!player.moving", "player.health < 100" }, "player" },
 
