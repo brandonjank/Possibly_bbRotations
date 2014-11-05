@@ -83,11 +83,8 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   --{ "Heal", { "lowest.exists", "lowest.health < 100" }, "lowest" },
 
   -- REZ
+  -- Mass Resurrection
   { "Resurrection", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
-  { "Resurrection", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
-  { "Resurrection", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
-  { "Resurrection", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
-  { "Resurrection", { "party4.exists", "party4.dead", "!player.moving", "party4.range < 35" }, "party4" },
 
   -- FORMS
   -- Shadowform

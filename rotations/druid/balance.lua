@@ -98,10 +98,11 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 
 	--REZ Revive (50769)
 	{ "50769", { "target.exists", "target.player", "target.dead" }, "target" },
-	{ "50769", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
-	{ "50769", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
-	{ "50769", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
-	{ "50769", { "party4.exists", "party4.dead", "!player.moving", "party4.range < 35" }, "party4" },
+	--{ "50769", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
+	--{ "50769", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
+	--{ "50769", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
+	--{ "50769", { "party4.exists", "party4.dead", "!player.moving", "party4.range < 35" }, "party4" },
+	--{ "Mass Resurrection", { "target.exists", "target.dead", "target.friend", "!player.moving", "target.range < 35", (function() return not UnitHasIncomingResurrection('target') end) } },
 
 	-- FROGGING
 	{ {

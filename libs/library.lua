@@ -572,7 +572,7 @@ end
 
 PossiblyEngine.library.register("bbLib", bbLib)
 
--- TODO: Auto accept rez
+-- TODO: Auto accept rez AcceptResurrect()
 
 if not myErrorFrame then
 	local myErrorFrame = CreateFrame('Frame')
