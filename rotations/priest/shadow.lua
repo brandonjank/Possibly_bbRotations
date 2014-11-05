@@ -30,16 +30,12 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "Fade", "player.area(1).enemies > 1" },
 
   -- HEALING
-  { "Desperate Prayer", { "talent(1, 1)", "player.health < 80" }, "player" },
+  { "Desperate Prayer", { "talent(1, 1)", "player.health < 78" }, "player" },
+  { "Prayer of Mending", { "!player.moving", "player.health < 90", "!player.buff(Prayer of Mending)" }, "player" },
   { "Power Word: Shield", { "player.health < 100", "!player.debuff(Weakened Soul)" }, "player" },
-  --{ "Penance", "player.health < 80", "player" },
-  --{ "Flash Heal", "player.health < 70", "player" },
-  --{ "Heal", "player.health < 90", "player" },
-  -- Prayer of Healing is your go-to AoE heal. To make optimal use of it, the members of your target's party must be significantly damaged.
-  -- Holy Nova is another AoE heal that does a surprisingly good amount of healing. As an added bonus, this can be cast while moving.
-  --{ "Holy Nova", { "!modifer.last", "@bbLib.NeedHealsAroundUnit('player', 3, 12, 90)" } },
-  --{ "Flash Heal", { "lowest.exists", "lowest.health < 90", "player.buff(Surge of Light)" }, "lowest" },
+  { "Flash Heal", { "!player.moving", "player.health < 50" }, "player" },
 
+  -- FROGGING
   { {
     { "Power Word: Fortitude", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
   },{
