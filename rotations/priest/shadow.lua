@@ -44,6 +44,8 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
     "toggle.frogs"
   } },
 
+  { "Shadowform", { "timeout(Shadowform, 5)", "!player.buff(Shadowform)" } },
+
   -- DPS COOLDOWNS
   { "Shadowfiend", "!talent(3, 2)" },
   { "Mindbender", "talent(3, 2)" },
@@ -82,7 +84,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
 
   -- FORMS
   -- Shadowform
-  { "Shadowform", "!player.buff(Shadowform)" },
+  { "Shadowform", { "timeout(Shadowform, 5)", "!player.buff(Shadowform)" } },
 
   -- AUTO FOLLOW
   { "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "!focus.range < 3", "focus.range < 20" } }, -- TODO: NYI: isFollowing()
