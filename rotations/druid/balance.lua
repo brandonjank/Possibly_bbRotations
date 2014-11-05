@@ -106,6 +106,10 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- FROGGING
 	{ {
 		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Sunfire", "player.balance.sun", "target" },
+		{ "Moonfire", "player.balance.moon", "target" },
+		{ "Wrath", "player.balance.sun", "target" },
+		{ "Starfire", "player.balance.moon", "target" },
 		{ "Soothe", true, "target" },
 	},{
 		"toggle.frogs",

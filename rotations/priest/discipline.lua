@@ -15,21 +15,18 @@ PossiblyEngine.library.register('coreHealing', {
   end,
 })
 
-PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
+PossiblyEngine.rotation.register_custom(105, "bbPriest Discipline", {
 -- COMBAT ROTATION
   -- Pause Rotation
   { "pause", "modifier.lalt" },
   { "pause", "player.buff(Food)" },
 
-  -- BATTLE REZ
-  { "Rebirth", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
-
   -- DISPELLS
-  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Aqua Bomb)" }, "mouseover" }, -- Proving Grounds
-  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Shadow Word: Bane)" }, "mouseover" }, -- Fallen Protectors
-  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Lingering Corruption)" }, "mouseover" }, -- Norushen
-  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Mark of Arrogance)", "player.buff(Power of the Titans)" }, "mouseover" }, -- Sha of Pride
-  { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Corrosive Blood)" }, "mouseover" }, -- Thok
+  { "Dispel", { "toggle.dispel", "mouseover.debuff(Aqua Bomb)" }, "mouseover" }, -- Proving Grounds
+  { "Dispel", { "toggle.dispel", "mouseover.debuff(Shadow Word: Bane)" }, "mouseover" }, -- Fallen Protectors
+  { "Dispel", { "toggle.dispel", "mouseover.debuff(Lingering Corruption)" }, "mouseover" }, -- Norushen
+  { "Dispel", { "toggle.dispel", "mouseover.debuff(Mark of Arrogance)", "player.buff(Power of the Titans)" }, "mouseover" }, -- Sha of Pride
+  { "Dispel", { "toggle.dispel", "mouseover.debuff(Corrosive Blood)" }, "mouseover" }, -- Thok
 
   -- DEFENSIVE COOLDOWNS
   { "Psychic Scream", { "talent(4, 2)", "player.area(8).enemies > 1" } },
