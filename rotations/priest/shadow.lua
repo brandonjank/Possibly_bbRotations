@@ -94,7 +94,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "!focus.range < 3", "focus.range < 20" } }, -- TODO: NYI: isFollowing()
 
   { {
-    { "Power Word: Fortitude", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
+    { "Power Word: Fortitude", { "player.health > 80", "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
     { "Devouring Plague", "player.shadoworbs > 2", "target" },
     { "Halo", { "talent(6, 3)", "target.exists", "target.range > 24", "target.range < 30" } },
     { "Shadow Word: Pain", { "target.exists", "!target.debuff(Shadow Word: Pain)" }, "target" },

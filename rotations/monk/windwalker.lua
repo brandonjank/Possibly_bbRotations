@@ -80,14 +80,14 @@ PossiblyEngine.rotation.register_custom(269, "bbMonk Windwalker", {
 	{ "pause", "modifier.lcontrol" },
 
 	-- OOC HEAL
-	{ "Expel Harm", "player.health < 80" },
+	{ "Surging Mist", "player.health < 80", "player" },
 
 	-- Buffs
 	{ "Legacy of the White Tiger", "!player.buffs.stats" },
 	--{ "Legacy of the White Tiger", "!player.buffs.crit" },
 
 	{ {
-		{ "Legacy of the White Tiger", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
+		{ "Legacy of the White Tiger", { "player.health > 80", "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
 		{ "Crackling Jade Lightning", true, "target" },
 	},{
 		"toggle.frogs"

@@ -100,7 +100,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 	end
 
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
-	if toxin > 4 then
+	if toxin > 3 then
 		if UnitClass("player") == "Paladin"
 			and GetSpellCooldown("Divine Shield") == 0
 		then

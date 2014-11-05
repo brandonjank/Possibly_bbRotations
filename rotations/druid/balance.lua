@@ -97,7 +97,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Healing Touch", { "player.health < 70" }, "player" },
 
 	--REZ Revive (50769)
-	{ "50769", { "target.exists", "target.player", "target.dead" }, "target" },
+	{ "Revive", { "target.exists", "target.player", "target.dead" }, "target" },
 	--{ "50769", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
 	--{ "50769", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
 	--{ "50769", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
@@ -106,7 +106,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 
 	-- FROGGING
 	{ {
-		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Mark of the Wild", { "player.health > 80", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" } },
 		{ "Sunfire", "player.balance.sun", "target" },
 		{ "Moonfire", "player.balance.moon", "target" },
 		{ "Wrath", "player.balance.sun", "target" },
