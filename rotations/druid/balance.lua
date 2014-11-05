@@ -96,12 +96,12 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Rejuvenation", { "lowest.health < 90", "!lowest.buff(Rejuvenation)" }, "lowest" },
 	{ "Healing Touch", { "player.health < 70" }, "player" },
 
-	--REZ
-	{ "Revive", { "target.exists", "target.player", "target.dead" }, "target" },
-	{ "Revive", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
-	{ "Revive", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
-	{ "Revive", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
-	{ "Revive", { "party4.exists", "party4.dead", "!player.moving", "party4.range < 35" }, "party4" },
+	--REZ Revive (50769)
+	{ "50769", { "target.exists", "target.player", "target.dead" }, "target" },
+	{ "50769", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
+	{ "50769", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
+	{ "50769", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
+	{ "50769", { "party4.exists", "party4.dead", "!player.moving", "party4.range < 35" }, "party4" },
 
 	-- FROGGING
 	{ {

@@ -97,7 +97,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
 
   -- REZ
-  { "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
+  { "50769", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" }, -- Revive (50769)
 
   -- HEAL
   { "Lifebloom", { "focus.exists", "focus.alive", "!focus.buff(Lifebloom)" }, "focus" },

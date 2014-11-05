@@ -13,6 +13,8 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "pause", "modifier.lalt" },
   { "pause", "player.buff(Food)" },
 
+  { "Shadowform", { "timeout(Shadowform, 5)", "!player.buff(Shadowform)" } },
+
   -- DISPELLS
   { "Dispel", { "toggle.dispel", "player.debuff(Aqua Bomb)" }, "player" }, -- Proving Grounds
   { "Dispel", { "toggle.dispel", "player.debuff(Shadow Word: Bane)" }, "player" }, -- Fallen Protectors
@@ -43,8 +45,6 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   },{
     "toggle.frogs"
   } },
-
-  { "Shadowform", { "timeout(Shadowform, 5)", "!player.buff(Shadowform)" } },
 
   -- DPS COOLDOWNS
   { "Shadowfiend", "!talent(3, 2)" },
@@ -79,8 +79,15 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
 
   -- HEAL
-  { "Flash Heal", { "lowest.exists", "lowest.health < 70" }, "lowest" },
-  { "Heal", { "lowest.exists", "lowest.health < 100" }, "lowest" },
+  --{ "Flash Heal", { "lowest.exists", "lowest.health < 70" }, "lowest" },
+  --{ "Heal", { "lowest.exists", "lowest.health < 100" }, "lowest" },
+
+  -- REZ
+  { "Resurrection", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
+  { "Resurrection", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
+  { "Resurrection", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
+  { "Resurrection", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },
+  { "Resurrection", { "party4.exists", "party4.dead", "!player.moving", "party4.range < 35" }, "party4" },
 
   -- FORMS
   -- Shadowform
