@@ -14,7 +14,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "pause", "player.buff(Food)" },
 
   -- FORMS
-  { "Shadowform", { "timeout(Shadowform, 5)", "!player.buff(Shadowform)" } },
+  { "Shadowform", "!player.buff(Shadowform)" },
 
   -- DISPELLS
   { "Dispel", { "toggle.dispel", "player.debuff(Aqua Bomb)" }, "player" }, -- Proving Grounds
