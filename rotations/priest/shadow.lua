@@ -38,6 +38,12 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   --{ "Holy Nova", { "!modifer.last", "@bbLib.NeedHealsAroundUnit('player', 3, 12, 90)" } },
   --{ "Flash Heal", { "lowest.exists", "lowest.health < 90", "player.buff(Surge of Light)" }, "lowest" },
 
+  { {
+    { "Power Word: Fortitude", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
+  },{
+    "toggle.frogs"
+  } },
+
   -- DPS COOLDOWNS
   { "Shadowfiend", "!talent(3, 2)" },
   { "Mindbender", "talent(3, 2)" },
@@ -51,12 +57,12 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "Shadow Word: Death", { "target.health < 20", "player.shadoworbs <= 5" } },
   { "Mind Flay", { "!player.moving", "target.debuff(Devouring Plague)" } },
   { "Shadow Word: Pain", "!target.debuff(Shadow Word: Pain)" },
-  { "Shadow Word: Pain", "target.debuff(Shadow Word: Pain).remaining <= 5" },
+  { "Shadow Word: Pain", "target.debuff(Shadow Word: Pain).duration <= 5" },
   { "Vampiric Touch", { "!player.moving", "!target.debuff(Vampiric Touch)" } },
-  { "Vampiric Touch", { "!player.moving", "target.debuff(Vampiric Touch).remaining <= 4" } },
+  { "Vampiric Touch", { "!player.moving", "target.debuff(Vampiric Touch).duration <= 4" } },
   { "Halo", "talent(6, 3)" },
-  { "Mind Sear", { "!player.moving", "target.area(10).enemies > 1" } },
-  { "Mind Flay", { "!player.moving", "target.area(10).enemies < 2" } },
+  { "Mind Sear", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies > 1" } },
+  { "Mind Flay", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies < 2" } },
 
 }, {
 -- OUT OF COMBAT ROTATION
@@ -80,6 +86,18 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
 
   -- AUTO FOLLOW
   { "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "!focus.range < 3", "focus.range < 20" } }, -- TODO: NYI: isFollowing()
+
+  { {
+    { "Power Word: Fortitude", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
+    { "Halo", "talent(6, 3)" },
+    { "Devouring Plague", "player.shadoworbs > 2" },
+    { "Mind Blast", "player.shadoworbs <= 5" },
+    { "Shadow Word: Pain", "!target.debuff(Shadow Word: Pain)" },
+    { "Shadowfiend", "!talent(3, 2)" },
+    { "Mindbender", "talent(3, 2)" },
+  },{
+    "toggle.frogs"
+  } },
 
 },
 function()

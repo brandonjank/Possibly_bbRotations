@@ -36,7 +36,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 	{ "Ferocious Bite", "player.combopoints > 4" },
 	{ "Ferocious Bite", "target.health < 20" },
 	-- Reapply Savage Roar if < 10 seconds
-	{ "Savage Roar", "player.buff(Savage Roar).remaining < 10" },
+	{ "Savage Roar", "player.buff(Savage Roar).duration < 10" },
 	-- Tiger's Fury if you run low on energy
 	{ "Tiger's Fury", "player.energy < 40" }, ]]--
 
@@ -58,13 +58,13 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 	-- Healing Touch (If using Bloodtalons)
 	{ "Healing Touch", "talent(7, 2)", "player" }, -- Bloodtalons Talent
 	-- Rip
-	{ "Rip", "!target.debuff(rip)" }, --- need to evaluate for smart ripping and when to reapply to keep debuff up (ie rip.remaining < 3)
+	{ "Rip", "!target.debuff(rip)" }, --- need to evaluate for smart ripping and when to reapply to keep debuff up (ie rip.duration < 3)
 
 ---- From here on the priorities are:
 	-- Refresh Savage Roar before it expires
-	{ "Savage Roar", "player.buff(Savage Roar).remaining < 5" },
+	{ "Savage Roar", "player.buff(Savage Roar).duration < 5" },
 	-- Rake when it expires
-	{ "Rake", "target.debuff(Rake).remaining >= 2" },
+	{ "Rake", "target.debuff(Rake).duration >= 2" },
 	-- Moonfire when it expires (If Lunar Inspiration)
 	{ "Moonfire", { "talent(7, 1)","!target.debuff(Moonfire)" } }, -- Lunar Inspiration Talent
 	-- Rip when it expires
@@ -81,9 +81,9 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 	-- Berserk on cooldown
 	{ "Berserk" },
 	-- If you have 5 combo points and both  Savage Roar and  Rip are above 12 seconds  Ferocious Bite (this won't happen a bunch at lower gear levels).
-	{ "Ferocious Bite", { "player.combopoints > 4", "target.debuff(Savage Roar).remaining > 12", "target.debuff(Rip).remaining > 12" } },
+	{ "Ferocious Bite", { "player.combopoints > 4", "target.debuff(Savage Roar).duration > 12", "target.debuff(Rip).duration > 12" } },
 	-- If you get an  Omen of Clarity proc and both  Savage Roar and  Rip have more then 10 seconds left use  Thrash.
-	{ "Thrash", { "player.buff(Omen of Clarity)", "target.debuff(Savage Roar).remaining > 10", "target.debuff(Rip).remaining > 10" } },
+	{ "Thrash", { "player.buff(Omen of Clarity)", "target.debuff(Savage Roar).duration > 10", "target.debuff(Rip).duration > 10" } },
 
 ---- AOE (Trash/adds) - These are the abilities you will use on trash or to cleave adds.
 	-- If the adds are going to live for over 10 seconds:

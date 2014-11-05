@@ -109,7 +109,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 
 	-- DPS ROTATION
 	-- Put down Searing Totem Icon Searing Totem and refresh it when it expires.
-	-- Apply Flame Shock Icon Flame Shock and refresh it when there are 9 seconds or less remaining.
+	-- Apply Flame Shock Icon Flame Shock and refresh it when there are 9 seconds or less duration.
 	-- Cast Lava Burst Icon Lava Burst.
 	-- Cast Frost Shock Icon Frost Shock.
 	-- Cast Lightning Bolt Icon Lightning Bolt, as a filler.

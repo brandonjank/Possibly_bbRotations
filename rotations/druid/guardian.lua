@@ -70,9 +70,9 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	-- THREAT ROTATION -- need a minimum for 60 range for savage defense
 	{ "Mangle" },
 	{ "Thrash", "!target.debuff(Thrash)" },
-	{ "Thrash", { "target.debuff(Thrash)", "target.debuff(Thrash).remaining <= 1" } },
+	{ "Thrash", { "target.debuff(Thrash)", "target.debuff(Thrash).duration <= 1" } },
 	{ "Lacerate", "!target.debuff(Lacerate)" }, 
-	{ "Lacerate", "target.debuff(Lacerate).remaining <= 3" }, 
+	{ "Lacerate", "target.debuff(Lacerate).duration <= 3" }, 
 	{ "Lacerate", "target.debuff(Lacerate).count < 3" }, 
 	{ "Maul", { "player.rage > 79", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown > 0.5" } },
 	{ "Maul", "player.rage > 94" },
