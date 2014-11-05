@@ -1,6 +1,6 @@
 -- PossiblyEngine Rotation
--- Discipline Priest - WoD 6.0.2
--- Updated on Nov 2nd 2014
+-- Discipline Priest - WoD 6.0.3
+-- Updated on Nov 4th 2014
 
 -- PLAYER CONTROLLED (TODO): Leap of Faith, Levitate, Shackle Undead, Mass Dispel, Dispel Magic, Purify, Fear Ward
 -- TALENTS: Desperate Prayer, Body and Soul, Surge of Light, Psychic Scream, Power Infusion, Cascade
@@ -15,7 +15,7 @@ PossiblyEngine.library.register('coreHealing', {
   end,
 })
 
-PossiblyEngine.rotation.register_custom(105, "bbPriest Discipline", {
+PossiblyEngine.rotation.register_custom(256, "bbPriest Discipline", {
 -- COMBAT ROTATION
   -- Pause Rotation
   { "pause", "modifier.lalt" },
@@ -73,8 +73,8 @@ PossiblyEngine.rotation.register_custom(105, "bbPriest Discipline", {
   { "Power Word: Shield", { "boss3target.exists", "boss3target.friend", "!boss3target.debuff(Weakened Soul)" }, "boss3target" },
   { "Power Word: Shield", { "boss4target.exists", "boss4target.friend", "!boss4target.debuff(Weakened Soul)" }, "boss4target" },
   { "Power Word: Shield", { "target.exists", "target.friend", "!target.debuff(Weakened Soul)" }, "target" },
-  { "Power Word: Shield", { "mouseover.exists", "toggle.mouseover", "mouseover.friend", "!mouseover.debuff(Weakened Soul)" }, "mouseover" },
   { "Power Word: Shield", { "lowest.exists", "lowest.health < 100", "!lowest.debuff(Weakened Soul)" }, "lowest" },
+  { "Power Word: Shield", { "mouseover.exists", "toggle.mouseover", "mouseover.friend", "!mouseover.debuff(Weakened Soul)" }, "mouseover" },
 
   -- PRAYER OF MENDING
   { "Prayer of Mending", { "focus.exists", "focus.friend", "!focus.buff(Prayer of Mending)" }, "focus" },

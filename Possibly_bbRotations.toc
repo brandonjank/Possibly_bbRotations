@@ -13,6 +13,7 @@ rotations\druid\balance.lua
 rotations\mage\arcane.lua
 rotations\paladin\protection.lua
 rotations\paladin\retribution.lua
+rotations\priest\discipline.lua
 rotations\priest\shadow.lua
 rotations\rogue\combat.lua
 rotations\shaman\elemental.lua
