@@ -581,7 +581,7 @@ if not myErrorFrame then
 				CancelShapeshiftForm()
 			end
 		end
-		if message and string.find(message, "front of you") and UnitExists("target") then
+		if message and string.find(message, "front of you") and UnitExists("target") and select(1,GetUnitSpeed("player")) == 0 then
 			FaceUnit("target")
 		end
 	end)
