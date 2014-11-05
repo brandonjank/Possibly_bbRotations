@@ -13,6 +13,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "pause", "modifier.lalt" },
   { "pause", "player.buff(Food)" },
 
+  -- FORMS
   { "Shadowform", { "timeout(Shadowform, 5)", "!player.buff(Shadowform)" } },
 
   -- DISPELLS
@@ -32,7 +33,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   -- HEALING
   { "Desperate Prayer", { "talent(1, 1)", "player.health < 78" }, "player" },
   { "Prayer of Mending", { "!player.moving", "player.health < 90", "!player.buff(Prayer of Mending)" }, "player" },
-  { "Power Word: Shield", { "player.health < 100", "!player.debuff(Weakened Soul)" }, "player" },
+  { "Power Word: Shield", { "!player.debuff(Weakened Soul)" }, "player" },
   { "Flash Heal", { "!player.moving", "player.health < 50" }, "player" },
 
   -- FROGGING
@@ -75,8 +76,11 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
 
   -- HEAL
-  --{ "Flash Heal", { "lowest.exists", "lowest.health < 70" }, "lowest" },
-  --{ "Heal", { "lowest.exists", "lowest.health < 100" }, "lowest" },
+  { "Desperate Prayer", { "talent(1, 1)", "player.health < 78" }, "player" },
+  { "Prayer of Mending", { "!player.moving", "player.health < 90", "!player.buff(Prayer of Mending)" }, "player" },
+  { "Power Word: Shield", { "!player.debuff(Weakened Soul)" }, "player" },
+  { "Flash Heal", { "!player.moving", "player.health < 50" }, "player" },
+  { "Heal", { "!player.moving", "player.health < 100" }, "player" },
 
   -- REZ
   -- Mass Resurrection
