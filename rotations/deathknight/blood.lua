@@ -48,7 +48,7 @@ PossiblyEngine.rotation.register_custom(250, "bbDeathKnight Blood", {
 	{ "Plague Leech", { "talent(1, 2)", "target.debuff(Frost Fever)", "target.debuff(Blood Plague)", "target.debuff(Frost Fever).duration < 5", "target.debuff(Blood Plague).duration < 5", "player.runes(death).count < 1" } },
 
 	-- THREAT ROTATION
-	{ "Death and Decay" { "!player.moving", "cooldown(Death and Decay, 10)", "player.area(10).enemies > 1" } },
+	{ "Death and Decay", { "!player.moving", "cooldown(Death and Decay, 10)", "player.area(10).enemies > 1" } },
 	{ "Outbreak", { "!target.debuff(Frost Fever)", "!target.debuff(Blood Plague)" } },
 	{ "Blood Boil", { "cooldown(Blood Boil, 5)", "target.debuff(Frost Fever)", "target.debuff(Blood Plague)", "player.area(10).enemies > 1"} },
 	{ "Icy Touch", "!target.debuff(Frost Fever)" },
