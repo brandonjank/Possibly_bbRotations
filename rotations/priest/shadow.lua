@@ -72,9 +72,6 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   -- BUFFS
   { "Power Word: Fortitude", { "!player.buffs.stamina", "lowest.distance < 40" }, "lowest" },
 
-  -- REZ
-  { "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
-
   -- HEAL
   { "Desperate Prayer", { "talent(1, 1)", "player.health < 78" }, "player" },
   { "Prayer of Mending", { "!player.moving", "player.health < 90", "!player.buff(Prayer of Mending)" }, "player" },
