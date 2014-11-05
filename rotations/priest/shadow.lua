@@ -89,9 +89,8 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
 
   { {
     { "Power Word: Fortitude", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
-    { "Halo", { "talent(6, 3)", "target.range < 30" } },
     { "Devouring Plague", "player.shadoworbs > 2" },
-    { "Mind Blast", "player.shadoworbs <= 5" },
+    { "Halo", { "talent(6, 3)", "target.range > 24", "target.range < 30" } },
     { "Shadow Word: Pain", "!target.debuff(Shadow Word: Pain)" },
     { "Shadowfiend", "!talent(3, 2)" },
     { "Mindbender", "talent(3, 2)" },
