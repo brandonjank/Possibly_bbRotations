@@ -35,7 +35,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   --{ "Heal", "player.health < 90", "player" },
   -- Prayer of Healing is your go-to AoE heal. To make optimal use of it, the members of your target's party must be significantly damaged.
   -- Holy Nova is another AoE heal that does a surprisingly good amount of healing. As an added bonus, this can be cast while moving.
-  --{ "Holy Nova", { "!modifer.last", "@bbLib.NeedHealsAroundUnit('player', 3, 12, 90)" } }
+  --{ "Holy Nova", { "!modifer.last", "@bbLib.NeedHealsAroundUnit('player', 3, 12, 90)" } },
   --{ "Flash Heal", { "lowest.exists", "lowest.health < 90", "player.buff(Surge of Light)" }, "lowest" },
 
   -- DPS COOLDOWNS
