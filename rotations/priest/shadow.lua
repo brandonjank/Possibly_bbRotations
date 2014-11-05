@@ -46,9 +46,9 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
 
   -- DPS ROATATION
   { "Mind Sear", { "!player.moving", "target.area(10).enemies > 4" } },
-  { "Devouring Plague", "player.buff(Shadow Orbs).count > 2" },
-  { "Mind Blast", "player.buff(Shadow Orbs).count <= 5" },
-  { "Shadow Word: Death", { "target.health < 20", "player.buff(Shadow Orbs).count <= 5" } },
+  { "Devouring Plague", "player.shadoworbs > 2" },
+  { "Mind Blast", "player.shadoworbs <= 5" },
+  { "Shadow Word: Death", { "target.health < 20", "player.shadoworbs <= 5" } },
   { "Mind Flay", { "!player.moving", "target.debuff(Devouring Plague)" } },
   { "Shadow Word: Pain", "!target.debuff(Shadow Word: Pain)" },
   { "Shadow Word: Pain", "target.debuff(Shadow Word: Pain).remaining <= 5" },
@@ -84,6 +84,6 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
 },
 function()
   PossiblyEngine.toggle.create('dispel', 'Interface\\Icons\\ability_shaman_cleansespirit', 'Dispel', 'Toggle Dispel')
-  PossiblyEngine.toggle.create('mouseover', 'Interface\\Icons\\spell_nature_resistnature', 'Mouseover Regrowth', 'Toggle Mouseover Regrowth For SoO NPC Healing')
+  PossiblyEngine.toggle.create('mouseover', 'Interface\\Icons\\spell_nature_resistnature', 'Mouseovers', 'Toggle usage of Mouseover dotting.')
   PossiblyEngine.toggle.create('autofollow', 'Interface\\Icons\\achievement_guildperk_everybodysfriend', 'Auto Follow', 'Automaticaly follows your focus target. Must be another player.')
 end)
