@@ -97,8 +97,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Healing Touch", { "player.health < 70" }, "player" },
 
 	--REZ
-	{ "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
-	{ "Revive", { "mouseover.exists", "mouseover.dead", "!player.moving", "mouseover.player" }, "mouseover" },
+	{ "Revive", { "target.exists", "target.player", "target.dead" }, "target" },
 	{ "Revive", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
 	{ "Revive", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
 	{ "Revive", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },

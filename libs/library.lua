@@ -572,6 +572,8 @@ end
 
 PossiblyEngine.library.register("bbLib", bbLib)
 
+-- TODO: Auto accept rez
+
 if not myErrorFrame then
 	local myErrorFrame = CreateFrame('Frame')
 	myErrorFrame:RegisterEvent('UI_ERROR_MESSAGE')

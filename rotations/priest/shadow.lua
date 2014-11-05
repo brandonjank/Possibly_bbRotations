@@ -89,11 +89,11 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
 
   { {
     { "Power Word: Fortitude", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
-    { "Devouring Plague", "player.shadoworbs > 2" },
+    { "Devouring Plague", "player.shadoworbs > 2", "target" },
     { "Halo", { "talent(6, 3)", "target.exists", "target.range > 24", "target.range < 30" } },
-    { "Shadow Word: Pain", "!target.debuff(Shadow Word: Pain)" },
-    { "Shadowfiend", "!talent(3, 2)" },
-    { "Mindbender", "talent(3, 2)" },
+    { "Shadow Word: Pain", { "target.exists", "!target.debuff(Shadow Word: Pain)" }, "target" },
+    { "Shadowfiend", { "target.exists", "!talent(3, 2)" }, "target"  },
+    { "Mindbender", { "target.exists", "talent(3, 2)" }, "target"  },
   },{
     "toggle.frogs"
   } },
