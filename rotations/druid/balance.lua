@@ -93,11 +93,12 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- HEALING
 	{ "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
 	{ "Rejuvenation", { "player.health < 99", "!player.buff(Rejuvenation)" }, "player" },
+	{ "Rejuvenation", { "lowest.health < 90", "!lowest.buff(Rejuvenation)" }, "lowest" },
 	{ "Healing Touch", { "player.health < 70" }, "player" },
 
 	--REZ
-	{ "Revive", { "target.exists", "target.dead", "!player.moving", "@bbLib.isPlayer('target')" }, "target" },
-	{ "Revive", { "mouseover.exists", "mouseover.dead", "!player.moving", "@bbLib.isPlayer('mouseover')" }, "mouseover" },
+	{ "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
+	{ "Revive", { "mouseover.exists", "mouseover.dead", "!player.moving", "mouseover.player" }, "mouseover" },
 	{ "Revive", { "party1.exists", "party1.dead", "!player.moving", "party1.range < 35" }, "party1" },
 	{ "Revive", { "party2.exists", "party2.dead", "!player.moving", "party2.range < 35" }, "party2" },
 	{ "Revive", { "party3.exists", "party3.dead", "!player.moving", "party3.range < 35" }, "party3" },

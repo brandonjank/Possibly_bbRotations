@@ -60,7 +60,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "Shadow Word: Pain", "target.debuff(Shadow Word: Pain).duration <= 5" },
   { "Vampiric Touch", { "!player.moving", "!target.debuff(Vampiric Touch)" } },
   { "Vampiric Touch", { "!player.moving", "target.debuff(Vampiric Touch).duration <= 4" } },
-  { "Halo", { "talent(6, 3)", "target.range < 30" } },
+  { "Halo", { "talent(6, 3)", "target.exists", "target.range < 30" } },
   { "Mind Sear", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies > 1" } },
   { "Mind Flay", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies < 2" } },
 
@@ -90,7 +90,7 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { {
     { "Power Word: Fortitude", { "@bbLib.engaugeUnit('Gulp Frog', 40, true)" } },
     { "Devouring Plague", "player.shadoworbs > 2" },
-    { "Halo", { "talent(6, 3)", "target.range > 24", "target.range < 30" } },
+    { "Halo", { "talent(6, 3)", "target.exists", "target.range > 24", "target.range < 30" } },
     { "Shadow Word: Pain", "!target.debuff(Shadow Word: Pain)" },
     { "Shadowfiend", "!talent(3, 2)" },
     { "Mindbender", "talent(3, 2)" },
@@ -103,5 +103,5 @@ function()
   PossiblyEngine.toggle.create('dispel', 'Interface\\Icons\\ability_shaman_cleansespirit', 'Dispel', 'Toggle Dispel')
   PossiblyEngine.toggle.create('mouseover', 'Interface\\Icons\\spell_nature_resistnature', 'Mouseovers', 'Toggle usage of Mouseover dotting.')
   PossiblyEngine.toggle.create('autofollow', 'Interface\\Icons\\achievement_guildperk_everybodysfriend', 'Auto Follow', 'Automaticaly follows your focus target. Must be another player.')
-  PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
+  PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target un-tapped Gulp Frogs.')
 end)
