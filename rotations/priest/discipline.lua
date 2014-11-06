@@ -79,10 +79,10 @@ PossiblyEngine.rotation.register_custom(256, "bbPriest Discipline", {
   -- PRAYER OF MENDING
   { "Prayer of Mending", { "focus.exists", "focus.friend", "!focus.buff(Prayer of Mending)" }, "focus" },
   { "Prayer of Mending", { "tank.exists", "tank.friend", "!tank.buff(Prayer of Mending)" }, "tank" },
-  { "Prayer of Mending", { "boss1target.exists", "boss1target.friend", "!boss1target.buff(Prayer of Mending)", "cooldown(Prayer of Mending, 30)" }, "boss1target" },
-  { "Prayer of Mending", { "boss2target.exists", "boss2target.friend", "!boss2target.buff(Prayer of Mending)", "cooldown(Prayer of Mending, 30)" }, "boss2target" },
-  { "Prayer of Mending", { "boss3target.exists", "boss3target.friend", "!boss3target.buff(Prayer of Mending)", "cooldown(Prayer of Mending, 30)" }, "boss3target" },
-  { "Prayer of Mending", { "boss4target.exists", "boss4target.friend", "!boss4target.buff(Prayer of Mending)", "cooldown(Prayer of Mending, 30)" }, "boss4target" },
+  { "Prayer of Mending", { "boss1target.exists", "boss1target.friend", "!boss1target.buff(Prayer of Mending)", "timeout(Prayer of Mending, 30)" }, "boss1target" },
+  { "Prayer of Mending", { "boss2target.exists", "boss2target.friend", "!boss2target.buff(Prayer of Mending)", "timeout(Prayer of Mending, 30)" }, "boss2target" },
+  { "Prayer of Mending", { "boss3target.exists", "boss3target.friend", "!boss3target.buff(Prayer of Mending)", "timeout(Prayer of Mending, 30)" }, "boss3target" },
+  { "Prayer of Mending", { "boss4target.exists", "boss4target.friend", "!boss4target.buff(Prayer of Mending)", "timeout(Prayer of Mending, 30)" }, "boss4target" },
 
   -- HEALING DUMP
   { "Flash Heal", { "lowest.exists", "lowest.health < 70" }, "lowest" },
