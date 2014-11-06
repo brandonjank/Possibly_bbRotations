@@ -71,9 +71,9 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	{ "Mangle" },
 	{ "Thrash", "!target.debuff(Thrash)" },
 	{ "Thrash", { "target.debuff(Thrash)", "target.debuff(Thrash).duration <= 1" } },
-	{ "Lacerate", "!target.debuff(Lacerate)" }, 
-	{ "Lacerate", "target.debuff(Lacerate).duration <= 3" }, 
-	{ "Lacerate", "target.debuff(Lacerate).count < 3" }, 
+	{ "Lacerate", "!target.debuff(Lacerate)" },
+	{ "Lacerate", "target.debuff(Lacerate).duration <= 3" },
+	{ "Lacerate", "target.debuff(Lacerate).count < 3" },
 	{ "Maul", { "player.rage > 79", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown > 0.5" } },
 	{ "Maul", "player.rage > 94" },
 	{ "Thrash", { "player.spell(Mangle).cooldown > 0.5", "timeout(Thrash, 1)", "target.area(8).enemies > 2" } },
@@ -109,6 +109,7 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	-- AUTO FORM
 	{ "Travel Form", { "!player.buff(Travel Form)", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
 	{ "Cat Form", { "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
+	{ "Bear Form", { "!player.form = 1", "target.enemy" } },
 
 },
 -- TOGGLE BUTTONS
