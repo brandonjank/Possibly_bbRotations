@@ -28,7 +28,7 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	{ "Rebirth", { "target.friend", "target.dead", "!player.form = 1" }, "target" },
 
 	-- BEAR FORM
-	{ "Bear Form", "!player.form = 1" },
+	{ "Bear Form", "!player.form = 1" }, -- force in raid only
 
 	-- INTERRUPTS
 	{ "Skull Bash", "modifier.interrupt" },

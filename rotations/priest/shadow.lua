@@ -50,15 +50,15 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   -- Vampiric Embrace Use at the discretion of your party/raid leader for group healing.
 
   -- DPS ROATATION
-  { "Mind Sear", { "!player.moving", "target.area(10).enemies > 4" } },
+  { "Mind Sear", { "!player.moving", "modifier.multitarget" } },
   { "Devouring Plague", "player.shadoworbs > 2" },
   { "Mind Blast", "player.shadoworbs <= 5" },
   { "Shadow Word: Death", { "target.health < 20", "player.shadoworbs <= 5" } },
-  { "Mind Flay", { "!player.moving", "target.debuff(Devouring Plague)" } },
   { "Shadow Word: Pain", "!target.debuff(Shadow Word: Pain)" },
-  { "Shadow Word: Pain", "target.debuff(Shadow Word: Pain).duration <= 5" },
+  { "Shadow Word: Pain", "target.debuff(Shadow Word: Pain).duration < 6" },
   { "Vampiric Touch", { "!player.moving", "!target.debuff(Vampiric Touch)" } },
-  { "Vampiric Touch", { "!player.moving", "target.debuff(Vampiric Touch).duration <= 4" } },
+  { "Vampiric Touch", { "!player.moving", "target.debuff(Vampiric Touch).duration < 5" } },
+  { "Mind Flay", { "!player.moving", "target.debuff(Devouring Plague)" } },
   { "Halo", { "talent(6, 3)", "target.exists", "target.range < 30" } },
   { "Mind Sear", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies > 1" } },
   { "Mind Flay", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies < 2" } },
