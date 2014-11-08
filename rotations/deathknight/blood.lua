@@ -45,7 +45,7 @@ PossiblyEngine.rotation.register_custom(250, "bbDeathKnight Blood", {
 	-- TODO: Raise Ally Use to resurrect key raid members.
 
 	-- DPS COOLDOWNS
-	{ "Plague Leech", { "talent(1, 2)", "target.debuff(Frost Fever)", "target.debuff(Blood Plague)", "target.debuff(Frost Fever).duration < 5", "target.debuff(Blood Plague).duration < 5", "player.runes(death).count < 1" } },
+	{ "Plague Leech", { "talent(1, 2)", "target.debuff(Frost Fever)", "target.debuff(Blood Plague)", "player.runes(death).count < 1" } },
 
 	-- THREAT ROTATION
 	{ "Death and Decay", { "!player.moving", "timeout(Death and Decay, 10)", "player.area(10).enemies > 1" } },

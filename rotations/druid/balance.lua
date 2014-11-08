@@ -75,7 +75,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Moonfire", "!target.debuff(Moonfire)" },
 	{ "Starfall", { "player.buff(Starsurge).count > 1", "target.area(40).enemies > 2" } },
 	{ "Astral Storm", { "player.balance.moon", "target.area(35).enemies > 4" }, "target.ground" },
-	{ "Hurricane", { "player.balance.sun", "target.area(35).enemies > 4" }, "target.ground" },
+	{ "Hurricane", { "!toggle.frogs", "player.balance.sun", "target.area(35).enemies > 4" }, "target.ground" },
 	{ "Wrath", { "player.balance.sun", "target.area(35).enemies < 5" } },
 	{ "Starfire", { "player.balance.moon", "target.area(35).enemies < 5" } },
 

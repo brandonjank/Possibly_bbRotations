@@ -26,7 +26,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last" } },
 
   -- BATTLE REZ
-  { "Rebirth", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
+  --{ "Rebirth", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
 
   -- DISPELLS
   { "Nature's Cure", { "toggle.dispel", "mouseover.debuff(Aqua Bomb)" }, "mouseover" }, -- Proving Grounds
@@ -113,7 +113,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Cat Form", { "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
 
   -- AUTO FOLLOW
-  { "/follow focus", { "toggle.autofollow", "focus.exists", "focus.alive", "focus.friend", "!focus.range < 3", "focus.range < 20" } }, -- TODO: NYI: isFollowing()
+  { "Mark of the Wild", { "toggle.autofollow", "focus.exists", "focus.alive", (function() return GetFollowTarget() == nil end), (function() SetFollowTarget('focus') end) } }, -- TODO: NYI: isFollowing()
 
 },
 function()
