@@ -46,27 +46,27 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- PvP ABILITIES
 	-- TODO: Automatic PvP mode isPlayer isPvP
-	{ "Wyvern Sting", { "toggle.mouseovers", "talent(2, 2)", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
-		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
-		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
-	{ "Wyvern Sting", { "modifier.rcontrol", "talent(2, 2)", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", --
-		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
-		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
-	{ "Binding Shot", { "toggle.mouseovers", "talent(2, 1)", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
-		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
-		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
-	{ "Binding Shot", { "modifier.rcontrol", "talent(2, 1)", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
-		"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
-		"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
+	--{ "Wyvern Sting", { "toggle.mouseovers", "talent(2, 2)", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
+	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
+	--{ "Wyvern Sting", { "modifier.rcontrol", "talent(2, 2)", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient", --
+	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
+	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover" },
+	--{ "Binding Shot", { "toggle.mouseovers", "talent(2, 1)", "mouseover.isPlayer", "player.spell(Scatter Shot).cooldown > 0", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
+	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
+	--{ "Binding Shot", { "modifier.rcontrol", "talent(2, 1)", "mouseover.exists", "mouseover.enemy", "mouseover.alive", "!mouseover.status.disorient",
+	--	"!mouseover.status.sleep", "!mouseover.status.incapacitate", "!mouseover.status.fear", "!mouseover.status.misc", "!mouseover.status.root",
+	--	"!mouseover.status.stun", "!mouseover.status.snare", "!mouseover.immune.all", "!mouseover.immune.sleep" }, "mouseover.ground" },
 
 	-- SURVIVAL COOLDOWNS
-	{ "Feign Death", { "modifier.raid", "target.exists", "target.enemy", "target.boss", "target.agro", "target.distance < 30" } },
+	{ "Feign Death", { "modifier.raid", "target.exists", "target.enemy", "target.boss", "target.agro", "target.distance < 20" } },
 	{ "Feign Death", { "modifier.raid", "player.debuff(Aim)", "player.debuff(Aim).duration > 3" } }, --SoO: Paragons - Aim
 	{ "Aspect of the Cheetah", { "player.moving", "!player.buff", "!player.buff(Aspect of the Pack)", "!player.buff(Aspect of the Fox)", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	{ "Exhilaration", { "modifier.cooldowns", "player.health < 40", "talent(3, 1)" } },
-	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
+	--{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
 	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
-	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)
+	--{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)
 	{ "Master's Call", "player.state.disorient" },
 	{ "Master's Call", "player.state.stun" },
 	{ "Master's Call", "player.state.root" },
@@ -96,7 +96,6 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- DISPELLS
 	{ "Tranquilizing Shot", "target.dispellable", "target" },
-	{ "Tranquilizing Shot", "mouseover.dispellable", "mouseover" },
 
 	-- DPS COOLDOWNS
 	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
@@ -106,35 +105,31 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- DPS ROTATION -- Always want a minimum of 35 focus
 	{ "Aspect of the Fox", { "target.enemy", "target.health > 1", "player.movingfor > 2", "player.buff(Sniper Training)" } },
-	{ "A Murder of Crows" }, --, "talent(5, 1)"
 	{ "Chimaera Shot" },
 	{ "Kill Shot", "target.health <= 20" },
-	{ "Aimed Shot", "player.buff(Thrill of the Hunt)" },
-	{ "Glaive Toss", { "talent(6, 1)", "target.health < 80", "!player.buff(Rapid Fire)" } },
-	{ "Glaive Toss", { "talent(6, 1)", "timeout(Glaive Toss, 10)", "target.area(10).enemies > 3" } },
-	{ "Barrage", { "talent(6, 3)", "target.health < 80", "!player.buff(Rapid Fire)" } }, --  you can change where Barrage is directed by turning your character while channelling the spell. This allows you to hit more targets than those you were initially facing.
-	{ "Barrage", { "talent(6, 3)", "timeout(Barrage, 10)", "target.area(10).enemies > 3" } },
-	{ "Explosive Trap", { "!target.moving", "timeout(Explosive Trap, 10)", "target.area(10).enemies > 3" }, "target.ground" },
+	{ "A Murder of Crows", "talent(5, 1)" },
+	{ "Stampede", "talent(5, 3)" },
+	{ "Glaive Toss", "talent(6, 1)" },
+	{ "Powershot", { "talent(6, 2)", "!player.moving" } },
+	{ "Barrage", { "talent(6, 3)", "!player.moving" } }, --  you can change where Barrage is directed by turning your character while channelling the spell. This allows you to hit more targets than those you were initially facing.
+	{ "Steady Shot", { "talent(4, 1)", "!player.buff(Steady Focus)", "player.focus < 80" } },
 	{ {
-		{ "Multi-Shot", "player.focus > 75" },
-		{ "Multi-Shot", { "player.focus > 55", "player.buff(Thrill of the Hunt)" } },
-		{ "Multi-Shot", { "player.focus > 50", "player.buff(Bombardment)" } },
+		{ "Multi-Shot", "player.focus > 70" },
+		{ "Multi-Shot", "player.buff(Thrill of the Hunt)" },
+		{ "Multi-Shot", "player.buff(Bombardment)" },
+		{ "Explosive Trap", "!target.moving", "target.ground" },
 	},{
-		"target.health < 80", "!player.buff(Rapid Fire)", "timeout(Multi-Shot, 1)", "target.area(10).enemies > 3", -- Rate limited, lagging badly as of Oct 24th.
+		"target.area(10).enemies > 3",
 	} },
 	{ {
 		{ "Aimed Shot", "player.focus > 70" },
-		{ "Aimed Shot", { "player.focus > 50", "player.buff(Thrill of the Hunt)" } },
+		{ "Aimed Shot", "player.buff(Thrill of the Hunt)" },
 	},{
-		"timeout(Aimed Shot, 1)", "target.area(10).enemies < 4", -- Rate limited, lagging badly as of Oct 24th.
+		"target.area(10).enemies < 4",
 	} },
-	{ "Aimed Shot", { "player.focus > 70", "player.buff(Rapid Fire)" } },
-	{ "Aimed Shot", { "player.focus > 50", "player.buff(Rapid Fire)", "player.buff(Thrill of the Hunt)" } },
-	{ "Aimed Shot", { "player.focus > 70", "target.health >= 80" } },
-	{ "Aimed Shot", { "player.focus > 50", "target.health >= 80", "player.buff(Thrill of the Hunt)" } },
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
 	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Steady Shot", "player.focus <= 75" },
+	{ "Steady Shot", "player.focus < 80" },
 
 },
 {
@@ -168,7 +163,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	} },
 
 	-- PRE COMBAT
-	{ "#76089", { "toggle.consume", "target.exists", "target.boss", "@bbLib.prePot" } }, -- Agility Potion (76089) Virmen's Bite
+	{ "#76089", { "modifer.raid", "toggle.consume", "target.enemy", "@bbLib.prePot" } }, -- Agility Potion (76089) Virmen's Bite
 
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },

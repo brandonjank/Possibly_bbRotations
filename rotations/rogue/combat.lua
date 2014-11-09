@@ -7,116 +7,111 @@ PossiblyEngine.rotation.register_custom(260, "bbCombatRogue", {
 -- CONTROLS: Pause - Left Control
 
 -- COMBAT
-	-- Racials
-	{ "Will of the Forsaken", "player.state.fear" },
-	{ "Will of the Forsaken", "player.state.charm" },
-	{ "Will of the Forsaken", "player.state.sleep" },
-	{ "Rocket Barrage", "player.moving" },
-	{ "Quaking Palm", "modifier.interrupts" },
-	
-	-- TODO: flask=spring_blossoms
+	-- PAUSE / UTILITIES
+	{ "pause", "modifier.lcontrol" },
+	{ "pause", "player.buff(Feign Death)" },
+	{ "pause", "player.buff(Food)" },
 
-	-- TODO: food=sea_mist_rice_noodles
+	-- AUTO TARGET
+	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
+	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 
-	{ "Deadly Poison", "!player.buff(Deadly Poison)" },
+	-- AMBUSH
+	{ "Ambush", { "target.enemy", "target.range < 1" } },
 
-	{ "Leeching Poison", "!player.buff(Leeching Poison)" },
+	-- INTERRUPT
+	{ "Kick", "modifier.interrupt" },
 
-	{ "#5512", { "modifier.cooldowns", "player.health < 40" } }, -- Healthstone (5512)
+	-- POISONS
+	{ "Deadly Poison", { "!player.moving", "!player.buff(Deadly Poison)" } },
+	{ "Crippling Poison", { "!player.moving", "!player.buff(Crippling Poison)" } },
 
-	{ "#76097", { "modifier.cooldowns", "player.health < 40", "@bbLib.useHealthPot" } }, -- Master Healing Potion (76097)
+	-- DEFENSIVE COOLDOWNS
+	{ "Combat Readiness", { "talent(2, 3)", "player.health < 100", "target.agro", "target.range < 1" } },
+	{ "Evasion", { "!player.buff(Combat Readiness)", "player.health < 100", "target.agro", "target.range < 1" } },
+	{ "Feint", { "!player.buff(Feint)", "player.health < 100", "target.agro" } },
+	{ "#5512", { "modifier.cooldowns", "player.health < 35" } }, -- Healthstone (5512)
+	--{ "#76097", { "modifier.cooldowns", "player.health < 40", "@bbLib.useHealthPot" } }, -- Master Healing Potion (76097)
+	{ "Sprint", "player.movingfor > 2" },
+	{ "Recuperate", { "player.health < 50", "!player.buff(Recuperate)" } },
 
-	-- TODO: stealth
+	-- AOE
+	{ "Blade Flurry", { "!player.buff(Blade Flurry)", "player.area(10).enemies > 1" } },
+	{ "/cancelaura Blade Flurry", { "player.buff(Blade Flurry)", "player.area(10).enemies < 2" } },
 
-	{ "Marked for Death" },
+	-- OFFENSIVE COOLDOWNS
+	{ {
+		{ "#76089", "@bbLib.useAgiPot" }, -- Agility Potion (76089)
+		{ "Preparation", { "!player.buff(Vanish)", "player.spell(Vanish).cooldown > 60" } },
+		{ "Blood Fury" },
+		{ "Berserking" },
 
-	{ "Slice and Dice" },
+		-- Blade Flurry
 
-	{ "#76089", { "modifier.cooldowns", "pet.exists", "target.exists", "@bbLib.useAgiPot" } }, -- Agility Potion (76089)
+		{ "Shadow Reflection", { "talent(7, 2)", "player.combopoints > 3", "player.spell(Killing Spree).cooldown < 10" } },
+		{ "Shadow Reflection", { "talent(7, 2)", "player.buff(Adrenaline Rush)" } },
 
-	{ "Kick", "modifier.interrupts" },
+		-- Ambush
 
-	{ "Preparation", { "!player.buff(Vanish)", "player.spell(Vanish).cooldown > 60" } },
+		{ {
+			{ "Vanish", { "player.combopoints < 3", "talent(1, 3)", "!player.buff(Adrenaline Rush)", "player.energy < 20" } },
+			{ "Vanish", { "player.combopoints < 3", "talent(1, 2)", "player.energy > 90" } },
+			{ "Vanish", { "player.combopoints < 3", "!talent(1, 3)", "!talent(1, 2)", "player.energy > 60" } },
+			{ "Vanish", { "talent(6, 3)", "player.buff(Anticipation).count < 3", "talent(1, 3)", "!player.buff(Adrenaline Rush)", "player.energy < 20" } },
+			{ "Vanish", { "talent(6, 3)", "player.buff(Anticipation).count < 3", "talent(1, 2)", "player.energy > 90" } },
+			{ "Vanish", { "talent(6, 3)", "player.buff(Anticipation).count < 3", "!talent(1, 3)", "!talent(1, 2)", "player.energy > 60" } },
+			{ "Vanish", { "player.combopoints < 4", "talent(6, 3)", "player.buff(Anticipation).count < 4", "talent(1, 3)", "!player.buff(Adrenaline Rush)", "player.energy < 20" } },
+			{ "Vanish", { "player.combopoints < 4", "talent(6, 3)", "player.buff(Anticipation).count < 4", "talent(1, 2)", "player.energy > 90" } },
+			{ "Vanish", { "player.combopoints < 4", "talent(6, 3)", "player.buff(Anticipation).count < 4", "!talent(1, 3)", "!talent(1, 2)", "player.energy > 60" } },
+		},{
+			"player.time > 10", "!player.buff(Stealth)", "target.boss",
+		} },
 
-	{ "#gloves", { "modifier.cooldowns", "player.buff(Shadow Blades)" } },
+		{ "Killing Spree", { "player.energy < 50", "!talent(7, 2)" } },
+		{ "Killing Spree", { "player.energy < 50", "talent(7, 2)", "player.spell(Shadow Reflection).cooldown > 30" } },
+		{ "Killing Spree", { "player.energy < 50", "talent(7, 2)", "player.buff(Shadow Reflection).duration > 3" } },
+		{ "Adrenaline Rush", "player.energy < 35" },
+	},{
+		"modifier.cooldowns", "target.exists", "target.range < 1",
+	} },
 
-	{ "Blood Fury", { "modifier.cooldowns", "player.buff(Shadow Blades)" } },
-
-	{ "Berserking", { "modifier.cooldowns", "player.buff(Shadow Blades)" } },
-
-	{ "Arcane Torrent", "player.energy < 60" },
-
-	{ "Blade Flurry", { "modifier.multitarget", "modifier.enemies >= 2", "!player.buff(Blade Flurry)" } },
-	{ "Blade Flurry", { "!modifier.multitarget", "modifier.enemies < 2", "player.buff(Blade Flurry)" } },
-
-	{ "Ambush" },
-	
-	-- TODO: VANISH
-	--{ "Vanish", { "player.time > 10",
-	--{ "player.combopoints < 3" OR { "player.spell(Anticipation).exists", "player.buff(Anticipation).count < 3" } OR { "!player.buff(Shadow Blades)", { "player.combopoints < 4" OR {  "player.spell(Anticipation).exists", "player.buff(Anticipation).count < 4" } } } },
-	--{ { "player.spell(Shadow Focus).exists", "!player.buff(Adrenaline Rush)", "player.energy < 20" } OR { "player.spell(Subterfuge).exists", "player.energy >= 90" } OR { "!player.spell(Shadow Focus).exists", "!player.spell(Subterfuge).exists", "player.energy >= 60" } }
-	--} },
-
-	{ "Shadow Blades", "player.time > 5" },
-
-	{ "Killing Spree", { "modifier.cooldowns", "player.energy < 45", "!player.buff(Adrenaline Rush)" } },
-
-	{ "Adrenaline Rush", "player.energy < 35" },
-	{ "Adrenaline Rush", "player.buff(Shadow Blades)" },
-
+	-- DPS ROTATION
 	{ "Slice and Dice", "player.buff(Slice and Dice).duration < 2" },
-	{ "Slice and Dice", { "player.buff(Slice and Dice).duration < 15", "player.buff(Bandit's Guile).count > 10", "player.combopoints >= 4" } },
+	{ "Slice and Dice", { "player.combopoints > 3", "player.buff(Slice and Dice).duration < 15", "player.buff(Bandit's Guile).count > 10" } },
 
-	{ "Marked for Death", { "player.combopoints = 0", "target.debuff(Revealing Strike)" } },
+	{ "Marked for Death", { "player.combopoints < 2", "target.debuff(Revealing Strike)", "!talent(7, 2)" } },
+	{ "Marked for Death", { "player.combopoints < 2", "target.debuff(Revealing Strike)", "player.buff(Shadow Reflection)" } },
+	{ "Marked for Death", { "player.combopoints < 2", "target.debuff(Revealing Strike)", "player.spell(Shadow Reflection).cooldown > 30" } },
 
-	{ "Fan of Knives", { "modifier.multitarget", "modifier.enemies >= 4", "player.combopoints < 5", "modifier.timeout(Fan of Knives, 5)" } },
-	{ "Fan of Knives", { "modifier.multitarget", "modifier.enemies >= 4", "player.spell(Anticipation).exists", "player.buff(Anticipation).count <= 4", "!target.debuff(Revealing Strike)" } }, --TODO: player.spell(Fan of Knives).delay(5)
-
-	{ "Revealing Strike", { "target.debuff(Revealing Strike).duration <= 2", "player.combopoints < 5" } },
-	{ "Revealing Strike", { "player.spell(Anticipation).exists", "target.debuff(Revealing Strike).duration <= 2", "player.buff(Anticipation).count <= 4", "!target.debuff(Revealing Strike)" } },
+	{ "Revealing Strike", { "player.combopoints < 5", "target.debuff(Revealing Strike).duration < 2" } },
+	{ "Revealing Strike", { "talent(6, 3)", "target.debuff(Revealing Strike).duration < 2", "player.buff(Anticipation).count < 5", "!player.buff(Deep Insight)" } },
 
 	{ "Sinister Strike", "player.combopoints < 5" },
-	{ "Sinister Strike", { "player.spell(Anticipation).exists", "player.buff(Anticipation).count <= 4", "!target.debuff(Revealing Strike)" } },
+	{ "Sinister Strike", { "talent(6, 3)", "player.buff(Anticipation).count < 5", "!player.buff(Deep Insight)" } },
 
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "modifier.enemies < 2", "!player.spell(Anticipation).exists" } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "!player.buff(Blade Flurry)", "!player.spell(Anticipation).exists" } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "modifier.enemies < 2", "player.buff(Deep Insight)" } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "!player.buff(Blade Flurry)", "player.buff(Deep Insight)" } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "modifier.enemies < 2", "player.spell(Shadow Blades).cooldown <= 11"  } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "!player.buff(Blade Flurry)", "player.spell(Shadow Blades).cooldown <= 11"  } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "modifier.enemies < 2", "player.buff(Anticipation).count >= 4" } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "!player.buff(Blade Flurry)", "player.buff(Anticipation).count >= 4" } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "modifier.enemies < 2", "player.buff(Shadow Blades)", "player.buff(Anticipation).count >= 3" } },
-	{ "Rupture", { "target.debuff(Rupture).duration <= 2", "target.deathin > 25", "!player.buff(Blade Flurry)", "player.buff(Shadow Blades)", "player.buff(Anticipation).count >= 3" } },
+	{ {
+		{ "Crimson Tempest", { "target.debuff(Crimson Tempest).duration <= 1", "player.buff(Deep Insight)", "player.area(10).enemies > 5" } },
+		{ "Crimson Tempest", { "target.debuff(Crimson Tempest).duration <= 1", "!talent(6, 3)", "player.area(10).enemies > 5" } },
+		{ "Crimson Tempest", { "target.debuff(Crimson Tempest).duration <= 1", "talent(6, 3)", "player.buff(Anticipation).count > 3", "player.area(10).enemies > 5" } },
 
-	{ "Crimson Tempest", { "modifier.enemies >= 7", "target.debuff(Crimson Tempest).duration <= 2", "!player.spell(Anticipation).exists" } },
-	{ "Crimson Tempest", { "modifier.enemies >= 7", "target.debuff(Crimson Tempest).duration <= 2", "player.buff(Deep Insight)" } },
-	{ "Crimson Tempest", { "modifier.enemies >= 7", "target.debuff(Crimson Tempest).duration <= 2", "player.spell(Shadow Blades).cooldown <= 11" } },
-	{ "Crimson Tempest", { "modifier.enemies >= 7", "target.debuff(Crimson Tempest).duration <= 2", "player.buff(Anticipation).count >= 4" } },
-	{ "Crimson Tempest", { "modifier.enemies >= 7", "target.debuff(Crimson Tempest).duration <= 2", "player.buff(Shadow Blades)", "player.buff(Anticipation).count >= 3" } },
-
-	{ "Eviscerate", "!player.spell(Anticipation).exists" },
-	{ "Eviscerate", "player.buff(Deep Insight)" },
-	{ "Eviscerate", "player.spell(Shadow Blades).cooldown <= 11" },
-	{ "Eviscerate", "player.buff(Anticipation).count >= 4" },
-	{ "Eviscerate", { "player.buff(Shadow Blades)", "player.buff(Anticipation).count >= 3" } },
-
-	{ "Fan of Knives", { "modifier.multitarget", "modifier.enemies >= 4", "player.energy > 60" } }, --TODO: player.spell(Fan of Knives).delay(5)
-	{ "Fan of Knives", { "modifier.multitarget", "modifier.enemies >= 4", "!player.buff(Deep Insight)" } }, --TODO: player.spell(Fan of Knives).delay(5)
-	{ "Fan of Knives", { "modifier.multitarget", "modifier.enemies >= 4", "player.buff(Deep Insight).duration > 3" } }, --TODO: player.spell(Fan of Knives).delay(5) AND player.buff(Deep Insight).duration > 5 - player.combopoints
-	
-	{ "Revealing Strike", { "target.debuff(Revealing Strike).duration <= 2", "player.energy > 60" } },
-	{ "Revealing Strike", { "target.debuff(Revealing Strike).duration <= 2", "!player.buff(Deep Insight)" } },
-	{ "Revealing Strike", { "target.debuff(Revealing Strike).duration <= 2", "player.buff(Deep Insight).duration > 3" } }, --TODO: player.buff(Deep Insight).duration > 5 - player.combopoints
-	
-	{ "Sinister Strike", "player.energy > 60" },
-	{ "Sinister Strike", "!player.buff(Deep Insight)" },
-	{ "Sinister Strike", "player.buff(Deep Insight).duration > 3" }, --TODO: player.buff(Deep Insight).duration > 5 - player.combopoints
+		{ "Eviscerate", "player.buff(Deep Insight)" },
+		{ "Eviscerate", "!talent(6, 3)" },
+		{ "Eviscerate", { "talent(6, 3)", "player.buff(Anticipation).count > 3" } },
+	},{
+		"player.combopoints > 4",
+	} },
 
 },{
 -- OUT OF COMBAT
 	-- Poisons
 	{ "Deadly Poison", { "!player.moving", "!player.buff(Deadly Poison)" } },
-	{ "Leeching Poison", { "!player.moving", "!player.buff(Leeching Poison)" } },
+	{ "Crippling Poison", { "!player.moving", "!player.buff(Crippling Poison)" } },
 
-})
+	{ "Stealth", "!player.buff(Stealth)" },
+
+	{ "Ambush", { "target.enemy", "target.range < 1" }, "target" },
+
+},
+function()
+	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
+end)
