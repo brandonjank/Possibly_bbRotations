@@ -29,6 +29,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Templar's Verdict", { "player.holypower > 4", "player.buff(Divine Purpose)", "target.area(8).enemies < 2" } },
   { "Divine Storm", { "player.holypower > 4", "target.area(8).enemies > 1" } },
   { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Purpose)", "target.area(8).enemies > 1" } },
+  { "Divine Storm", "player.buff(Divine Storm)" }, --4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
 
   -- INTERRUPTS
   { "Arcane Torrent", { "modifier.interrupt", "target.distance < 8" } },
@@ -76,12 +77,8 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Hammer of Wrath", "player.buff(Avenging Wrath)", "target" },
   { "Crusader Strike", "target.area(10).enemies < 5" },
   { "Hammer of the Righteous", "target.area(10).enemies > 4" },
-  
-  { "Exorcism" }, -- If have 2set bonus cast if not buff Warrior of the Light
-
   { "Judgment" },
-  { "Divine Storm", "player.buff(Divine Storm)" }, --4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
-
+  { "Exorcism" },
   { "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
   { "Execution Sentence", { "talent(6, 3)", "player.health > 70", "target.deathin > 8" }, "target" },
   { "Light's Hammer", "talent(6, 2)", "target.ground" },
