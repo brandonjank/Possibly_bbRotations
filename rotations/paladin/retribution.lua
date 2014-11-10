@@ -82,7 +82,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
 
   -- AOE 5+
   { {
-    { "Seal of Righteousness", "!player.seal == 2" },
+    { "Seal of Righteousness", { "!talent(7, 1)", "!player.seal == 2" } },
     { "Divine Storm", { "player.holypower > 4", "!talent(7, 2)" } },
     { "Divine Storm", { "player.holypower > 4", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
     { "Exorcism", { "player.holypower < 3", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
@@ -102,7 +102,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
 
   -- CLEAVE 3+
   { {
-    { "Seal of Righteousness", "!player.seal == 2" },
+    { "Seal of Righteousness", { "!talent(7, 1)", "!player.seal == 2" } },
     { "Final Verdict", { "player.holypower > 4", "!player.buff(Final Verdict)" } },
     { "Divine Storm", { "player.holypower > 4", "player.buff(Final Verdict)" } },
     { "Divine Storm", { "player.holypower > 4", "!talent(7, 3)", "!talent(7, 2)" } },
@@ -123,7 +123,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   } },
 
   -- SINGLE TARGET
-  { "Seal of Truth", "!player.seal == 1" },
+  { "Seal of Truth", { "!talent(7, 1)", "!player.seal == 1" } },
   { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "player.buff(Final Verdict)" } },
   { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "!talent(7, 3)" } },
   { "Divine Storm", { "player.holypower > 4", "player.buff(Final Verdict)" } },
