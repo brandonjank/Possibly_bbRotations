@@ -76,9 +76,12 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Hammer of Wrath", "player.buff(Avenging Wrath)", "target" },
   { "Crusader Strike", "target.area(10).enemies < 5" },
   { "Hammer of the Righteous", "target.area(10).enemies > 4" },
+  
+  { "Exorcism" }, -- If have 2set bonus cast if not buff Warrior of the Light
+
   { "Judgment" },
   { "Divine Storm", "player.buff(Divine Storm)" }, --4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
-  { "Exorcism" }, -- If have 2set bonus cast if not buff Warrior of the Light
+
   { "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
   { "Execution Sentence", { "talent(6, 3)", "player.health > 70", "target.deathin > 8" }, "target" },
   { "Light's Hammer", "talent(6, 2)", "target.ground" },
@@ -91,8 +94,8 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "pause", "modifier.lcontrol" },
 
   -- RAID BUFFS
-  { "Blessing of Kings", { "!modifier.last", (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil and select(1,GetRaidBuffTrayAuraInfo(8)) == nil end) } }, -- TODO: If no Monk or Druid in group.
-  { "Blessing of Might", { "!modifier.last", (function() return select(1,GetRaidBuffTrayAuraInfo(8)) == nil end), "!player.buff(Blessing of Kings)", "!player.buff(Blessing of Might)" } },
+  { "Blessing of Kings", { "!modifier.last", "!player.buffs.stats" } }, -- TODO: If no Monk or Druid in group.
+  { "Blessing of Might", { "!modifier.last", "!player.buffs.mastery", "!player.buff(Blessing of Kings)" } },
 
   -- SEALS
   --{ "Seal of Truth", { "!player.buff(Seal of Truth)", "!modifier.last" } },
