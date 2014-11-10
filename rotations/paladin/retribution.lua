@@ -82,14 +82,14 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
 
   -- AOE 5+
   { {
-    { "Seal of Righteousness", "!player.buff(Seal of Righteousness)" },
+    { "Seal of Righteousness", "!player.seal == 2" },
     { "Divine Storm", { "player.holypower > 4", "!talent(7, 2)" } },
     { "Divine Storm", { "player.holypower > 4", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
     { "Exorcism", { "player.holypower < 3", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
     { "Hammer of the Righteous" },
     --actions.aoe+=/judgment,if=talent.empowered_seals.enabled&seal.righteousness&buff.liadrins_righteousness.remains<=5
     { "Hammer of Wrath", true, "target" },
-    { "Divine Storm", { "!talent(7, 2)" } },
+    { "Divine Storm", "!talent(7, 2)" },
     { "Divine Storm", { "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
     { "Exorcism", "player.glyph(122028)" },
     { "Judgment" },
@@ -102,7 +102,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
 
   -- CLEAVE 3+
   { {
-    { "Seal of Righteousness", "!player.buff(Seal of Righteousness)" },
+    { "Seal of Righteousness", "!player.seal == 2" },
     { "Final Verdict", { "player.holypower > 4", "!player.buff(Final Verdict)" } },
     { "Divine Storm", { "player.holypower > 4", "player.buff(Final Verdict)" } },
     { "Divine Storm", { "player.holypower > 4", "!talent(7, 3)", "!talent(7, 2)" } },
@@ -123,7 +123,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   } },
 
   -- SINGLE TARGET
-  { "Seal of Truth", "!player.buff(Seal of Truth)" },
+  { "Seal of Truth", "!player.seal == 1" },
   { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "player.buff(Final Verdict)" } },
   { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "!talent(7, 3)" } },
   { "Divine Storm", { "player.holypower > 4", "player.buff(Final Verdict)" } },
@@ -169,7 +169,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Blessing of Might", { "!modifier.last", "!player.buffs.mastery", "!player.buff(Blessing of Kings)" } },
 
   -- SEALS
-  { "Seal of Truth", { "!player.buff(Seal of Truth)", "!modifier.last" } },
+  { "Seal of Truth", { "!player.seal == 1", "!modifier.last" } },
 
   { {
     { "Blessing of Kings", { "@bbLib.engaugeUnit('Gulp Frog', 30, true)" } },
