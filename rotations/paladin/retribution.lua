@@ -71,21 +71,19 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Holy Avenger", { "talent(5, 1)" , "player.buff(Avenging Wrath)" } },
 
   -- DPS ROTATION
+  -- TODO: 4+ targets replace Seal of Truth with Seal of Righteousness
+  { "Hammer of Wrath", "target.health <= 20", "target" },
+  { "Hammer of Wrath", "player.buff(Avenging Wrath)", "target" },
+  { "Crusader Strike", "target.area(10).enemies < 5" },
+  { "Hammer of the Righteous", "target.area(10).enemies > 4" },
+  { "Judgment" },
+  { "Divine Storm", "player.buff(Divine Storm)" }, --4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
+  { "Exorcism" }, -- If have 2set bonus cast if not buff Warrior of the Light
   { "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
-  { "Execution Sentence", { "talent(6, 3)", "player.health > 70" }, "target" },
+  { "Execution Sentence", { "talent(6, 3)", "player.health > 70", "target.deathin > 8" }, "target" },
   { "Light's Hammer", "talent(6, 2)", "target.ground" },
   { "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
   { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
-  { "Hammer of Wrath", "target.health <= 20", "target" },
-  { "Hammer of Wrath", "player.buff(Avenging Wrath)", "target" },
-  { "Crusader Strike", "target.area(10).enemies < 2" },
-  { "Hammer of the Righteous", "target.area(10).enemies > 1" },
-  -- TODO: 4+ targets replace Seal of Truth with Seal of Righteousness
-  { "Judgment" },
-  { "Divine Storm", "player.buff(Divine Storm)" }, --4-Part Tier 16 Set Bonus, and you have a Divine Storm proc from it.
-  { "Exorcism" },
-  { "Templar's Verdict", { "player.holypower > 2", "target.area(8).enemies < 2" } },
-  { "Divine Storm", { "player.holypower > 2", "target.area(8).enemies > 1" } },
 
 },{
 -- OUT OF COMBAT ROTATION

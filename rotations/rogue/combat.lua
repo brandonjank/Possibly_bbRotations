@@ -9,12 +9,11 @@ PossiblyEngine.rotation.register_custom(260, "bbCombatRogue", {
 -- COMBAT
 	-- PAUSE / UTILITIES
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
 
 	-- AUTO TARGET
-	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
-	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
+	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists", "!target.friend" } },
+	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "!target.friend" } },
 
 	-- AMBUSH
 	{ "Ambush", { "target.enemy", "target.range < 1" } },
@@ -103,12 +102,18 @@ PossiblyEngine.rotation.register_custom(260, "bbCombatRogue", {
 
 },{
 -- OUT OF COMBAT
-	-- Poisons
+	-- PAUSE / UTILITIES
+	{ "pause", "modifier.lcontrol" },
+	{ "pause", "player.buff(Food)" },
+
+	-- POISONS
 	{ "Deadly Poison", { "!player.moving", "!player.buff(Deadly Poison)" } },
 	{ "Crippling Poison", { "!player.moving", "!player.buff(Crippling Poison)" } },
 
+	-- STEALTH
 	{ "Stealth", "!player.buff(Stealth)" },
 
+	-- AMBUSH OOC
 	{ "Ambush", { "target.enemy", "target.range < 1" }, "target" },
 
 },

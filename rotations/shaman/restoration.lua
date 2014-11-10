@@ -82,11 +82,11 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Riptide", { "lowest.health < 100", "!lowest.buff(Riptide)" }, "lowest" },
 
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.
-	{ "Healing Rain", { "lowest.health <= 90", "!lowest.moving", "@bbLib.NeedHealsAroundUnit" }, "lowest.ground" }, -- lowest.ground is not working
+	{ "Healing Rain", { "lowest.health <= 90", "!lowest.moving", "@bbLib.NeedHealsAroundUnit('Healing Rain')" }, "lowest.ground" }, -- lowest.ground is not working
 
 	--Cast Chain Heal on  Riptided targets for additional AoE healing.
-	{ "Chain Heal", { "!modifier.last", "lowest.health <= 90", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
-	{ "Chain Heal", { "!modifier.last", "lowest.health <= 80", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
+	{ "Chain Heal", { "!modifier.last", "lowest.health <= 90", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit('Chain Heal')" }, "lowest" },
+	{ "Chain Heal", { "!modifier.last", "lowest.health <= 80", "@bbLib.NeedHealsAroundUnit('Chain Heal')" }, "lowest" },
 
 	--Spend Tidal Waves procs on Healing Surges for tank healing.
 	{ "Healing Surge", { "focus.health < 95", "player.buff(Tidal Waves)" }, "focus" },

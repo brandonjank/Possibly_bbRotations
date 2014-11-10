@@ -21,9 +21,13 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- FROGGING
 	{ {
 		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
-		{ "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
+		{ "Renewal", { "talent(2, 2)", "player.health < 79" }, "player" },
 		{ "Rejuvenation", { "player.health < 99", "!player.buff(Rejuvenation)" }, "player" },
-		{ "Healing Touch", { "player.health < 70" }, "player" },
+		{ "Healing Touch", { "player.health < 40" }, "player" },
+		{ "Rejuvenation", { "party1.exists", "party1.health < 100", "!party1.buff(Rejuvenation)" }, "party1" },
+		{ "Rejuvenation", { "party2.exists", "party2.health < 100", "!party2.buff(Rejuvenation)" }, "party2" },
+		{ "Rejuvenation", { "party3.exists", "party3.health < 100", "!party3.buff(Rejuvenation)" }, "party3" },
+		{ "Rejuvenation", { "party4.exists", "party4.health < 100", "!party4.buff(Rejuvenation)" }, "party4" },
 	}, "toggle.frogs" },
 
 	-- DEFENSIVE COOLDOWNS
@@ -93,7 +97,6 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- HEALING
 	{ "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
 	{ "Rejuvenation", { "player.health < 99", "!player.buff(Rejuvenation)" }, "player" },
-	{ "Rejuvenation", { "lowest.health < 90", "!lowest.buff(Rejuvenation)" }, "lowest" },
 	{ "Healing Touch", { "player.health < 70" }, "player" },
 
 	--REZ Revive (50769)
@@ -107,11 +110,12 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- FROGGING
 	{ {
 		{ "Mark of the Wild", { "player.health > 80", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" } },
+		{ "Rejuvenation", { "party1.exists", "party1.health < 100", "!party1.buff(Rejuvenation)" }, "party1" },
+		{ "Rejuvenation", { "party2.exists", "party2.health < 100", "!party2.buff(Rejuvenation)" }, "party2" },
+		{ "Rejuvenation", { "party3.exists", "party3.health < 100", "!party3.buff(Rejuvenation)" }, "party3" },
+		{ "Rejuvenation", { "party4.exists", "party4.health < 100", "!party4.buff(Rejuvenation)" }, "party4" },
 		{ "Sunfire", "player.balance.sun", "target" },
 		{ "Moonfire", "player.balance.moon", "target" },
-		{ "Wrath", "player.balance.sun", "target" },
-		{ "Starfire", "player.balance.moon", "target" },
-		{ "Soothe", true, "target" },
 	},{
 		"toggle.frogs",
 	} },

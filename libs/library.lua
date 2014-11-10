@@ -41,9 +41,9 @@ function bbLib.prePot()
 	return false
 end
 
-function bbLib.NeedHealsAroundUnit(unit, count, distance, threshold)
+function bbLib.NeedHealsAroundUnit(spell, unit, count, distance, threshold)
 	if not unit or ( unit and unit == 'lowest' ) then
-		unit = PossiblyEngine.raid.lowestHP()
+		unit = PossiblyEngine.raid.lowestHP(spell)
 	end
 	if UnitExists(unit) then
 		if not count then count = 2 end
@@ -89,30 +89,23 @@ function bbLib.rateLimit(miliseconds)
     return ((GetTime()*1000) % miliseconds) == 0
 end
 
+
 function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 	if UnitIsDeadOrGhost("player")
 		or ( UnitExists("target") and UnitIsFriend("player", "target") )
-		or ((UnitHealth("player") / UnitHealthMax("player")) * 100) < 60
-	then
-		return false
+		or ((UnitHealth("player") / UnitHealthMax("player")) * 100) < 60 then
+			return false
 	end
 
-	if UnitClass("player") == "Hunter"
-		and UnitBuff("player", "Sniper Training") ~= nil
-	then
+	if UnitClass("player") == "Hunter" and UnitBuff("player", "Sniper Training") ~= nil then
 		searchRange = searchRange + 5
 	end
 
 	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
 	if toxin > 3 then
-		if UnitClass("player") == "Paladin"
-			and GetSpellCooldown("Divine Shield") == 0
-		then
+		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
 			Cast("Divine Shield", "player")
-		end
-		if UnitClass("player") == "Shaman"
-			and GetSpellCooldown("Earth Elemental Totem") == 0
-		then
+		elseif UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
 			Cast("Earth Elemental Totem", "player")
 		end
 		searchRange = 3
@@ -120,18 +113,17 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 
 	if UnitExists("target") then
 		if UnitIsDeadOrGhost("target")
-			or ( UnitIsTapped("target") and not UnitIsTappedByPlayer("target") and UnitThreatSituation("player", "target") and UnitThreatSituation("player", "target") < 2 )
-		then
-			ClearTarget()
+			or ( UnitIsTapped("target") and not UnitIsTappedByPlayer("target")
+			and UnitThreatSituation("player", "target")
+			and UnitThreatSituation("player", "target") < 2 ) then
+				ClearTarget()
 		end
 	end
-
-
 
 	-- Find closest unit.
 	if not UnitExists("target") then
 		local totalObjects = ObjectCount() or 0
-		local closestUnitObject
+		local closestUnitObject = nil
 		local closestUnitDistance = 9999
 		local objectCount = 0
 		for i = 1, totalObjects do
@@ -141,13 +133,14 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 				if objectName == unitName then
 					-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
 					if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) then
-						if not UnitIsTapped(object) or UnitIsTappedByPlayer(object) or ( UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1 ) then
-							local objectDistance = Distance("player", object)
-							if objectDistance <= searchRange and objectDistance < closestUnitDistance and LineOfSight("player", object) then
-								closestUnitObject = object
-								closestUnitDistance = objectDistance
-								objectCount = objectCount + 1
-							end
+						if not UnitIsTapped(object) or UnitIsTappedByPlayer(object)
+							or ( UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1 ) then
+								local objectDistance = Distance("player", object)
+								if objectDistance <= searchRange and objectDistance < closestUnitDistance and LineOfSight("player", object) then
+									closestUnitObject = object
+									closestUnitDistance = objectDistance
+									objectCount = objectCount + 1
+								end
 						end
 					end
 				end
@@ -159,15 +152,6 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 		TargetUnit(closestUnitObject)
 		FaceUnit(closestUnitObject)
 	end
-
--- /script print(GetSpellCooldown(61304)) Global Cooldown
-
-	--  Force tapping
-	--if UnitExists("target") and not UnitIsTapped("target") and not UnitIsTappedByPlayer("target") then
-	--	if UnitClass("player") == "Shaman" and Distance("player", "target") <= 30 and GetSpellCooldown("Purge") == 0 then
-	--		Cast("Purge", "target")
-	--	end
-	--end
 
 	-- Always Face Target
 	--if UnitExists("target") then
@@ -582,13 +566,19 @@ if not myErrorFrame then
 	local myErrorFrame = CreateFrame('Frame')
 	myErrorFrame:RegisterEvent('UI_ERROR_MESSAGE')
 	myErrorFrame:SetScript('OnEvent', function(self, event, message)
-		if UnitClass("player") == "Druid" then -- Get out of shapeshift when needed.
-			if message and string.find(message, "shapeshift") and GetShapeshiftForm() ~= 0 then
-				CancelShapeshiftForm()
+		if message then
+			-- Face Target on Error
+			if string.find(message, "front of you") and UnitExists("target") and select(1,GetUnitSpeed("player")) == 0 then
+				FaceUnit("target")
 			end
-		end
-		if message and string.find(message, "front of you") and UnitExists("target") and select(1,GetUnitSpeed("player")) == 0 then
-			FaceUnit("target")
+
+			-- Class Specific Errors
+			if UnitClass("player") == "Druid" then -- Get out of shapeshift when needed.
+				if string.find(message, "shapeshift") and GetShapeshiftForm() ~= 0 then
+					CancelShapeshiftForm()
+				end
+			end
+
 		end
 	end)
 end

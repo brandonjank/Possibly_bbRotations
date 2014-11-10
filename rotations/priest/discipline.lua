@@ -39,7 +39,7 @@ PossiblyEngine.rotation.register_custom(256, "bbPriest Discipline", {
   -- Pain Suppression should be used on a tank, before a damage spike. Alternatively, it can be used on a raid member who is targeted by a very damaging ability.
   -- Power Word: Barrier should be used to mitigate intense AoE damage; it requires the raid to be stacked in one place.
   { "Power Infusion", { "talent(5, 2)", "@coreHealing.needsHealing(70, 5)" } },
-  { "Cascade", { "talent(6, 1)", "lowest.health < 90", "@bbLib.NeedHealsAroundUnit" }, "lowest" },
+  { "Cascade", { "talent(6, 1)", "lowest.health < 90", "@bbLib.NeedHealsAroundUnit('Cascade')" }, "lowest" },
 
   -- SELF HEALING
   { "Desperate Prayer", { "talent(1, 1)", "player.health < 80" }, "player" },
@@ -51,7 +51,7 @@ PossiblyEngine.rotation.register_custom(256, "bbPriest Discipline", {
   -- RAID HEALING
   -- Prayer of Healing is your go-to AoE heal. To make optimal use of it, the members of your target's party must be significantly damaged.
   -- Holy Nova is another AoE heal that does a surprisingly good amount of healing. As an added bonus, this can be cast while moving.
-  { "Holy Nova", { "!modifer.last", "@bbLib.NeedHealsAroundUnit('player', 3, 12, 90)" } },
+  { "Holy Nova", { "!modifer.last", "@bbLib.NeedHealsAroundUnit('Holy Nova', 'player', 3, 12, 90)" } },
 
   -- SURGE OF LIGHT
   { "Flash Heal", { "lowest.exists", "lowest.health < 90", "player.buff(Surge of Light)" }, "lowest" },
