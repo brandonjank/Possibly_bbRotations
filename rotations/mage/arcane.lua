@@ -49,29 +49,19 @@ PossiblyEngine.rotation.register_custom(62, "bbMage Arcane", {
 	} },
 
 	-- SINGLE TARGET
-	-- If you have to move for a long distance and that your stacks of Arcane Charge are about to drop, you can use Arcane Explosion to refresh them, if there is a target in range.
-	{ "Arcane Explosion", { "player.movingfor > 5", "player.debuff(Arcane Charge)", "player.debuff(Arcane Charge).duration < 2", "player.area(10).enemies > 0", } },
-	-- Put your Rune of Power down and try to stay within 8 yards of it.
+	{ "Arcane Explosion", { "player.movingfor > 3", "player.debuff(Arcane Charge)", "player.debuff(Arcane Charge).duration < 2", "player.area(10).enemies > 0", } },
 	{ "Rune of Power", { "talent(6, 2)", "!player.buff(Rune of Power)", "!modifier.last" } }, -- TODO: Track Rune distane from player
-	--  apply it with 4 stacks of Arcane Charge or refresh it with 4 stacks of Arcane Charge before it drops (refreshing it with less than 3.6 seconds left will not cause you to waste ticks).
 	{ "Nether Tempest", { "talent(5, 1)", "!target.debuff(Nether Tempest)", "player.debuff(Arcane Charge).count > 3" } },
 	{ "Nether Tempest", { "talent(5, 1)", "target.debuff(Nether Tempest)", "player.debuff(Arcane Charge).count > 3", "target.debuff(Nether Tempest).duration < 3.6" } },
-	-- If you chose Supernova as your Tier 5 talent, try to cast it on cooldown or
 	{ "Supernova", { "talent(5, 3)", "player.spell(Arcane Power).cooldown > 25" } }, --TODO: let it recharge (2), so that you can cast it twice in a row for burst damage (preferably during a trinket proc).
-	-- use Ice Floes Icon Ice Floes again to cast Arcane Blast or Arcane Missiles (do not cast Arcane Barrage Icon Arcane Barrage unless you meet the single-target rotation criteria that we listed above).
 	{ "Ice Floes", { "!player.buff(Ice Floes)", "player.movingfor > 2" } },
-	-- Cast Arcane Missiles, if you have 4 stacks of Arcane Charge and 3 charges of Arcane Missiles.
 	{ "Arcane Missiles", { "player.debuff(Arcane Charge).count > 3", "player.buff(Arcane Missiles).count > 2" } },
-	-- Cast Arcane Blast, if you are above 93% Mana before your start casting (or 91% with the Tier 16 2-piece bonus).
 	{ "Arcane Blast", "player.mana > 92" }, -- TODO:93% Mana before your start casting (or 91% with the Tier 16 2-piece bonus).
-	-- Cast Arcane Missiles Icon Arcane Missiles at 4 stacks of Arcane Charge Icon Arcane Charge.
 	{ "Arcane Missiles", "player.debuff(Arcane Charge).count > 3" },
-	-- Cast Arcane Barrage Icon Arcane Barrage at 4 stacks of Arcane Charge Icon Arcane Charge.
 	{ "Arcane Barrage", "player.debuff(Arcane Charge).count > 3" },
-	-- Cast Arcane Blast Icon Arcane Blast.
 	{ "Arcane Blast" },
 
-
+--[[
 	-- COOLDOWNS
 	-- actions=counterspell,if=target.debuff.casting.react
 	-- actions+=/blink,if=movement.distance>10
@@ -172,6 +162,7 @@ PossiblyEngine.rotation.register_custom(62, "bbMage Arcane", {
 	-- actions.conserve+=/presence_of_mind,if=buff.arcane_charge.stack<2
 	-- actions.conserve+=/arcane_blast
 	-- actions.conserve+=/arcane_barrage,moving=1
+]]--
 
 },{
 	-- OUT OF COMBAT
