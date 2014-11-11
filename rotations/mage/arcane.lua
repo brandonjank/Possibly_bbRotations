@@ -24,7 +24,7 @@ PossiblyEngine.rotation.register_custom(62, "bbMage Arcane", {
 
 	-- Interrupts
 	{ "Counterspell", "modifier.interrupt" },
-	{ "Frostjaw", { "talent(3, 3)", "modifier.interrupts" } },
+	--{ "Frostjaw", { "talent(3, 3)", "modifier.interrupts" } },
 	-- TODO: Spellsteal
 
 	-- Decurse

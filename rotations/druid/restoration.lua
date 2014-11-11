@@ -76,13 +76,13 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Healing Touch", { "toggle.mouseover", "mouseover.buff(Regrowth)", "mouseover.health < 100", "!mouseover.range > 40" }, "mouseover" },
 
   -- RAID HEALING
-  { "Regrowth", { "lowest.health < 100", "!lowest.buff(Regrowth)", "player.buff(Clearcasting)" }, "lowest" },
+  { "Regrowth", { "lowest.health < 80", "!lowest.buff(Regrowth)", "player.buff(Clearcasting)" }, "lowest" },
   { "774", { "lowest.health < 100", "!lowest.buff(774)" }, "lowest" },
   { "Wild Growth", { "lowest.health <= 90", "!player.moving", "@coreHealing.needsHealing(90, 2)" }, "lowest" },
   { "Swiftmend", { "lowest.health <= 80", "lowest.buff(Rejuvenation)" }, "lowest" },
   { "Swiftmend", { "lowest.health <= 80", "lowest.buff(Regrowth)" }, "lowest" },
   { "Wild Mushroom", { "lowest.health < 100", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "lowest" },
-  { "Regrowth", { "lowest.health <= 80", "!lowest.buff(Regrowth)", "!player.moving" }, "lowest" },
+  { "Regrowth", { "lowest.health <= 70", "!lowest.buff(Regrowth)", "!player.moving" }, "lowest" },
   { "Healing Touch", { "lowest.health < 100", "!player.moving" }, "lowest" },
 
   { "Wrath", "lowest.health > 99", "target" },
