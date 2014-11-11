@@ -49,7 +49,7 @@ PossiblyEngine.rotation.register_custom(62, "bbMage Arcane", {
 	} },
 
 	-- SINGLE TARGET
-	{ "Arcane Explosion", { "player.movingfor > 3", "player.debuff(Arcane Charge)", "player.debuff(Arcane Charge).duration < 2", "player.area(10).enemies > 0", } },
+	--{ "Arcane Explosion", { "player.movingfor > 3", "player.debuff(Arcane Charge)", "player.debuff(Arcane Charge).duration < 2", "player.area(10).enemies > 0", } },
 	{ "Rune of Power", { "talent(6, 2)", "!player.buff(Rune of Power)", "!modifier.last" } }, -- TODO: Track Rune distane from player
 	{ "Nether Tempest", { "talent(5, 1)", "!target.debuff(Nether Tempest)", "player.debuff(Arcane Charge).count > 3" } },
 	{ "Nether Tempest", { "talent(5, 1)", "target.debuff(Nether Tempest)", "player.debuff(Arcane Charge).count > 3", "target.debuff(Nether Tempest).duration < 3.6" } },
