@@ -18,6 +18,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 
+--[[
 	-- FROGGING
 	{ {
 		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
@@ -82,6 +83,58 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Hurricane", { "!toggle.frogs", "player.balance.sun", "target.area(35).enemies > 4" }, "target.ground" },
 	{ "Wrath", { "player.balance.sun", "target.area(35).enemies < 5" } },
 	{ "Starfire", { "player.balance.moon", "target.area(35).enemies < 5" } },
+]]--
+
+	-- COOLDOWNS
+	{ "Blood Fury", "player.buff(Celestial Alignment)" },
+	{ "Berserking", "player.buff(Celestial Alignment)" },
+	{ "Arcane Torrent", "player.buff(Celestial Alignment)" },
+	-- actions+=/force_of_nature,if=trinket.stat.intellect.up
+	{ "Force of Nature", "player.spell(Force of Nature).charges > 2" },
+	{ "Force of Nature", "target.deathin < 21" },
+
+	-- AOE
+	--{ {
+		-- actions.aoe=celestial_alignment,if=lunar_max<8|target.time_to_die<20
+		-- actions.aoe+=/incarnation,if=buff.celestial_alignment.up
+		-- actions.aoe+=/sunfire,if=remains<8
+		-- actions.aoe+=/starfall
+		-- actions.aoe+=/moonfire,cycle_targets=1,if=remains<12
+		-- actions.aoe+=/stellar_flare,cycle_targets=1,if=remains<7
+		-- actions.aoe+=/wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
+		-- actions.aoe+=/starfire,if=(eclipse_energy>=0&eclipse_change>cast_time)|(eclipse_energy<0&cast_time>eclipse_change)
+--	},{
+--		"target.area(10).enemies > 1"
+	--} },
+
+	-- SINGLE TARGET
+	-- actions.single_target=starsurge,if=buff.lunar_empowerment.down&eclipse_energy>20
+	{ "Starsurge", { "!player.buff(Lunar Empowerment)", "player.balance.eclipse > 20" } },
+	-- actions.single_target+=/starsurge,if=buff.solar_empowerment.down&eclipse_energy<-40
+	{ "Starsurge", { "!player.buff(Solar Empowerment)", "player.balance.eclipse < -40" } },
+	-- actions.single_target+=/starsurge,if=(charges=2&recharge_time<6)|charges=3
+	{ "Starsurge", { "player.spell(Starsurge).charges > 2" } },
+	{ "Starsurge", { "player.spell(Starsurge).charges > 1", "player.spell(Starsurge).recharge < 6" } },
+	-- actions.single_target+=/celestial_alignment,if=eclipse_energy>40
+	{ "Celestial Alignment", "player.balance.eclipse > 40" },
+	-- actions.single_target+=/incarnation,if=eclipse_energy>0
+	{ "Incarnation", "balance.eclipse > 0" },
+	-- actions.single_target+=/sunfire,if=remains<7|buff.solar_peak.up
+	{ "Sunfire", "player.buff(Solar Peak)" },
+	{ "Sunfire", "!target.debuff(Sunfire)" },
+	{ "Sunfire", "target.debuff(Sunfire).duration < 7" },
+	-- actions.single_target+=/stellar_flare,if=remains<7
+	{ "Stellar Flare", "!target.debuff(Stellar Flare)" },
+	{ "Stellar Flare", "target.debuff(Stellar Flare).duration < 7" },
+	-- actions.single_target+=/moonfire,if=buff.lunar_peak.up&remains<eclipse_change+20|remains<4|(buff.celestial_alignment.up&buff.celestial_alignment.remains<=2&remains<eclipse_change+20)
+	{ "Moonfire", "player.buff(Lunar Peak)" },
+	{ "Moonfire", "!target.debuff(Moonfire)" },
+	-- actions.single_target+=/wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
+	{ "Wrath", { "player.balance.eclipse < -8" } }, -- , "player.balance.eclipsechangetime > player.spell(Wrath).castingtime"
+	{ "Wrath", { "player.balance.eclipse > 8" } }, -- , "player.balance.eclipsechangetime < player.spell(Wrath).castingtime"
+	-- actions.single_target+=/starfire,if=(eclipse_energy>=0&eclipse_change>cast_time)|(eclipse_energy<0&cast_time>eclipse_change)
+	{ "Starfire", { "player.balance.eclipse > 12" } }, -- , "player.balance.eclipsechangetime > player.spell(Starfire).castingtime"
+	{ "Starfire", { "player.balance.eclipse < -12" } }, -- , "player.balance.eclipsechangetime < player.spell(Starfire).castingtime"
 
 },
 {
