@@ -24,6 +24,7 @@ bbLib = {}
 
 -- GetFollowDistance(), SetFollowDistance(Distance), GetFollowTarget(), SetFollowTarget(Target).
 --SetFollowDistance(5)
+-- WorldToScreen and GetCameraPosition
 
 
 function bbLib.prePot()

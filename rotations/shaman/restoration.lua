@@ -78,7 +78,7 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Riptide", { "boss3target.exists", "boss3target.friend", "!boss3target.buff(Riptide)" }, "boss3target" },
 	{ "Riptide", { "boss4target.exists", "boss4target.friend", "!boss4target.buff(Riptide)" }, "boss4target" },
 	{ "Riptide", { "target.health < 100", "target.friend", "!target.buff(Riptide)" }, "target" },
-	{ "Riptide", { "mouseover.exists", "!mouseover.buff(Riptide)" }, "mouseover" },
+	{ "Riptide", { "mouseover.exists", "mouseover.friend", "mouseover.health < 100", "!mouseover.buff(Riptide)" }, "mouseover" },
 	{ "Riptide", { "lowest.health < 100", "!lowest.buff(Riptide)" }, "lowest" },
 
 	--Cast Healing Rain on a clump of injured players when AoE healing is needed.

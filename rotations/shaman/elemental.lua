@@ -108,7 +108,12 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 -- actions.single+=/earthquake,if=talent.unleashed_fury.enabled&((1+stat.spell_haste)*(1+(mastery_value*2%4.5))>=((1.3*1.875)+(1.25*0.226305)+1.25*(2*0.226305*stat.multistrike_pct%100)))&target.time_to_die>10&buff.elemental_mastery.down&buff.bloodlust.down
 -- actions.single+=/earthquake,if=talent.unleashed_fury.enabled&((1+stat.spell_haste)*(1+(mastery_value*2%4.5))>=1.3*((1.3*1.875)+(1.25*0.226305)+1.25*(2*0.226305*stat.multistrike_pct%100)))&target.time_to_die>10&(buff.elemental_mastery.up|buff.bloodlust.up)
 -- actions.single+=/earthquake,if=talent.unleashed_fury.enabled&((1+stat.spell_haste)*(1+(mastery_value*2%4.5))>=((1.3*1.875)+(1.25*0.226305)+1.25*(2*0.226305*stat.multistrike_pct%100)))&target.time_to_die>10&(buff.elemental_mastery.remains>=10|buff.bloodlust.remains>=10)
-	{ "Earthquake", { "!player.moving", "target.deathin > 10" } , "target.ground" },
+	-- GetCombatRating(CR_HASTE_SPELL)
+	-- UnitSpellHaste("player")
+	--(function() return ((1+stat.spell_haste)*(1+(GetMastery()*2%4.5)) >= (1.875+(1.25*0.226305)+1.25*(2*0.226305*stat.multistrike_pct%100))) end)
+	{ "Earthquake", { "!player.moving", "target.deathin > 10", "!player.buff(Elemental Mastery)", "!player.hashero" } , "target.ground" },
+	{ "Earthquake", { "!player.moving", "target.deathin > 10", "player.buff(Elemental Mastery).duration >= 10" } , "target.ground" },
+	{ "Earthquake", { "!player.moving", "target.deathin > 10", "player.hashero.remains >= 10" } , "target.ground" },
 	{ "Elemental Blast" },
 	-- actions.single+=/flame_shock,if=time>60&remains<=buff.ascendance.duration&cooldown.ascendance.remains+buff.ascendance.duration<duration
 	--{ "Flame Shock", { "player.time > 60", "target.debuff(Flame Shock).duration <= 15" } },

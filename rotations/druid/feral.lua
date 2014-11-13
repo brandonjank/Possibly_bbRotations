@@ -1,105 +1,84 @@
 -- PossiblyEngine Rotation
 -- Custom Feral Druid Rotation
 -- Created on Oct 15th 2014
--- PLAYER CONTROLLED:
--- SUGGESTED BUILD:
+-- SUGGESTED TALENTS: 3002002
+-- SUGGESTED GLYPHS: Savage Roar
 -- CONTROLS:
-
---TODO:  ttd, deathin, range -> distance, 
---enemies: (function() return UnitsAroundUnit('target', 10) > 2 end)
---IsBoss: (function() return IsEncounterInProgress() and SpecialUnit() end)
---SynapseSprings: (function() for i=1,9 do if select(7,GetProfessionInfo(i)) == 202 then hasEngi = true break end end if hasEngi and GetItemCooldown(GetInventoryItemID("player", 10)) == 0 then return true end return false end)
---LifeSpirit: (function() return GetItemCount(89640, false, false) > 0 and GetItemCooldown(89640) == 0 end)
---HealthStone: (function() return GetItemCount(5512, false, true) > 0 and GetItemCooldown(5512) == 0 end)
---Stats (function() return select(1,GetRaidBuffTrayAuraInfo(1)) != nil end)
---Stamina (function() return select(1,GetRaidBuffTrayAuraInfo(2)) != nil end)
---AttackPower (function() return select(1,GetRaidBuffTrayAuraInfo(3)) != nil end)
---AttackSpeed (function() return select(1,GetRaidBuffTrayAuraInfo(4)) != nil end)
---SpellPower (function() return select(1,GetRaidBuffTrayAuraInfo(5)) != nil end)
---SpellHaste (function() return select(1,GetRaidBuffTrayAuraInfo(6)) != nil end)
---CritialStrike (function() return select(1,GetRaidBuffTrayAuraInfo(7)) != nil end)
---Mastery (function() return select(1,GetRaidBuffTrayAuraInfo(8)) != nil end)
-
 
 PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 -- COMBAT ROTATION
----- Solo - This first priority list is for when you are questing or soloing content. It is assumed any target you attack will die in less then 20 seconds. You won't use  Rip in this priority.
-	-- Prowl
---[[	{ "Prowl", { "!player.buff", "!player.combat" } },
-	-- Apply Rake (you get  Savage Roar for free from the glyph)
-	{ "Rake", "!target.debuff" },
-	-- Moonfire (If Lunar Inspiration)
-	{ "Moonfire", "talent(7, 1)" }, -- Lunar Inspiration
-	-- Shred until 5 combo points
-	{ "Shred", "player.combopoints < 5" },
-	-- Ferocious Bite to finish off the target
-	{ "Ferocious Bite", "player.combopoints > 4" },
-	{ "Ferocious Bite", "target.health < 20" },
-	-- Reapply Savage Roar if < 10 seconds
-	{ "Savage Roar", "player.buff(Savage Roar).duration < 10" },
-	-- Tiger's Fury if you run low on energy
-	{ "Tiger's Fury", "player.energy < 40" }, ]]--
 
----- Single Target (Dungeon/LFR) - This priority list is for attacking a boss creature in a Dungeon/LFR.
-	-- Prowl
---	{ "Prowl", { "!player.buff", "!player.combat" } },
-	-- Rake
-	{ "Rake", "!target.debuff(Rake)" },
-	-- Moonfire (If Lunar Inspiration)
-	{ "Moonfire", "talent(7, 1)" }, -- Lunar Inspiration Talent
-	-- Shred until 5 combo points or you get below 20 energy
-	{ "Shred", "player.combopoints < 5" },
-	{ "Shred", "player.energy < 20" },
-	-- Tiger's Fury/ Berserk together
-	{ "Tiger's Fury", "player.spell(Berserk).cooldown < 1" },
-	{ "Berserk", "player.buff(Tiger's Fury)" },
-	-- Shred if you still need to reach 5 combo points
-	{ "Shred", "player.combopoints < 5" },
-	-- Healing Touch (If using Bloodtalons)
-	{ "Healing Touch", "talent(7, 2)", "player" }, -- Bloodtalons Talent
-	-- Rip
-	{ "Rip", "!target.debuff(rip)" }, --- need to evaluate for smart ripping and when to reapply to keep debuff up (ie rip.duration < 3)
 
----- From here on the priorities are:
-	-- Refresh Savage Roar before it expires
-	{ "Savage Roar", "player.buff(Savage Roar).duration < 5" },
-	-- Rake when it expires
-	{ "Rake", "target.debuff(Rake).duration >= 2" },
-	-- Moonfire when it expires (If Lunar Inspiration)
-	{ "Moonfire", { "talent(7, 1)","!target.debuff(Moonfire)" } }, -- Lunar Inspiration Talent
-	-- Rip when it expires
-	{ "Rip", { "!target.debuff(Rip)", "target.health >= 25" } },
-	-- Below 25% you can replace using Rip with Ferocious Bite which will refresh Rip back to 24 seconds. When Berserk is up it is OK to replace Shred with Shred
-	{ "Ferocious Bite", { "target.debuff(Rip) < 5", "target.health < 25" } },
-	-- Use Shred and Rake refreshes to build combo points
-	{ "Rake", "!modifier.last" },
-	{ "Shred", "!modifier.last" },
-	-- (If  Bloodtalons Always use your  Healing Touch before every finisher to get  Bloodtalons charges)
-	{ "Healing Touch", "talent(7, 2)", "player" }, -- Bloodtalons Talent
-	-- Tiger's Fury on cooldown (below 20 energy)
-	{ "Tiger's Fury", "player.energy < 20" },
-	-- Berserk on cooldown
-	{ "Berserk" },
-	-- If you have 5 combo points and both  Savage Roar and  Rip are above 12 seconds  Ferocious Bite (this won't happen a bunch at lower gear levels).
-	{ "Ferocious Bite", { "player.combopoints > 4", "target.debuff(Savage Roar).duration > 12", "target.debuff(Rip).duration > 12" } },
-	-- If you get an  Omen of Clarity proc and both  Savage Roar and  Rip have more then 10 seconds left use  Thrash.
-	{ "Thrash", { "player.buff(Omen of Clarity)", "target.debuff(Savage Roar).duration > 10", "target.debuff(Rip).duration > 10" } },
+	-- DPS ROTATION
+	-- actions=cat_form
+	-- actions+=/wild_charge
+	-- actions+=/displacer_beast,if=movement.distance>10
+	-- actions+=/dash,if=movement.distance&buff.displacer_beast.down&buff.wild_charge_movement.down
+	{ "Rake", { "player.buff(Prowl)" } },
+	{ "Rake", { "player.buff(Shadowmeld)" } },
+	-- actions+=/auto_attack
+	{ "Skull Bash", { "modifier.interrupt" } },
+	{ "Force of Nature", { "player.spell(Force of Nature).charges > 2" } },
+	{ "Force of Nature", { "target.deathin < 20" } },
+	-- actions+=/force_of_nature,if=trinket.proc.all.react
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.hashero" } }, -- Draenic Agility Potion
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "target.deathin <= 40" } }, -- Draenic Agility Potion
+	-- actions+=/use_item,slot=trinket2,sync=tigers_fury
+	{ "Blood Fury", { "modifier.cooldowns", "player.buff(Tiger's Fury)" } },
+	{ "Berserking", { "modifier.cooldowns", "player.buff(Tiger's Fury)" } },
+	{ "Arcane Torrent", { "modifier.cooldowns", "player.buff(Tiger's Fury)" } },
+	{ "Tiger's Fury", { "modifier.cooldowns", "!player.buff(Omen of Clarity)", "player.energy >= 60" } },
+	{ "Tiger's Fury", { "modifier.cooldowns", "player.energy >= 80" } },
+	{ "Incarnation: Son of Ursoc", { "modifier.cooldowns", "player.spell(Berserk).cooldown < 10", "player.timetomax > 1" } },
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.buff(Berserk)", "target.health < 25" } }, -- Draenic Agility Potion
+	{ "Berserk", { "modifier.cooldowns", "player.buff(Tiger's Fury)" } },
+	-- actions+=/shadowmeld,if=dot.rake.remains<4.5&energy>=35&dot.rake.pmultiplier<2&(buff.bloodtalons.up|!talent.bloodtalons.enabled)&(!talent.incarnation.enabled|cooldown.incarnation.remains>15)&!buff.king_of_the_jungle.up
+	{ "Ferocious Bite", { "target.debuff(Rip)", "target.debuff(Rip).remains < 3", "target.health < 25" } },
+	{ "Healing Touch", { "talent(7, 2)", "player.buff(Predatory Swiftness)", "player.combopoints >= 4" } },
+	{ "Healing Touch", { "talent(7, 2)", "player.buff(Predatory Swiftness)", "player.buff(Predatory Swiftness).remains < 1.5" } },
+	{ "Savage Roar", { "player.buff(Savage Roar).remains < 3" } },
+	{ "Thrash", { "player.buff(Omen of Clarity)", "target.debuff(Thrash).remains < 4.5", "player.area(8).enemies > 1" } },
+	{ "Thrash", { "!talent(7, 2)", "player.buff(Omen of Clarity)", "target.debuff(Thrash).remains < 4.5", "player.combopoints > 4" } },
 
----- AOE (Trash/adds) - These are the abilities you will use on trash or to cleave adds.
-	-- If the adds are going to live for over 10 seconds:
-		-- Keep up  Savage Roar
-		-- Keep Thrash up on all targets
-		-- Rake every target
-		-- (If  Lunar Inspiration Moonfire every target)
-		-- Apply  Rip every time you get 5 combo points (most likely to your primary target)
-	-- If the adds are going to live less then 10 seconds:
-		-- Keep up  Savage Roar
-		-- Keep Thrash up on all targets
-		-- Continue single target rotation on main target
-		-- You can use  Berserk/ Tiger's Fury or  Incarnation to allow you to pile on the cleave damage for a short time.
+	-- Pool resources for Thrash
+	--{ "pause", { "player.energy < 50", "player.spell(Thrash).cooldown < 1", "target.debuff(Thrash).remains < 4.5", "player.area(8).enemies > 1" } },
+	{ "Thrash", { "target.debuff(Thrash).remains < 4.5", "player.area(8).enemies > 1" } },
+
+	-- FINISHERS
+	{ {
+		{ "Ferocious Bite", { "target.health < 25", "target.debuff(Rip)", "player.energy > 50" } },
+		{ "Rip", { "target.debuff(Rip).remains < 3", "target.deathin > 18" } },
+		-- actions.finisher+=/rip,cycle_targets=1,if=remains<7.2&persistent_multiplier>dot.rip.pmultiplier&target.time_to_die-remains>18
+		--{ "Rip", { "target.debuff(Rip).remains < 7.2", "target.deathin > 18" } },
+		{ "Savage Roar", { "player.buff(Savage Roar).remains < 12.6", "player.timetomax <= 1" } },
+		{ "Savage Roar", { "player.buff(Savage Roar).remains < 12.6", "player.buff(Berserk)" } },
+		{ "Savage Roar", { "player.buff(Savage Roar).remains < 12.6", "player.spell(Tiger's Fury).cooldown < 3" } },
+		{ "Ferocious Bite", { "player.energy > 50", "player.timetomax <= 1" } },
+		{ "Ferocious Bite", { "player.energy > 50", "player.buff(Berserk)" } },
+		{ "Ferocious Bite", { "player.energy > 50", "player.spell(Tiger's Fury).cooldown < 3" } },
+	},{
+		"player.combopoints > 4",
+	} },
+
+	-- MAINTAIN DEBUFFS
+	{ "Rake", { "!talent(7, 2)", "target.debuff(Rake).remains < 3", "player.combopoints < 5", "target.deathin > 3", "player.area(8).enemies < 3" } },
+	{ "Rake", { "!talent(7, 2)", "target.debuff(Rake).remains < 3", "player.combopoints < 5", "target.deathin > 6" } },
+	-- actions.maintain+=/rake,cycle_targets=1,if=!talent.bloodtalons.enabled&remains<4.5&combo_points<5&persistent_multiplier>dot.rake.pmultiplier&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
+	-- actions.maintain+=/rake,cycle_targets=1,if=talent.bloodtalons.enabled&remains<4.5&combo_points<5&(!buff.predatory_swiftness.up|buff.bloodtalons.up|persistent_multiplier>dot.rake.pmultiplier)&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
+	{ "Thrash", { "talent(7, 2)", "player.combopoints > 4", "target.debuff(Thrash).remains < 4.5", "player.buff(Omen of Clarity)" } },
+	{ "Moonfire", { "player.combopoints < 5", "player.buff(Lunar Inspiration)", "target.debuff(Moonfire).remains < 4.2", "player.area(8).enemies < 6", "target.deathin > 10" } },
+	-- actions.maintain+=/rake,cycle_targets=1,if=persistent_multiplier>dot.rake.pmultiplier&combo_points<5&active_enemies=1
+
+	-- GENERATORS
+	{ {
+		{ "Swipe", "player.area(8).enemies >= 3" },
+		{ "Shred", "player.area(8).enemies < 3" },
+	},{
+		"player.combopoints < 5",
+	} },
 
 },
-{	
+{
 -- OUT OF COMBAT ROTATION
 	-- Pauses
 	{ "pause", "modifier.lcontrol" },
@@ -107,25 +86,35 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 
 	-- Buffs
 	{ "Mark of the Wild", (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end) },
-	
+
 	-- Rez and Heal
 	{ "Revive", { "mouseover.exists", "mouseover.dead", "mouseover.isPlayer", "mouseover.range < 40", "player.level >= 12" }, "mouseover" },
 	{ "Rejuvenation", { "!player.buff(Prowl)", "!player.casting", "player.alive", "!player.buff(Rejuvenation)", "player.health <= 70" } },
-	
+
 	-- Cleanse Debuffs
 	{ "Remove Corruption", "player.dispellable(Remove Corruption)" },
-	
+
 	-- Forms
 	{ "Aquatic Form", { "player.swimming", "!player.buff(Aquatic Form)" }, "player" },
 	{ "Cat Form", { "target.exists", "target.alive", "target.enemy", "!player.buff(Cat Form)", "player.health > 20", "!modifier.last(Cat Form)" } },
-	
+
 	-- Pre-Combat
-	{ "Savage Roar", { "player.buff(Prowl)", "!player.buff(Heart of the Wild)", "player.buff(Cat Form)", "target.enemy", "target.alive", "target.range < 10" } },	
-	{ "Shred", { "target.behind", "player.combopoints < 5", "player.power > 98", "target.enemy", "target.alive", "target.range < 8", "player.level >= 16" } },
-	
+	-- actions.precombat=flask,type=greater_draenic_agility_flask
+	-- actions.precombat+=/food,type=blackrock_barbecue
+	-- actions.precombat+=/mark_of_the_wild,if=!aura.str_agi_int.up
+	-- actions.precombat+=/healing_touch,if=talent.bloodtalons.enabled
+	-- actions.precombat+=/cat_form
+	-- actions.precombat+=/prowl
+	-- # Snapshot raid buffed stats before combat begins and pre-potting is done.
+	-- actions.precombat+=/snapshot_stats
+	-- actions.precombat+=/potion,name=draenic_agility
+
 },
 -- TOGGLE BUTTONS
 function()
-	PossiblyEngine.toggle.create( 'boss', 'Interface\\Icons\\Ability_Creature_Cursed_02.png‎', 'Boss Function Toggle', 'Enable or Disable Specific Boss Functions to Improve DPS')
-	PossiblyEngine.toggle.create( 'defensive', 'Interface\\Icons\\ability_druid_tigersroar.png‎', 'Defensive Cooldown Toggle', 'Enable or Disable the Automatic Management of Defensive Cooldowns')
+	PossiblyEngine.toggle.create('consume', 'Interface\\Icons\\inv_alchemy_endlessflask_06', 'Use Consumables', 'Toggle the usage of Flasks/Food/Potions etc..')
+	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
+	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\ability_hunter_quickshot', 'Use Mouseovers', 'Toggle automatic usage of stings/scatter/etc on eligible mouseover targets.')
+	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target un-tapped Gulp Frogs.')
 end)
