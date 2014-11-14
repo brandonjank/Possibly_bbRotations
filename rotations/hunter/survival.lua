@@ -1,16 +1,10 @@
 -- PossiblyEngine Rotation
--- Survival Hunter - WoD v6.0.3
+-- Survival Hunter - WoD 6.0.3
 -- Updated on Nov 14th 2014
 
 -- SUGGESTED TALENTS:
 -- SUGGESTED GLYPHS:
 -- CONTROLS: Pause - Left Control, Explosive/Ice/Snake Traps - Left Alt, Freezing Trap - Right Alt, Scatter Shot - Right Control
-
--- TODO: Explosive Trap timer cooldown OSD
--- TODO: Boss Functions + hold cooldowns
--- TODO: Energy Pooling Toggle
--- TODO: Pet's Range to the target
--- TODO: How to check if target has incoming heal? UnitGetIncomingHeals()
 
 PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 -- COMBAT ROTATION
@@ -23,7 +17,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!toggle.frogs", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "!toggle.frogs", "target.exists", "target.dead" } },
 
-	-- FROGGING
+	-- FROGING
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
 		-- Ordon Candlekeeper, Ordon Fire-Watcher, Ordon Oathguard (Gotta strafe out of fire and ground crap)
@@ -41,7 +35,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
-	{ "883", { "!pet.exists", "!modifier.last" } }, -- Call Pet 1
+	{ "883", { "!talent(7, 3)", "!pet.exists", "!modifier.last" } }, -- Call Pet 1
 	{ "Heart of the Phoenix", { "pet.exists", "pet.dead", "!modifier.last" } },
 	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
 	{ "Revive Pet", { "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
@@ -155,13 +149,16 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
 
+	-- AUTO LOOT
+	{ "Fetch", { "!modifier.last", "!player.moving", "timeout(Fetch, 30)"} }, --/targetlasttarget /use [@target,exists,dead] Fetch
+
 	-- ASPECTS
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	{ "Camouflage", { "toggle.camomode", "!player.buff", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
-	{ "883", { "!pet.exists", "!modifier.last" } }, -- Call Pet 1
+	{ "883", { "!talent(7, 3)", "!pet.exists", "!modifier.last" } }, -- Call Pet 1
 	{ "Heart of the Phoenix", { "pet.exists", "pet.dead", "!modifier.last" } },
 	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
 	{ "Revive Pet", { "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
@@ -172,7 +169,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Ice Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" },
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },
 
-	-- FROGGGING
+	-- FROGING
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
 		{ "!Auto Shot", { "target.exists", "target.health > 1" } },
