@@ -25,6 +25,7 @@ bbLib = {}
 -- GetFollowDistance(), SetFollowDistance(Distance), GetFollowTarget(), SetFollowTarget(Target).
 --SetFollowDistance(5)
 -- WorldToScreen and GetCameraPosition
+-- UnitCanInteract(Unit, Other). Other can be a unit or game object.
 
 
 function bbLib.prePot()

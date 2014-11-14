@@ -131,6 +131,45 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
 	{ "Steady Shot", "player.focus < 80" },
 
+-- actions=auto_shot
+-- actions+=/use_item,name=gorashans_lodestone_spike
+-- actions+=/arcane_torrent,if=focus.deficit>=30
+-- actions+=/blood_fury
+-- actions+=/berserking
+-- actions+=/potion,name=draenic_agility,if=((buff.rapid_fire.up|buff.bloodlust.up)&(cooldown.stampede.remains<1))|target.time_to_die<=25
+-- actions+=/chimaera_shot
+-- actions+=/kill_shot
+-- actions+=/rapid_fire
+-- actions+=/stampede,if=buff.rapid_fire.up|buff.bloodlust.up|target.time_to_die<=25
+-- actions+=/call_action_list,name=careful_aim,if=buff.careful_aim.up
+-- actions+=/explosive_trap,if=active_enemies>1
+-- actions+=/a_murder_of_crows
+-- actions+=/dire_beast,if=cast_regen+action.aimed_shot.cast_regen<focus.deficit
+-- actions+=/glaive_toss
+-- actions+=/powershot,if=cast_regen<focus.deficit
+-- actions+=/barrage
+-- # Pool max focus for rapid fire so we can spam AimedShot with Careful Aim buff
+-- actions+=/steady_shot,if=focus.deficit*cast_time%(14+cast_regen)>cooldown.rapid_fire.remains
+-- actions+=/focusing_shot,if=focus.deficit*cast_time%(50+cast_regen)>cooldown.rapid_fire.remains&focus<100
+-- # Cast a second shot for steady focus if that won't cap us.
+-- actions+=/steady_shot,if=buff.pre_steady_focus.up&(14+cast_regen+action.aimed_shot.cast_regen)<=focus.deficit
+-- actions+=/multishot,if=active_enemies>6
+-- actions+=/aimed_shot,if=talent.focusing_shot.enabled
+-- actions+=/aimed_shot,if=focus+cast_regen>=85
+-- actions+=/aimed_shot,if=buff.thrill_of_the_hunt.react&focus+cast_regen>=65
+-- # Allow FS to over-cap by 10 if we have nothing else to do
+-- actions+=/focusing_shot,if=50+cast_regen-10<focus.deficit
+-- actions+=/steady_shot
+--
+-- actions.careful_aim=glaive_toss,if=active_enemies>2
+-- actions.careful_aim+=/powershot,if=active_enemies>1&cast_regen<focus.deficit
+-- actions.careful_aim+=/barrage,if=active_enemies>1
+-- actions.careful_aim+=/aimed_shot
+-- actions.careful_aim+=/focusing_shot,if=50+cast_regen<focus.deficit
+-- actions.careful_aim+=/steady_shot
+
+
+
 },
 {
 	-- Pauses
@@ -165,6 +204,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- PRE COMBAT
 	{ "#76089", { "modifer.raid", "toggle.consume", "target.enemy", "@bbLib.prePot" } }, -- Agility Potion (76089) Virmen's Bite
 
+
 	{ {
 		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
 		{ "!Auto Shot", { "target.exists", "target.health > 1" } },
@@ -174,6 +214,17 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	},{
 		"toggle.frogs",
 	} },
+	
+	-- PRE COMBAT
+-- actions.precombat=flask,type=greater_draenic_agility_flask
+-- actions.precombat+=/food,type=blackrock_barbecue
+-- actions.precombat+=/summon_pet
+-- # Snapshot raid buffed stats before combat begins and pre-potting is done.
+-- actions.precombat+=/snapshot_stats
+-- actions.precombat+=/exotic_munitions,ammo_type=poisoned,if=active_enemies<3
+-- actions.precombat+=/exotic_munitions,ammo_type=incendiary,if=active_enemies>=3
+-- actions.precombat+=/potion,name=draenic_agility
+-- actions.precombat+=/aimed_shot
 
 	-- Food / Flask
 	-- TODO: flask of spring blossoms
