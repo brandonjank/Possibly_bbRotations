@@ -77,8 +77,8 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 
 	-- AOE
 	{ {
-		{ "Earthquake", { "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "player.buff(Enhanced Chain Lightning)" }, "target.ground" },
-		{ "Earthquake", { "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "player.level < 91" }, "target.ground" },
+		{ "Earthquake", { "target.alive", "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "player.buff(Enhanced Chain Lightning)" }, "target.ground" },
+		{ "Earthquake", { "target.alive", "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "player.level < 91" }, "target.ground" },
 		{ "Lava Beam" },
 		-- actions.aoe+=/earth_shock,if=buff.lightning_shield.react=buff.lightning_shield.max_stack
 		{ "Earth Shock", "player.buff(Lightning Shield).count > 14" },
@@ -111,9 +111,9 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	-- GetCombatRating(CR_HASTE_SPELL)
 	-- UnitSpellHaste("player")
 	--(function() return ((1+stat.spell_haste)*(1+(GetMastery()*2%4.5)) >= (1.875+(1.25*0.226305)+1.25*(2*0.226305*stat.multistrike_pct%100))) end)
-	{ "Earthquake", { "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "target.deathin > 10", "!player.buff(Elemental Mastery)", "!player.hashero" } , "target.ground" },
-	{ "Earthquake", { "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "target.deathin > 10", "player.buff(Elemental Mastery).duration >= 10" } , "target.ground" },
-	{ "Earthquake", { "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "target.deathin > 10", "player.hashero.remains >= 10" } , "target.ground" },
+	{ "Earthquake", { "target.alive", "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "target.deathin > 10", "!player.buff(Elemental Mastery)", "!player.hashero" } , "target.ground" },
+	{ "Earthquake", { "target.alive", "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "target.deathin > 10", "player.buff(Elemental Mastery).duration >= 10" } , "target.ground" },
+	{ "Earthquake", { "target.alive", "!target.moving", "!player.moving", "!target.debuff(Earthquake)", "target.deathin > 10", "player.hashero.remains >= 10" } , "target.ground" },
 	{ "Elemental Blast" },
 	-- actions.single+=/flame_shock,if=time>60&remains<=buff.ascendance.duration&cooldown.ascendance.remains+buff.ascendance.duration<duration
 	--{ "Flame Shock", { "player.time > 60", "target.debuff(Flame Shock).duration <= 15" } },
