@@ -1,12 +1,10 @@
 -- PossiblyEngine Rotation
--- Balance Druid - WoD 6.0.2
--- Updated on Oct 25th 2014
+-- Balance Druid - WoD 6.0.3
+-- Updated on Nov 14th 2014
 
--- PLAYER CONTROLLED:
 -- SUGGESTED TALENTS: Feline Swiftness, Ysera's Gift, Typhoon, Incarnation: Chosen of Elune, Ursol's Vortex, Nature's Vigil, Euphoria
 -- SUGGESTED GLYPHS: Astral Communion, Stampeding Roar, (Entangling Energy or Moonwarding or Guided Stars)
 -- CONTROLS: Pause - Left Control
-
 
 PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 -- COMBAT
@@ -36,29 +34,6 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
 	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)
 
-	-- Pre-DPS PAUSE
-	{ "pause", "target.debuff(Wyvern Sting).any" },
-	{ "pause", "target.debuff(Scatter Shot).any" },
-	{ "pause", "target.immune.all" },
-	{ "pause", "target.status.disorient" },
-	{ "pause", "target.status.incapacitate" },
-	{ "pause", "target.status.sleep" },
-
-	-- UTILITY
-	{ "Rebirth", { "target.friend", "!target.alive" } },
-	-- Stampeding Roar: Giving the raid a movement boost is a unique  Druid ability that is very useful in a wide variety of raid situations. Always keep an eye out for when people can benefit from it.
-	{ "Solar Beam", "modifier.interrupt" },
-	{ "Barkskin", "player.health < 70" },
-	-- Dash: limited in that it only lasts while you are in Cat form and cannot DPS, but has its uses in dangerous situations.
-	-- Remove Corruption: In smaller groups, you may be without a healer who can dispel curses and/or poison, so keep this in mind.
-	-- Soothe: Especially in smaller groups with no  Rogues or Hunters, you might be the only one who can do this.
-
-	-- Forms
-	{ "Moonkin Form", { "!player.buff(Moonkin Form)", "!player.buff(Swift Flight Form)", "!player.buff(Flight Form)" } }, -- Force Moonkin Form
-
-	-- Mouseover Debuffing
-	{ "Moonfire", { "toggle.mouseovers", "!mouseover.debuff(Moonfire)" }, "mouseover" },
-	{ "Sunfire", { "toggle.mouseovers", "!mouseover.debuff(Sunfire)" }, "mouseover" },
 
 	-- MOVEMENT
 	-- Using one  Starsurge charge is usually good, but if you have to move for a longer period, generally all that you can do is spam  Moonfire or  Sunfire for minor damage.
@@ -84,6 +59,30 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Wrath", { "player.balance.sun", "target.area(35).enemies < 5" } },
 	{ "Starfire", { "player.balance.moon", "target.area(35).enemies < 5" } },
 ]]--
+
+	-- Forms
+	{ "Moonkin Form", { "!player.buff(Moonkin Form)", "!player.buff(Swift Flight Form)", "!player.buff(Flight Form)" } }, -- Force Moonkin Form
+
+	-- UTILITY
+	--{ "Rebirth", { "target.friend", "!target.alive" } },
+	-- Stampeding Roar: Giving the raid a movement boost is a unique  Druid ability that is very useful in a wide variety of raid situations. Always keep an eye out for when people can benefit from it.
+	{ "Solar Beam", "modifier.interrupt" },
+	{ "Barkskin", "player.health < 70" },
+	-- Dash: limited in that it only lasts while you are in Cat form and cannot DPS, but has its uses in dangerous situations.
+	-- Remove Corruption: In smaller groups, you may be without a healer who can dispel curses and/or poison, so keep this in mind.
+	-- Soothe: Especially in smaller groups with no  Rogues or Hunters, you might be the only one who can do this.
+
+	-- Pre-DPS PAUSE
+	{ "pause", "target.debuff(Wyvern Sting).any" },
+	{ "pause", "target.debuff(Scatter Shot).any" },
+	{ "pause", "target.immune.all" },
+	{ "pause", "target.status.disorient" },
+	{ "pause", "target.status.incapacitate" },
+	{ "pause", "target.status.sleep" },
+
+	-- Mouseover Debuffing
+	{ "Moonfire", { "toggle.mouseovers", "!mouseover.debuff(Moonfire)" }, "mouseover" },
+	{ "Sunfire", { "toggle.mouseovers", "!mouseover.debuff(Sunfire)" }, "mouseover" },
 
 	-- COOLDOWNS
 	{ "Blood Fury", "player.buff(Celestial Alignment)" },
@@ -121,14 +120,13 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Incarnation", "balance.eclipse > 0" },
 	-- actions.single_target+=/sunfire,if=remains<7|buff.solar_peak.up
 	{ "Sunfire", "player.buff(Solar Peak)" },
-	{ "Sunfire", "!target.debuff(Sunfire)" },
 	{ "Sunfire", "target.debuff(Sunfire).duration < 7" },
 	-- actions.single_target+=/stellar_flare,if=remains<7
-	{ "Stellar Flare", "!target.debuff(Stellar Flare)" },
 	{ "Stellar Flare", "target.debuff(Stellar Flare).duration < 7" },
 	-- actions.single_target+=/moonfire,if=buff.lunar_peak.up&remains<eclipse_change+20|remains<4|(buff.celestial_alignment.up&buff.celestial_alignment.remains<=2&remains<eclipse_change+20)
 	{ "Moonfire", "player.buff(Lunar Peak)" },
-	{ "Moonfire", "!target.debuff(Moonfire)" },
+	{ "Moonfire", "target.debuff(Moonfire).remains < 4" },
+	{ "Moonfire", { "player.buff(Celestial Alignment)", "player.buff(Celestial Alignment).remains <= 2" } },
 	-- actions.single_target+=/wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
 	{ "Wrath", { "player.balance.eclipse < -8" } }, -- , "player.balance.eclipsechangetime > player.spell(Wrath).castingtime"
 	{ "Wrath", { "player.balance.eclipse > 8" } }, -- , "player.balance.eclipsechangetime < player.spell(Wrath).castingtime"
