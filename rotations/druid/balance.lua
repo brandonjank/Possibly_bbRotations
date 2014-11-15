@@ -128,12 +128,13 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Moonfire", "target.debuff(Moonfire).remains < 4" },
 	{ "Moonfire", { "player.buff(Celestial Alignment)", "player.buff(Celestial Alignment).remains <= 2" } },
 	-- actions.single_target+=/wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
-	{ "Wrath", { "player.balance.eclipse < -8" } }, -- , "player.balance.eclipsechangetime > player.spell(Wrath).castingtime"
+	--{ "Wrath", { "player.balance.eclipse < -8" } }, -- , "player.balance.eclipsechangetime > player.spell(Wrath).castingtime"
 	{ "Wrath", { "player.balance.eclipse > 8" } }, -- , "player.balance.eclipsechangetime < player.spell(Wrath).castingtime"
+	{ "Wrath", { "player.balance.eclipse > 0", "player.balance.sun" } },
 	-- actions.single_target+=/starfire,if=(eclipse_energy>=0&eclipse_change>cast_time)|(eclipse_energy<0&cast_time>eclipse_change)
-	{ "Starfire", { "player.balance.eclipse > 12" } }, -- , "player.balance.eclipsechangetime > player.spell(Starfire).castingtime"
+	--{ "Starfire", { "player.balance.eclipse > 12" } }, -- , "player.balance.eclipsechangetime > player.spell(Starfire).castingtime"
 	{ "Starfire", { "player.balance.eclipse < -12" } }, -- , "player.balance.eclipsechangetime < player.spell(Starfire).castingtime"
-
+	{ "Starfire", { "player.balance.eclipse <= 0", "player.balance.moon" } },
 },
 {
 -- OUT OF COMBAT ROTATION
