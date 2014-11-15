@@ -91,8 +91,8 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	{ "Revive", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
 
 	-- HEAL
-	{ "Rejuvenation", { "player.health < 70", "!player.buff(Rejuvenation)" }, "player" },
-	{ "Healing Touch", { "player.health < 50", "!player.moving)" }, "player" },
+	{ "Rejuvenation", { "!player.ininstance", "player.health < 70", "!player.buff(Rejuvenation)" }, "player" },
+	{ "Healing Touch", { "!player.ininstance", "player.health < 50", "!player.moving)" }, "player" },
 
 	-- FROGGING
 	{ {
@@ -101,6 +101,8 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	},{
 		"toggle.frogs",
 	} },
+
+	{ "Bear Form", { "player.ininstance", "!player.form = 1"} },
 
 	-- PAUSE FORM
 	{ "/cancelform", { "!player.ininstance", "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
