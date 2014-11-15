@@ -12,6 +12,8 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
 
 	-- AUTO TARGET
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!toggle.frogs", "!target.exists" } },
@@ -83,6 +85,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- actions+=/potion,name=draenic_agility,if=(((cooldown.stampede.remains<1)&(cooldown.a_murder_of_crows.remains<1))&(trinket.stat.any.up|buff.archmages_greater_incandescence_agi.up))|target.time_to_die<=25
 	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "target.deathin <= 25" } }, -- Draenic Agility Potion
 	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "player.hashero", "player.spell(Stampede).cooldown < 1", "player.spell(A Murder of Crows).cooldown < 1" } }, -- Draenic Agility Potion
+	{ "Call to Arms", { "target.exists", "target.enemy" } }, -- TODO: Not working?
 
 	-- AOE ROTATION
 	{ {
@@ -126,14 +129,14 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "A Murder of Crows" },
 	{ "Dire Beast" },
 	-- actions+=/arcane_shot,if=buff.thrill_of_the_hunt.react&focus>35&cast_regen<=focus.deficit|dot.serpent_sting.remains<=5|target.time_to_die<4.5
-	{ "Arcane Shot", { "player.buff(Thrill of the Hunt)", "player.focus > 35", "player.focus <= 90" } },
-	{ "Arcane Shot", "target.debuff(Serpent Sting).remains <= 5" },
+	{ "Arcane Shot", { "player.buff(Thrill of the Hunt)", "player.focus > 35" } },
+	{ "Arcane Shot", { "target.debuff(Serpent Sting).remains <= 5", "player.focus > 50" } },
 	{ "Arcane Shot", "target.deathin < 4.5" },
 	{ "Glaive Toss" },
 	{ "Powershot" },
 	{ "Barrage" },
 	{ "Cobra Shot", { "talent(4, 1)", "modifier.last", "player.buff(Steady Focus).remains < 5", "player.focus < 75" } },
-	{ "Aspect of the Cheetah", { "player.glyph()", "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack).any", "!modifier.last" } }, -- 10sec cd now unless glyphed
+	{ "Aspect of the Cheetah", { "player.glyph(119462)", "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack).any", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.movingfor > 1", "!target.immune.snare" } },
 	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
 	{ "Arcane Shot", "player.focus >= 70" },
@@ -148,13 +151,15 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
 
 	-- AUTO LOOT
-	{ "Fetch", { "!modifier.last", "!player.moving", "timeout(Fetch, 30)"} }, --/targetlasttarget /use [@target,exists,dead] Fetch
+	{ "Fetch", { "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
 
 	-- ASPECTS
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
-	{ "Camouflage", { "toggle.camomode", "!player.buff", "!player.debuff(Orb of Power)", "!modifier.last" } },
+	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.lastmoved < 30", "!player.debuff(Orb of Power)", "!modifier.last" } },
+	{ "Camouflage", { "player.level > 91", "!player.buff", "player.health < 100", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities

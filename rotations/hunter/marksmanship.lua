@@ -12,6 +12,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
 
 	-- AUTO TARGET
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!toggle.frogs", "!target.exists" } },
@@ -128,6 +129,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Stampede", { "modifier.cooldowns", "player.buff(Rapid Fire)" } },
 	{ "Stampede", { "modifier.cooldowns", "player.hashero" } },
 	{ "Stampede", { "modifier.cooldowns", "target.boss","target.deathin <= 25" } },
+	{ "Call to Arms", { "target.exists", "target.enemy" } },
 
 	-- CAREFUL AIM PHASE
 	{ {
@@ -188,13 +190,14 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
 
 	-- AUTO LOOT
-	{ "Fetch", { "!modifier.last", "!player.moving", "timeout(Fetch, 30)"} }, --/targetlasttarget /use [@target,exists,dead] Fetch
+	{ "Fetch", { "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
 
 	-- ASPECTS
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
-	{ "Camouflage", { "toggle.camomode", "!player.buff", "!player.debuff(Orb of Power)", "!modifier.last" } },
+	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.lastmoved < 30", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
