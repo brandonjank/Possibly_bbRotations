@@ -10,11 +10,9 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 -- COMBAT ROTATION
 	-- PAUSES
 	{ "pause", "modifier.lcontrol" },
+	{ "pause", "@bbLib.bossMods" },
 	{ "pause", "player.buff(Feign Death)" },
-	{ "pause", "player.buff(Food)" },
-	{ "pause", "modifier.looting" },
-	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
-	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
+	{ "pause", "player.buff(Camouflage)" },
 
 	-- AUTO TARGET
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!toggle.frogs", "!target.exists" } },

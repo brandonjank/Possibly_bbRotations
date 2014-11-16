@@ -172,32 +172,40 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 	return false
 end
 
--- function bbLib.bossMods()
-	-- -- Darkmoon Faerie Cannon
-	-- --if select(7, UnitBuffID("player", 102116))
-	  -- --and select(7, UnitBuffID("player", 102116)) - GetTime() < 1.07 then
-		-- --CancelUnitBuff("player", "Magic Wings")
-	-- --end
+function bbLib.bossMods()
+	-- Darkmoon Faerie Cannon
+	-- if select(7, UnitBuffID("player", 102116))
+	--   and select(7, UnitBuffID("player", 102116)) - GetTime() < 1.07 then
+	-- 	CancelUnitBuff("player", "Magic Wings")
+	-- end
 
 	-- -- Raid Boss Checks
 	-- if UnitExists("boss1") then
-		-- for i = 1,4 do
-			-- local bossCheck = "boss"..i
-			-- if UnitExists(bossCheck) then
-				-- local npcID = tonumber(UnitGUID(bossCheck):sub(6, 10), 16)
-				-- --local bossCasting,_,_,_,_,castEnd = UnitCastingInfo(bossCheck)
-				-- --local paragons = {71161, 71157, 71156, 71155, 71160, 71154, 71152, 71158, 71153}
-				-- if npcID == 71515 then  -- SoO: Paragons of the Klaxxi
-					-- --if UnitBuffID("target", 71) then
-						-- --SpellStopCasting()
-						-- --return true
-					-- --end
-				-- end
-			-- end
-		-- end
+	-- 	for i = 1,4 do
+	-- 		local bossCheck = "boss"..i
+	-- 		if UnitExists(bossCheck) then
+	-- 			local npcID = tonumber(UnitGUID(bossCheck):sub(6, 10), 16)
+	-- 			--local bossCasting,_,_,_,_,castEnd = UnitCastingInfo(bossCheck)
+	-- 			--local paragons = {71161, 71157, 71156, 71155, 71160, 71154, 71152, 71158, 71153}
+	-- 			if npcID == 71515 then  -- SoO: Paragons of the Klaxxi
+	-- 				--if UnitBuffID("target", 71) then
+	-- 					--SpellStopCasting()
+	-- 					--return true
+	-- 				--end
+	-- 			end
+	-- 		end
+	-- 	end
 	-- end
-	-- return false
--- end
+
+	if (UnitExists("target") and (UnitBuff("target", "Reckless Provocation") -- Iron Docks - Fleshrender
+		or UnitBuff("target", "Sanguine Sphere"))) -- Iron Docks - Enforcers
+		or UnitBuff("player", "Food")
+		then
+			return true
+	end
+
+	return false
+end
 
 function bbLib.stackCheck(spell, otherTank, stacks)
 	local name, _, _, count, _, _, _, _, _, _, spellID, _, _, _, _, _ = UnitDebuff(otherTank, spell)

@@ -63,8 +63,8 @@ PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
   { "Vampiric Touch", { "!player.moving", "target.debuff(Vampiric Touch).duration < 5" } },
   { "Mind Flay", { "!player.moving", "target.debuff(Devouring Plague)" } },
   { "Halo", { "talent(6, 3)", "target.exists", "target.range < 30" } },
-  { "Mind Sear", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies > 1" } },
-  { "Mind Flay", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies < 2" } },
+  { "Mind Sear", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4", "target.area(10).enemies > 2" } },
+  { "Mind Flay", { "!player.moving", "target.debuff(Vampiric Touch)", "target.debuff(Vampiric Touch).duration > 5", "target.debuff(Shadow Word: Pain)", "target.debuff(Shadow Word: Pain).duration > 4" } },
 
 }, {
 -- OUT OF COMBAT ROTATION
