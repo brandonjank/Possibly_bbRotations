@@ -7,7 +7,12 @@
 
 PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 -- COMBAT ROTATION
-
+	-- PAUSE
+	{ "pause", "modifier.lcontrol" },
+	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
+	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
 	-- DPS ROTATION
 	-- actions=cat_form

@@ -7,13 +7,16 @@ PossiblyEngine.rotation.register_custom(73, "bbWarriorProtection", {
 -- CONTROLS: Pause - Left Control
 
 -- COMBAT
-	-- Rotation Utilities
+	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "@bbLib.bossMods" },
-	{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
+	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
+	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
+
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "target.exists", "target.dead" } },
-	
+
 	-- OFF GCD
 	{ "Cleave", { "player.rage >= 90", "modifier.multitarget" } },
 	{ "Cleave", { "player.buff(Incite)", "modifier.multitarget" } },
@@ -30,7 +33,7 @@ PossiblyEngine.rotation.register_custom(73, "bbWarriorProtection", {
 	{ "Impending Victory", "player.health < 70" },
 	{ "Enraged Regeneration", "player.buff(Enrage)" },
 	{ "Victory Rush" },
-	
+
 	-- BossMods
 	{ "Taunt", { "toggle.autotaunt", "@bbLib.bossTaunt" } },
 
@@ -38,7 +41,7 @@ PossiblyEngine.rotation.register_custom(73, "bbWarriorProtection", {
 	{ "Shield Block", { "!player.buff(Shield Block)", "toggle.shieldblock" } }, -- for heavy physical dmg
 	{ "Shield Barrier", { "!player.buff(Shield Barrier)", "player.rage > 60", "toggle.shieldbarrier" } }, -- for magic/bleed/unblockable dmg
 	{ "#5512", { "modifier.cooldowns", "player.health < 30" } }, -- Healthstone (5512)
-	
+
 	-- Kicks
 	{{
 		{ "Pummel" },

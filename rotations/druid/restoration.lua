@@ -17,11 +17,12 @@ PossiblyEngine.library.register('coreHealing', {
 
 PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
 -- COMBAT ROTATION
-  -- Pause Rotation
-  { "pause", "modifier.lalt" },
+  -- PAUSE
+  { "pause", "modifier.lcontrol" },
   { "pause", "player.buff(Food)" },
-  --{ "pause", "player.seal = 1" }, -- Bear Form
-  --{ "pause", "player.seal = 2" }, -- Cat Form
+  { "pause", "modifier.looting" },
+  { "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+  { "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
   { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last" } },
 

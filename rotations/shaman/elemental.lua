@@ -8,9 +8,13 @@
 
 PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 -- COMBAT ROTATION
-	-- Rotation Utilities
+	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
+	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
+
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!toggle.frogs", "!target.exists" } },
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!toggle.frogs", "target.exists", "target.dead" } },
 

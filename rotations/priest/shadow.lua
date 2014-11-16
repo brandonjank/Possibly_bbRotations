@@ -9,9 +9,12 @@
 
 PossiblyEngine.rotation.register_custom(258, "bbPriest Shadow", {
 -- COMBAT ROTATION
-  -- Pause Rotation
-  { "pause", "modifier.lalt" },
+  -- PAUSE
+  { "pause", "modifier.lcontrol" },
   { "pause", "player.buff(Food)" },
+  { "pause", "modifier.looting" },
+  { "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+  { "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
   -- FORMS
   { "Shadowform", "!player.buff(Shadowform)" },

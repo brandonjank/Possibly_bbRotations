@@ -14,14 +14,13 @@
 
 PossiblyEngine.rotation.register_custom(253, "bbHunter Beast Mastery", {
 -- COMBAT
-	-- Rotation Utilities
+	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "player.buff(Feign Death)" },
-	{ "pause", "player.buff(food)" },
-	--{ "pause", "player.buff(Drink).duration > 10" },
-	--{ "pause", "player.buff(Food).duration > 10" },
-	--{ "pause", "@bbLib.bossMods" },
-	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
+	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
+	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
+
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
 

@@ -8,8 +8,12 @@
 
 PossiblyEngine.rotation.register_custom(72, "bbWarrior Fury", {
 -- COMBAT
-	-- Rotation Utilities
+	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
+	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
+	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
 	-- AUTO TARGET
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },

@@ -11,6 +11,10 @@ PossiblyEngine.rotation.register_custom(250, "bbDeathKnight Blood", {
 -- COMBAT ROTATION
 	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
+	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
+	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
 	-- AUTO TARGET
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },

@@ -9,10 +9,12 @@
 
 PossiblyEngine.rotation.register_custom(66, "bbPaladin Protection", {
 -- COMBAT ROTATION
-	-- Rotation Utilities
+	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
-	--{ "pause", "@bbLib.bossMods" },
-	--{ "pause", { "toggle.pvpmode", "@bbLib.BGFlag" } },
+	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
+	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
+	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
 	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" } },
