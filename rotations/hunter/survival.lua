@@ -12,7 +12,6 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Food)" },
-	{ "pause", "player.buff(Food)" },
 	{ "pause", "modifier.looting" },
 
 	-- AUTO TARGET
@@ -38,9 +37,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
 	{ "883", { "!talent(7, 3)", "!pet.exists", "!modifier.last" } }, -- Call Pet 1
-	{ "Heart of the Phoenix", { "pet.exists", "pet.dead", "!modifier.last" } },
-	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
-	{ "Revive Pet", { "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
+	{ "Heart of the Phoenix", { "!talent(7, 3)", "pet.exists", "pet.dead", "!modifier.last" } },
+	{ "Mend Pet", { "!talent(7, 3)", "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
+	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
@@ -49,13 +48,13 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },
 
 	-- MISDIRECTION ( focus -> tank -> pet )
-	{ {
-		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
-		{ "Misdirection", { "modifier.raid", "tank.exists", "tank.alive", "tank.distance < 100" }, "tank" },
-		{ "Misdirection", { "pet.exists", "pet.alive", "pet.distance < 100" }, "pet" },
-	},{
-		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
-	} },
+	-- { {
+	-- 	{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
+	-- 	{ "Misdirection", { "modifier.raid", "tank.exists", "tank.alive", "tank.distance < 100" }, "tank" },
+	-- 	{ "Misdirection", { "pet.exists", "pet.alive", "pet.distance < 100" }, "pet" },
+	-- },{
+	-- 	"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
+	-- } },
 
 	-- DEFENSIVE COOLDOWNS
 	{ "Exhilaration", "player.health < 40" },
@@ -80,22 +79,21 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- actions=auto_shot
 	-- actions+=/use_item,name=gorashans_lodestone_spike (trinket) 109998
 	{ "Arcane Torrent", "player.focus <= 70" },
-	{ "Blood Fury", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive" } },
-	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive" } },
+	{ "Blood Fury", { "modifier.cooldowns", "target.enemy", "target.alive", "!target.buff(Protection Shield)" } },
+	{ "Berserking", { "modifier.cooldowns", "target.enemy", "target.alive", "!target.buff(Protection Shield)" } },
 	-- actions+=/potion,name=draenic_agility,if=(((cooldown.stampede.remains<1)&(cooldown.a_murder_of_crows.remains<1))&(trinket.stat.any.up|buff.archmages_greater_incandescence_agi.up))|target.time_to_die<=25
-	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "target.deathin <= 25" } }, -- Draenic Agility Potion
-	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "player.hashero", "player.spell(Stampede).cooldown < 1", "player.spell(A Murder of Crows).cooldown < 1" } }, -- Draenic Agility Potion
-	{ "Call to Arms", { "target.exists", "target.enemy" } }, -- TODO: Not working?
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "target.deathin <= 25", "!target.buff(Protection Shield)" } }, -- Draenic Agility Potion
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "player.hashero", "player.spell(Stampede).cooldown < 1", "player.spell(A Murder of Crows).cooldown < 1", "!target.buff(Protection Shield)" } }, -- Draenic Agility Potion
 
 	-- AOE ROTATION
 	{ {
 		-- actions.aoe=stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up|buff.archmages_incandescence_agi.up))
-		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)" } },
-		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.hashero" } },
-		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "!modifer.raid" } },
+		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)", "!target.buff(Protection Shield)" } },
+		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.hashero", "!target.buff(Protection Shield)" } },
+		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "!modifer.raid", "!target.buff(Protection Shield)" } },
 		{ "Explosive Shot", { "!talent(6, 3)", "player.buff(Lock and Load)" } },
 		{ "Explosive Shot", { "player.spell(Barrage).cooldown > 0", "player.buff(Lock and Load)" } },
-		{ "Barrage" },
+		{ "Barrage", "!target.buff(Protection Shield)" },
 		{ "Explosive Shot", "target.area(8).enemies < 5" },
 		{ "Black Arrow", "!target.debuff" },
 		{ "Trap Launcher", { "!player.buff(Trap Launcher)", "!modifier.last" } },
@@ -107,7 +105,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 		{ "Multi-Shot", "target.debuff(Serpent Sting).remains <= 5" },
 		{ "Multi-Shot", "target.deathin < 4.5" },
 		{ "Glaive Toss" },
-		{ "Powershot" },
+		{ "Powershot", "!target.buff(Protection Shield)" },
 		-- actions.aoe+=/cobra_shot,if=buff.pre_steady_focus.up&buff.steady_focus.remains<5&focus+14+cast_regen<80
 		{ "Cobra Shot", { "talent(4, 1)", "modifier.last", "player.buff(Steady Focus).remains < 5", "player.focus < 55" } },
 		{ "Multi-Shot", "player.focus >= 70" },
@@ -120,21 +118,21 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 
 	-- SINGLE TARGET ROTATION
 	-- actions+=/stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up))|target.time_to_die<=25
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)" } },
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.hashero" } },
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "!modifer.raid" } },
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "modifer.raid", "target.boss", "target.deathin <= 25" } },
+	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)", "!target.buff(Protection Shield)" } },
+	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.hashero", "!target.buff(Protection Shield)" } },
+	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "!modifer.raid", "!target.buff(Protection Shield)" } },
+	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "modifer.raid", "target.boss", "target.deathin <= 25", "!target.buff(Protection Shield)" } },
 	{ "Explosive Shot" },
 	{ "Black Arrow", "!target.debuff" },
 	{ "A Murder of Crows" },
-	{ "Dire Beast" },
+	{ "Dire Beast", "!target.buff(Protection Shield)" },
 	-- actions+=/arcane_shot,if=buff.thrill_of_the_hunt.react&focus>35&cast_regen<=focus.deficit|dot.serpent_sting.remains<=5|target.time_to_die<4.5
 	{ "Arcane Shot", { "player.buff(Thrill of the Hunt)", "player.focus > 35" } },
 	{ "Arcane Shot", { "target.debuff(Serpent Sting).remains <= 5", "player.focus > 50" } },
 	{ "Arcane Shot", "target.deathin < 4.5" },
 	{ "Glaive Toss" },
-	{ "Powershot" },
-	{ "Barrage" },
+	{ "Powershot", "!target.buff(Protection Shield)" },
+	{ "Barrage", "!target.buff(Protection Shield)" },
 	{ "Cobra Shot", { "talent(4, 1)", "modifier.last", "player.buff(Steady Focus).remains < 5", "player.focus < 75" } },
 	{ "Aspect of the Cheetah", { "player.glyph(119462)", "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack).any", "!modifier.last" } }, -- 10sec cd now unless glyphed
 	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.movingfor > 1", "!target.immune.snare" } },
@@ -164,9 +162,9 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
 	{ "883", { "!talent(7, 3)", "!pet.exists", "!modifier.last" } }, -- Call Pet 1
-	{ "Heart of the Phoenix", { "pet.exists", "pet.dead", "!modifier.last" } },
-	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
-	{ "Revive Pet", { "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
+	{ "Heart of the Phoenix", { "!talent(7, 3)", "pet.exists", "pet.dead", "!modifier.last" } },
+	{ "Mend Pet", { "!talent(7, 3)", "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
+	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },

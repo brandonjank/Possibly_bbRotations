@@ -12,6 +12,7 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
 
 	-- AUTO TARGET
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
@@ -83,6 +84,7 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "player.buff(Food)" },
+	{ "pause", "modifier.looting" },
 
 	-- BUFFS
 	{ "Mark of the Wild", { "!player.buffs.stats", "lowest.distance <= 30" }, "lowest" },
@@ -105,12 +107,12 @@ PossiblyEngine.rotation.register_custom(104, "|cFFFF0000bb|cFF0000FFRotations |c
 	{ "Bear Form", { "player.ininstance", "!player.form = 1"} },
 
 	-- PAUSE FORM
-	{ "/cancelform", { "!player.ininstance", "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
-	{ "pause", { "!player.ininstance", "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
+	--{ "/cancelform", { "!player.ininstance", "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
+	--{ "pause", { "!player.ininstance", "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
 
 	-- AUTO FORM
-	{ "Travel Form", { "!player.ininstance", "!player.buff(Travel Form)", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
-	{ "Cat Form", { "!player.ininstance", "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
+	--{ "Travel Form", { "!player.ininstance", "!player.buff(Travel Form)", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
+	--{ "Cat Form", { "!player.ininstance", "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
 
 },
 -- TOGGLE BUTTONS
