@@ -48,24 +48,24 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },
 
 	-- MISDIRECTION ( focus -> tank -> pet )
-	-- { {
-	-- 	{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
-	-- 	{ "Misdirection", { "modifier.raid", "tank.exists", "tank.alive", "tank.distance < 100" }, "tank" },
-	-- 	{ "Misdirection", { "pet.exists", "pet.alive", "pet.distance < 100" }, "pet" },
-	-- },{
-	-- 	"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
-	-- } },
+	{ {
+		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
+		{ "Misdirection", { "modifier.raid", "tank.exists", "tank.alive", "tank.distance < 100" }, "tank" },
+		{ "Misdirection", { "!talent(7, 3)", "pet.exists", "pet.alive", "pet.distance < 100" }, "pet" },
+	},{
+		"!talent(7, 3)", "!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
+ 	} },
 
 	-- DEFENSIVE COOLDOWNS
 	{ "Exhilaration", "player.health < 40" },
 	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
 	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
 	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)
-	{ "Master's Call", "player.state.disorient", "player" },
-	{ "Master's Call", "player.state.stun", "player" },
-	{ "Master's Call", "player.state.root", "player" },
-	{ "Master's Call", "player.state.snare", "player" },
-	{ "Deterrence", "player.health < 20" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.disorient" }, "player" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.stun" }, "player" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.root" }, "player" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.snare" }, "player" },
+	{ "Deterrence", { "!talent(7, 3)", "player.health < 20" } },
 
 	-- Pre-DPS PAUSE
 	{ "pause", "target.debuff(Wyvern Sting).any" },
@@ -82,15 +82,15 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Blood Fury", { "modifier.cooldowns", "target.enemy", "target.alive", "!target.buff(Protection Shield)" } },
 	{ "Berserking", { "modifier.cooldowns", "target.enemy", "target.alive", "!target.buff(Protection Shield)" } },
 	-- actions+=/potion,name=draenic_agility,if=(((cooldown.stampede.remains<1)&(cooldown.a_murder_of_crows.remains<1))&(trinket.stat.any.up|buff.archmages_greater_incandescence_agi.up))|target.time_to_die<=25
-	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "target.deathin <= 25", "!target.buff(Protection Shield)" } }, -- Draenic Agility Potion
-	{ "#109217", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.enemy", "target.boss", "player.hashero", "player.spell(Stampede).cooldown < 1", "player.spell(A Murder of Crows).cooldown < 1", "!target.buff(Protection Shield)" } }, -- Draenic Agility Potion
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.enemy", "target.boss", "target.deathin <= 25", "!target.buff(Protection Shield)" } }, -- Draenic Agility Potion
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.enemy", "target.boss", "player.hashero", "player.spell(Stampede).cooldown < 1", "player.spell(A Murder of Crows).cooldown < 1", "!target.buff(Protection Shield)" } }, -- Draenic Agility Potion
 
 	-- AOE ROTATION
 	{ {
 		-- actions.aoe=stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up|buff.archmages_incandescence_agi.up))
-		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)", "!target.buff(Protection Shield)" } },
-		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.hashero", "!target.buff(Protection Shield)" } },
-		{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "!modifer.raid", "!target.buff(Protection Shield)" } },
+		{ "Stampede", { "modifier.cooldowns", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)", "!target.buff(Protection Shield)" } },
+		{ "Stampede", { "modifier.cooldowns", "target.enemy", "target.alive", "player.hashero", "!target.buff(Protection Shield)" } },
+		{ "Stampede", { "modifier.cooldowns", "target.enemy", "target.alive", "!modifer.raid", "!target.buff(Protection Shield)" } },
 		{ "Explosive Shot", { "!talent(6, 3)", "player.buff(Lock and Load)" } },
 		{ "Explosive Shot", { "player.spell(Barrage).cooldown > 0", "player.buff(Lock and Load)" } },
 		{ "Barrage", "!target.buff(Protection Shield)" },
@@ -118,10 +118,10 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 
 	-- SINGLE TARGET ROTATION
 	-- actions+=/stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up))|target.time_to_die<=25
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)", "!target.buff(Protection Shield)" } },
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "player.hashero", "!target.buff(Protection Shield)" } },
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "!modifer.raid", "!target.buff(Protection Shield)" } },
-	{ "Stampede", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive", "modifer.raid", "target.boss", "target.deathin <= 25", "!target.buff(Protection Shield)" } },
+	{ "Stampede", { "modifier.cooldowns", "target.enemy", "target.alive", "player.buff(Draenic Agility Potion)", "!target.buff(Protection Shield)" } },
+	{ "Stampede", { "modifier.cooldowns", "target.enemy", "target.alive", "player.hashero", "!target.buff(Protection Shield)" } },
+	{ "Stampede", { "modifier.cooldowns", "target.enemy", "target.alive", "!modifer.raid", "!target.buff(Protection Shield)" } },
+	{ "Stampede", { "modifier.cooldowns", "target.enemy", "target.alive", "modifer.raid", "target.boss", "target.deathin <= 25", "!target.buff(Protection Shield)" } },
 	{ "Explosive Shot" },
 	{ "Black Arrow", "!target.debuff" },
 	{ "A Murder of Crows" },
@@ -152,7 +152,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "pause", "modifier.looting" },
 
 	-- AUTO LOOT
-	{ "Fetch", { "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
+	{ "Fetch", { "!talent(7, 3)", "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
 
 	-- ASPECTS
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed

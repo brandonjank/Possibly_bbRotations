@@ -37,9 +37,9 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
 	{ "883", { "!talent(7, 3)", "!pet.exists", "!modifier.last" } }, -- Call Pet 1
-	{ "Heart of the Phoenix", { "pet.exists", "pet.dead", "!modifier.last" } },
-	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
-	{ "Revive Pet", { "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
+	{ "Heart of the Phoenix", { "!talent(7, 3)", "pet.exists", "pet.dead", "!modifier.last" } },
+	{ "Mend Pet", { "!talent(7, 3)", "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
+	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
@@ -51,7 +51,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ {
 		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
 		{ "Misdirection", { "modifier.raid", "tank.exists", "tank.alive", "tank.distance < 100" }, "tank" },
-		{ "Misdirection", { "pet.exists", "pet.alive", "pet.distance < 100" }, "pet" },
+		{ "Misdirection", { "!talent(7, 3)", "pet.exists", "pet.alive", "pet.distance < 100" }, "pet" },
 	},{
 		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
 	} },
@@ -61,10 +61,10 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
 	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
 	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)
-	{ "Master's Call", "player.state.disorient", "player" },
-	{ "Master's Call", "player.state.stun", "player" },
-	{ "Master's Call", "player.state.root", "player" },
-	{ "Master's Call", "player.state.snare", "player" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.disorient" }, "player" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.stun" }, "player" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.root" }, "player" },
+	{ "Master's Call", { "!talent(7, 3)", "player.state.snare" }, "player" },
 	{ "Deterrence", "player.health < 20" },
 
 	-- Pre-DPS PAUSE
@@ -115,8 +115,8 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- actions=auto_shot
 	-- actions+=/use_item,name=gorashans_lodestone_spike (trinket) 109998
 	{ "Arcane Torrent", "player.focus <= 70" },
-	{ "Blood Fury", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive" } },
-	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.enemy", "target.alive" } },
+	{ "Blood Fury", { "modifier.cooldowns", "target.enemy", "target.alive" } },
+	{ "Berserking", { "modifier.cooldowns", "target.enemy", "target.alive" } },
 	-- actions+=/potion,name=draenic_agility,if=((buff.rapid_fire.up|buff.bloodlust.up)&(cooldown.stampede.remains<1))|target.time_to_die<=25
 	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.hashero", "player.spell(Stampede).cooldown < 1" } }, -- Draenic Agility Potion
 	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.buff(Rapid Fire)", "player.spell(Stampede).cooldown < 1" } }, -- Draenic Agility Potion
@@ -193,7 +193,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "pause", "modifier.looting" },
 
 	-- AUTO LOOT
-	{ "Fetch", { "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
+	{ "Fetch", { "!talent(7, 3)", "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
 
 	-- ASPECTS
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
@@ -202,9 +202,9 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
 	{ "883", { "!talent(7, 3)", "!pet.exists", "!modifier.last" } }, -- Call Pet 1
-	{ "Heart of the Phoenix", { "pet.exists", "pet.dead", "!modifier.last" } },
-	{ "Mend Pet", { "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
-	{ "Revive Pet", { "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
+	{ "Heart of the Phoenix", { "!talent(7, 3)", "pet.exists", "pet.dead", "!modifier.last" } },
+	{ "Mend Pet", { "!talent(7, 3)", "pet.exists", "pet.alive", "pet.health < 70", "pet.distance < 45", "!pet.buff(Mend Pet)", "!modifier.last" } },
+	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
 	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
