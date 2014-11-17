@@ -6,6 +6,9 @@
 -- SUGGESTED GLYPHS: Major: Animal Bond, Deterrence, Disengage  Minor: Aspect of the Cheetah, Play Dead, Fetch
 -- CONTROLS: Pause - Left Control, Explosive/Ice/Snake Traps - Left Alt, Freezing Trap - Right Alt, Scatter Shot - Right Control
 
+-- Grimrail - Rocketspark -- Borka's  Slam will now also interrupt spell casting, locking the player out of the affected spell school for a brief period. Casters and healers should target or focus Borka to watch for his Slam cast and avoid using cast-time spells as it finishes.
+-- Grimrail - Nitrogg -- Use Blackrock Grenade on CD target.ground (Special Action Button)
+
 PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 -- COMBAT ROTATION
 	-- PAUSES
@@ -42,7 +45,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
-	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
+	{ "Trap Launcher", { "!modifier.last", "!player.buff(Trap Launcher)" } },
 	{ "Explosive Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" }, -- mouseover.ground?
 	{ "Ice Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" },
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },
@@ -50,7 +53,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- MISDIRECTION ( focus -> tank -> pet )
 	{ {
 		{ "Misdirection", { "focus.exists", "focus.alive", "focus.distance < 100"  }, "focus" },
-		{ "Misdirection", { "modifier.raid", "tank.exists", "tank.alive", "tank.distance < 100" }, "tank" },
+		--{ "Misdirection", { "modifier.raid", "tank.exists", "tank.alive", "tank.distance < 100" }, "tank" },
 		{ "Misdirection", { "!talent(7, 3)", "pet.exists", "pet.alive", "pet.distance < 100" }, "pet" },
 	},{
 		"!toggle.pvpmode", "!target.isPlayer", "!player.buff(Misdirection)", "target.threat > 30",
@@ -75,113 +78,97 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "pause", "target.status.incapacitate" },
 	{ "pause", "target.status.sleep" },
 
---[[
-	-- DPS COOLDOWNS
-	{ "#76089", { "modifier.cooldowns", "toggle.consume", "pet.exists", "target.exists", "player.hashero", "target.boss" } }, -- Agility Potion (76089) Virmen's Bite
-	{ "Rapid Fire", { "modifier.cooldowns", "player.focus > 60" } },
-	{ "Rapid Fire", { "modifier.cooldowns", "player.focus > 40", "player.buff(Thrill of the Hunt)" } },
-	{ "Berserking", { "modifier.cooldowns", "pet.exists", "target.exists", "!player.hashero", "!player.buff(Rapid Fire)" } },
-
-	-- DPS ROTATION -- Always want a minimum of 35 focus
-	{ "Aspect of the Fox", { "target.enemy", "target.health > 1", "player.movingfor > 2", "player.buff(Sniper Training)" } },
-	{ "Chimaera Shot" },
-	{ "Kill Shot", "target.health <= 20" },
-	{ "A Murder of Crows", "talent(5, 1)" },
-	{ "Stampede", "talent(5, 3)" },
-	{ "Glaive Toss", "talent(6, 1)" },
-	{ "Powershot", { "talent(6, 2)", "!player.moving" } },
-	{ "Barrage", { "talent(6, 3)", "!player.moving" } }, --  you can change where Barrage is directed by turning your character while channelling the spell. This allows you to hit more targets than those you were initially facing.
-	{ "Steady Shot", { "talent(4, 1)", "!player.buff(Steady Focus)", "player.focus < 80" } },
-	{ {
-		{ "Multi-Shot", "player.focus > 70" },
-		{ "Multi-Shot", "player.buff(Thrill of the Hunt)" },
-		{ "Multi-Shot", "player.buff(Bombardment)" },
-		{ "Explosive Trap", "!target.moving", "target.ground" },
-	},{
-		"target.area(10).enemies > 3",
-	} },
-	{ {
-		{ "Aimed Shot", "player.focus > 70" },
-		{ "Aimed Shot", "player.buff(Thrill of the Hunt)" },
-	},{
-		"target.area(10).enemies < 4",
-	} },
-	{ "Concussive Shot", { "toggle.pvpmode", "!target.debuff.any", "target.moving", "!target.immune.snare" } },
-	{ "Widow Venom", { "toggle.pvpmode", "!target.debuff.any", "target.health > 20" } },
-	{ "Steady Shot", "player.focus < 80" },
-]] --
-
 	-- COMMON / COOLDOWNS
 	-- actions=auto_shot
-	-- actions+=/use_item,name=gorashans_lodestone_spike (trinket) 109998
-	{ "Arcane Torrent", "player.focus <= 70" },
-	{ "Blood Fury", { "modifier.cooldowns", "target.enemy", "target.alive" } },
-	{ "Berserking", { "modifier.cooldowns", "target.enemy", "target.alive" } },
+	-- actions+=/use_item,name=gorashans_lodestone_spike
+	-- actions+=/arcane_torrent,if=focus.deficit>=30
+	{ "Arcane Torrent", { "modifier.cooldowns", "player.focus <= 70" } },
+	-- actions+=/blood_fury
+	{ "Blood Fury", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive" } },
+	-- actions+=/berserking
+	{ "Berserking", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive" } },
 	-- actions+=/potion,name=draenic_agility,if=((buff.rapid_fire.up|buff.bloodlust.up)&(cooldown.stampede.remains<1))|target.time_to_die<=25
-	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.hashero", "player.spell(Stampede).cooldown < 1" } }, -- Draenic Agility Potion
-	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.buff(Rapid Fire)", "player.spell(Stampede).cooldown < 1" } }, -- Draenic Agility Potion
-	--{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "target.deathin <= 25" } }, -- Draenic Agility Potion
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.hashero" } }, -- Draenic Agility Potion
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.buff(Rapid Fire)" } }, -- Draenic Agility Potion
+	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "target.deathin <= 25" } }, -- Draenic Agility Potion
+	-- actions+=/chimaera_shot
 	{ "Chimaera Shot" },
+	-- actions+=/kill_shot
 	{ "Kill Shot" },
 	-- actions+=/rapid_fire
-	{ "Rapid Fire", { "modifier.cooldowns", "player.focus > 40" } },
-	{ "Rapid Fire", { "modifier.cooldowns", "player.focus > 20", "player.buff(Thrill of the Hunt)" } },
+	{ "Rapid Fire", "modifier.cooldowns" }, -- Only cast if boss target is under 80% to maximize CA?
+	-- actions+=/stampede,if=buff.rapid_fire.up|buff.bloodlust.up|target.time_to_die<=25
 	{ "Stampede", { "modifier.cooldowns", "player.buff(Rapid Fire)" } },
 	{ "Stampede", { "modifier.cooldowns", "player.hashero" } },
 	{ "Stampede", { "modifier.cooldowns", "target.boss","target.deathin <= 25" } },
-	{ "Call to Arms", { "target.exists", "target.enemy" } },
 
-	-- CAREFUL AIM PHASE
+	-- CAREFUL AIM
 	{ {
-		{ "Glaive Toss", "target.area(10).enemies > 2" },
-		-- actions.careful_aim+=/powershot,if=active_enemies>1&cast_regen<focus.deficit
-		{ "Powershot", { "player.focus < 80", "target.area(10).enemies > 1" } },
-		{ "Barrage", "target.area(10).enemies > 1" },
-		{ "Aimed Shot" },
-		-- actions.careful_aim+=/focusing_shot,if=50+cast_regen<focus.deficit
-		{ "Focusing Shot", "player.focus < 25" },
-		{ "Steady Shot", "player.focus < 90" },
+	  -- actions.careful_aim=glaive_toss,if=active_enemies>2
+	  { "Glaive Toss", "target.area(10).enemies > 2" },
+	  -- actions.careful_aim+=/powershot,if=active_enemies>1&cast_regen<focus.deficit
+	  { "Powershot", { "target.area(10).enemies > 1", "player.spell(Powershot).wontcap" } },
+	  -- actions.careful_aim+=/barrage,if=active_enemies>1
+	  { "Barrage", "target.area(10).enemies > 1" },
+	  -- actions.careful_aim+=/aimed_shot
+	  { "Aimed Shot" },
+	  -- actions.careful_aim+=/focusing_shot,if=50+cast_regen<focus.deficit
+	  { "Focusing Shot", { "player.focus < 32",  } },
+	  -- actions.careful_aim+=/steady_shot
+		{ "Steady Shot" },
 	},{
 		"target.health > 80",
 	} },
 	{ {
-		{ "Glaive Toss", "target.area(10).enemies > 2" },
-		-- actions.careful_aim+=/powershot,if=active_enemies>1&cast_regen<focus.deficit
-		{ "Powershot", { "player.focus < 80", "target.area(10).enemies > 1" } },
-		{ "Barrage", "target.area(10).enemies > 1" },
-		{ "Aimed Shot" },
-		-- actions.careful_aim+=/focusing_shot,if=50+cast_regen<focus.deficit
-		{ "Focusing Shot", "player.focus < 25" },
-		{ "Steady Shot", "player.focus < 90" },
+	  -- actions.careful_aim=glaive_toss,if=active_enemies>2
+	  { "Glaive Toss", "target.area(10).enemies > 2" },
+	  -- actions.careful_aim+=/powershot,if=active_enemies>1&cast_regen<focus.deficit
+	  { "Powershot", { "target.area(10).enemies > 1", "player.spell(Powershot).wontcap" } },
+	  -- actions.careful_aim+=/barrage,if=active_enemies>1
+	  { "Barrage", "target.area(10).enemies > 1" },
+	  -- actions.careful_aim+=/aimed_shot
+	  { "Aimed Shot" },
+	  -- actions.careful_aim+=/focusing_shot,if=50+cast_regen<focus.deficit
+	  { "Focusing Shot", { "player.focus < 32",  } },
+	  -- actions.careful_aim+=/steady_shot
+	  { "Steady Shot" },
 	},{
 		"player.buff(Rapid Fire)",
 	} },
 
+	-- DPS ROTATION
+	-- actions+=/explosive_trap,if=active_enemies>1
 	{ "Explosive Trap", { "!target.moving", "target.area(8).enemies > 1" }, "target.ground" },
+	-- actions+=/a_murder_of_crows
 	{ "A Murder of Crows" },
 	-- actions+=/dire_beast,if=cast_regen+action.aimed_shot.cast_regen<focus.deficit
-	{ "Dire Beast", "player.focus < 80" },
+	{ "Dire Beast", "@bbLib.canDireBeast" },
+	-- actions+=/glaive_toss
 	{ "Glaive Toss" },
 	-- actions+=/powershot,if=cast_regen<focus.deficit
-	{ "Powershot", "player.focus < 80" },
+	{ "Powershot", "player.spell(Powershot).wontcap" },
+	-- actions+=/barrage
 	{ "Barrage" },
 	-- # Pool max focus for rapid fire so we can spam AimedShot with Careful Aim buff
 	-- actions+=/steady_shot,if=focus.deficit*cast_time%(14+cast_regen)>cooldown.rapid_fire.remains
+	{ "Steady Shot", "@bbLib.poolSteady" },
 	-- actions+=/focusing_shot,if=focus.deficit*cast_time%(50+cast_regen)>cooldown.rapid_fire.remains&focus<100
+	{ "Focusing Shot", { "@bbLib.poolFocusing", "player.focus < 100" } },
 	-- # Cast a second shot for steady focus if that won't cap us.
 	-- actions+=/steady_shot,if=buff.pre_steady_focus.up&(14+cast_regen+action.aimed_shot.cast_regen)<=focus.deficit
-	{ "Steady Shot", { "modifier.last", "!player.buff(Steady Focus)", "player.focus < 58" } },
+	{ "Steady Shot", { "talent(4, 1)", "modifier.last(Steady Shot)", "!player.buff(Steady Focus)", "@bbLib.steadyFocus" } },
+	-- actions+=/multishot,if=active_enemies>6
 	{ "Multi-Shot", "target.area(8).enemies > 6" },
+	-- actions+=/aimed_shot,if=talent.focusing_shot.enabled
 	{ "Aimed Shot", "talent(7, 2)" },
 	-- actions+=/aimed_shot,if=focus+cast_regen>=85
-	{ "Aimed Shot", "player.focus > 70" },
 	-- actions+=/aimed_shot,if=buff.thrill_of_the_hunt.react&focus+cast_regen>=65
-	{ "Aimed Shot", { "player.focus > 50", "player.buff(Thrill of the Hunt)" } },
+	{ "Aimed Shot", "@bbLib.aimedShot" },
 	-- # Allow FS to over-cap by 10 if we have nothing else to do
 	-- actions+=/focusing_shot,if=50+cast_regen-10<focus.deficit
-	{ "Focusing Shot", "player.focus < 50" },
+	{ "Focusing Shot", "@bbLib.focusingShot" },
 	-- actions+=/steady_shot
-	{ "Steady Shot", "player.focus < 88" },
+	{ "Steady Shot" },
 
 },
 {
@@ -207,7 +194,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
-	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
+	{ "Trap Launcher", { "!modifier.last", "!player.buff(Trap Launcher)" } },
 	{ "Explosive Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" }, -- mouseover.ground?
 	{ "Ice Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" },
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },

@@ -54,7 +54,6 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	--{ "Elemental Mastery", { "modifier.cooldowns", "focustarget.boss", "talent(4, 1)" } }, -- T4
 	{ "Spirit Walker's Grace", { "modifier.cooldowns", "player.buff(Ascendance)", "player.movingfor > 1" } },
 
-
 	--Use Healing Tide Totem,  Spirit Link Totem, or Ascendance during heavy raid damage.  Healing Tide Totem is particularly good when players are spread out, while Ascendance and  Spirit Link Totem benefit from a stacked raid.
 	{ "Healing Tide Totem", { "modifier.cooldowns", "!player.totem(Spirit Link Totem)", "!player.buff(Ascendance)", "@coreHealing.needsHealing(50, 5)" } }, -- heals raid now no range requirement
 	{ "Spirit Link Totem", { "modifier.cooldowns", "!player.totem(Healing Tide Totem)", "!player.buff(Ascendance)", "@coreHealing.needsHealing(45, 4)" } },
@@ -65,10 +64,10 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Earth Shield", { "tank.exists", "tank.alive", "!focus.exists", "!focus.buff(Earth Shield)", "!tank.buff(Earth Shield)" }, "tank" },
 
 	--Use Healing Stream Totem on CD.
-	{ "Healing Stream Totem" },
+	{ "Healing Stream Totem", "!player.totem(Healing Tide Totem)" },
 
 	--Use Unleash Life to empower Chain Heals (particularly if taking the  High Tide talent), Riptides, or Healing Surges.
-	{ "Unleash Life", "lowest.health < 65" },
+	{ "Unleash Life", "lowest.health < 70" },
 
 	--Keep Riptide on 3 players at all times.
 	{ "Riptide", { "focus.exists", "focus.friend", "!focus.buff(Riptide)" }, "focus" },
@@ -85,24 +84,25 @@ PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
 	{ "Healing Rain", { "lowest.health <= 90", "!lowest.moving", "@bbLib.NeedHealsAroundUnit('Healing Rain')" }, "lowest.ground" }, -- lowest.ground is not working
 
 	--Cast Chain Heal on  Riptided targets for additional AoE healing.
-	{ "Chain Heal", { "!modifier.last", "lowest.health <= 90", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit('Chain Heal')" }, "lowest" },
+	-- bbLib.NeedHealsAroundUnit(spell, unit, count, distance, threshold)
+	{ "Chain Heal", { "!modifier.last", "lowest.health <= 95", "lowest.buff(Riptide)", "@bbLib.NeedHealsAroundUnit('Chain Heal')" }, "lowest" },
 	{ "Chain Heal", { "!modifier.last", "lowest.health <= 80", "@bbLib.NeedHealsAroundUnit('Chain Heal')" }, "lowest" },
 
 	--Spend Tidal Waves procs on Healing Surges for tank healing.
-	{ "Healing Surge", { "focus.health < 95", "player.buff(Tidal Waves)" }, "focus" },
-	{ "Healing Surge", { "tank.health < 95", "player.buff(Tidal Waves)" }, "tank" },
+	{ "Healing Surge", { "focus.health <= 70", "player.buff(Tidal Waves)" }, "focus" },
+	{ "Healing Surge", { "tank.health <= 70", "player.buff(Tidal Waves)" }, "tank" },
 
 	-- Quick Healing Surge
-	{ "Healing Surge", "lowest.health < 70", "lowest" }, -- only if you feel that the target will die before you have a chance to complete a Greater Healing Wave
+	{ "Healing Surge", "lowest.health <= 50", "lowest" }, -- only if you feel that the target will die before you have a chance to complete a Greater Healing Wave
 
 	-- Interrupt
 	--{ "Quaking Palm", "modifier.interrupts" }, -- Pandaren Racial
 	{ "Wind Shear", "modifier.interrupt" },
 
 	--Cast  Healing Wave on injured targets during periods of low damage.
-	{ "Healing Wave", { "focus.health < 100" }, "focus" },
-	{ "Healing Wave", { "tank.health < 100" }, "tank" },
-	{ "Healing Wave", { "lowest.health < 100" }, "lowest" },
+	{ "Healing Wave", { "focus.health <= 95" }, "focus" },
+	{ "Healing Wave", { "tank.health <= 95" }, "tank" },
+	{ "Healing Wave", { "lowest.health <= 95" }, "lowest" },
 
 	-- Dispel Self
 	--{ "Purify Spirit", "player.dispellable(Purify Spirit)", "player" },

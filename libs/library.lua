@@ -50,7 +50,7 @@ function bbLib.NeedHealsAroundUnit(spell, unit, count, distance, threshold)
 	if UnitExists(unit) then
 		if not count then count = 2 end
 		if not distance then distance = 15 end
-		if not threshold then threshold = 90 end
+		if not threshold then threshold = 80 end
 		local total = 0
 		local totalObjects = ObjectCount() or 0
 		for i = 1, totalObjects do
@@ -566,6 +566,88 @@ function bbLib.isNotTank(unit)
 		end
 	end
 	return true
+end
+
+function bbLib.canDireBeast()
+  local _, activeRegen = GetPowerRegen()
+  local DBname, _, _, DBcastTime = GetSpellInfo("Dire Beast")
+	local ASname, _, _, AScastTime = GetSpellInfo("Aimed Shot")
+  if DBname and ASname and activeRegen then
+    local db_cast_regen = DBcastTime/1000 * activeRegen
+		local as_cast_regen = AScastTime/1000 * activeRegen
+    local focus_deficit = UnitPowerMax("player", 2) - UnitPower("player", 2)
+		return (db_cast_regen + as_cast_regen) < focus_deficit
+  end
+  return false
+end
+
+function bbLib.poolSteady()
+	local _, activeRegen = GetPowerRegen()
+	local name, _, _, castTime = GetSpellInfo("Steady Shot")
+	local start, duration, enabled = GetSpellCooldown("Rapid Fire")
+	if name and activeRegen and start then
+		local rapid_cooldown = 0
+		if start ~= 0 then rapid_cooldown = start + duration - GetTime() end
+		if castTime == 0 then castTime = 1500 end
+		local cast_regen = castTime/1000 * activeRegen
+		local focus_deficit = UnitPowerMax("player", 2) - UnitPower("player", 2)
+		if focus_deficit == 0 then focus_deficit = 1 end
+		return (focus_deficit * (castTime/1000) % (14 + cast_regen)) > rapid_cooldown
+	end
+	return false
+end
+
+function bbLib.poolFocusing()
+	local _, activeRegen = GetPowerRegen()
+	local name, _, _, castTime = GetSpellInfo("Focusing Shot")
+	local start, duration, enabled = GetSpellCooldown("Rapid Fire")
+	if name and activeRegen and start then
+		local rapid_cooldown = 0
+		if start ~= 0 then rapid_cooldown = start + duration - GetTime() end
+		if castTime == 0 then castTime = 1500 end
+		local cast_regen = castTime/1000 * activeRegen
+		local focus_deficit = UnitPowerMax("player", 2) - UnitPower("player", 2)
+		if focus_deficit == 0 then focus_deficit = 1 end
+		return (focus_deficit * (castTime/1000) % (50 + cast_regen)) > rapid_cooldown
+	end
+	return false
+end
+
+function bbLib.steadyFocus()
+	local _, activeRegen = GetPowerRegen()
+	local SSname, _, _, SScastTime = GetSpellInfo("Steady Shot")
+	local ASname, _, _, AScastTime = GetSpellInfo("Aimed Shot")
+	if SSname and ASname and activeRegen then
+		local ss_cast_regen = SScastTime/1000 * activeRegen
+		local as_cast_regen = AScastTime/1000 * activeRegen
+		local focus_deficit = UnitPowerMax("player", 2) - UnitPower("player", 2)
+		return (14 + ss_cast_regen + as_cast_regen) <= focus_deficit
+	end
+	return false
+end
+
+function bbLib.aimedShot()
+	local _, activeRegen = GetPowerRegen()
+	local name, _, _, castTime = GetSpellInfo("Aimed Shot")
+	if name and activeRegen then
+		local cast_regen = castTime/1000 * activeRegen
+		local focus = UnitPower("player", 2)
+		local minFocus = 85
+		if UnitBuff("player", "Thrill of the Hunt") then minFocus = 65 end
+		return (focus + cast_regen) >= minFocus
+	end
+	return false
+end
+
+function bbLib.focusingShot()
+	local _, activeRegen = GetPowerRegen()
+	local name, _, _, castTime = GetSpellInfo("Focusing Shot")
+	if name and activeRegen then
+		local cast_regen = castTime/1000 * activeRegen
+		local focus_deficit = UnitPowerMax("player", 2) - UnitPower("player", 2)
+		return (50 + cast_regen - 10) < focus_deficit
+	end
+	return false
 end
 
 PossiblyEngine.library.register("bbLib", bbLib)

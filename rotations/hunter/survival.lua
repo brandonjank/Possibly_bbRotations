@@ -42,7 +42,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
-	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
+	{ "Trap Launcher", { "!modifier.last", "!player.buff(Trap Launcher)" } },
 	{ "Explosive Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" }, -- mouseover.ground?
 	{ "Ice Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" },
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },
@@ -78,6 +78,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	-- COMMON / COOLDOWNS
 	-- actions=auto_shot
 	-- actions+=/use_item,name=gorashans_lodestone_spike (trinket) 109998
+	{ "Blackrock Grenade", true, "target.ground" },
 	{ "Arcane Torrent", "player.focus <= 70" },
 	{ "Blood Fury", { "modifier.cooldowns", "target.enemy", "target.alive", "!target.buff(Protection Shield)" } },
 	{ "Berserking", { "modifier.cooldowns", "target.enemy", "target.alive", "!target.buff(Protection Shield)" } },
@@ -167,7 +168,7 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 	{ "Revive Pet", { "!talent(7, 3)", "pet.exists", "pet.dead", "!player.moving", "pet.distance < 45", "!modifier.last" } },
 
 	-- TRAPS
-	{ "Trap Launcher", { "modifier.lalt", "!player.buff(Trap Launcher)" } },
+	{ "Trap Launcher", { "!modifier.last", "!player.buff(Trap Launcher)" } },
 	{ "Explosive Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" }, -- mouseover.ground?
 	{ "Ice Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" },
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },
