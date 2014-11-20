@@ -103,15 +103,15 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 		searchRange = searchRange + 5
 	end
 
-	local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
-	if toxin > 3 then
-		if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
-			Cast("Divine Shield", "player")
-		elseif UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
-			Cast("Earth Elemental Totem", "player")
-		end
-		searchRange = 3
-	end
+	-- local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
+	-- if toxin > 3 then
+	-- 	if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
+	-- 		Cast("Divine Shield", "player")
+	-- 	elseif UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
+	-- 		Cast("Earth Elemental Totem", "player")
+	-- 	end
+	-- 	searchRange = 3
+	-- end
 
 	if UnitExists("target") then
 		if UnitIsDeadOrGhost("target")
@@ -132,7 +132,7 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 			local object = ObjectWithIndex(i)
 			if ObjectExists(object) then
 				local objectName = ObjectName(object) or 0
-				if objectName == unitName then
+				if string.find(objectName, unitName) ~= nil then
 					-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
 					if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) then
 						if not UnitIsTapped(object) or UnitIsTappedByPlayer(object)
@@ -649,6 +649,63 @@ function bbLib.focusingShot()
 	end
 	return false
 end
+
+-- START SHADOW PRIEST
+function bbLib.PriestCoPAdvancedMFIDots()
+	--(shadow_orb>=4|target.dot.shadow_word_pain.ticking|target.dot.vampiric_touch.ticking|target.dot.devouring_plague.ticking)
+	if UnitPower(target, SPELL_POWER_SHADOW_ORBS) >= 4
+		or UnitAura("target", "Shadow Word: Pain", nil, "HARMFUL|PLAYER")
+		or UnitAura("target", "Vampiric Touch", nil, "HARMFUL|PLAYER")
+		or UnitAura("target", "Devouring Plague", nil, "HARMFUL|PLAYER") then
+			return true
+	end
+	return false
+end
+
+function bbLib.PriestCoPAdvancedMFIDotsMindSpike()
+	--((target.dot.shadow_word_pain.ticking&target.dot.shadow_word_pain.remains<gcd)|(target.dot.vampiric_touch.ticking&target.dot.vampiric_touch.remains<gcd))&!target.dot.devouring_plague.ticking
+	if UnitAura("target", "Devouring Plague", nil, "HARMFUL|PLAYER") == nil then
+		local SWPname, _, _, _, _, _, SWPexpires = UnitAura("target", "Shadow Word: Pain", nil, "HARMFUL|PLAYER")
+		local VTname, _, _, _, _, _, VTexpires = UnitAura("target", "Vampiric Touch", nil, "HARMFUL|PLAYER")
+		local MSname, _, _, MScastTime = GetSpellInfo("Mind Spike")
+		if ( SWPname and SWPexpires - GetTime() < MScastTime )
+		or ( VTname and VTexpires - GetTime() < MScastTime ) then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.PriestCoPAdvancedMFIDotsMindSpikeX2()
+	--((target.dot.shadow_word_pain.ticking&target.dot.shadow_word_pain.remains<gcd)|(target.dot.vampiric_touch.ticking&target.dot.vampiric_touch.remains<gcd))&!target.dot.devouring_plague.ticking
+	if UnitAura("target", "Devouring Plague", nil, "HARMFUL|PLAYER") == nil then
+		local SWPname, _, _, _, _, _, SWPexpires = UnitAura("target", "Shadow Word: Pain", nil, "HARMFUL|PLAYER")
+		local VTname, _, _, _, _, _, VTexpires = UnitAura("target", "Vampiric Touch", nil, "HARMFUL|PLAYER")
+		local MSname, _, _, MScastTime = GetSpellInfo("Mind Spike")
+		if ( SWPname and SWPexpires - GetTime() < MScastTime )
+		or ( VTname and VTexpires - GetTime() < 2 * MScastTime ) then
+			return true
+		end
+	end
+	return false
+end
+
+function bbLib.PriestCoPAdvancedMFIDotsInsanity()
+	--buff.shadow_word_insanity.remains<0.5*gcd
+	if UnitAura("target", "Devouring Plague", nil, "HARMFUL|PLAYER") == nil then
+		local SWPname, _, _, _, _, _, SWPexpires = UnitAura("target", "Shadow Word: Pain", nil, "HARMFUL|PLAYER")
+		local VTname, _, _, _, _, _, VTexpires = UnitAura("target", "Vampiric Touch", nil, "HARMFUL|PLAYER")
+		local MSname, _, _, MScastTime = GetSpellInfo("Mind Spike")
+		if ( SWPname and SWPexpires - GetTime() < MScastTime )
+		or ( VTname and VTexpires - GetTime() < MScastTime ) then
+			return true
+		end
+	end
+	return false
+end
+
+-- END SHADOW PRIEST
+
 
 PossiblyEngine.library.register("bbLib", bbLib)
 

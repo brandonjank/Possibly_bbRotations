@@ -77,7 +77,8 @@ PossiblyEngine.rotation.register_custom(255, "bbHunter Survival", {
 
 	-- COMMON / COOLDOWNS
 	-- actions=auto_shot
-	-- actions+=/use_item,name=gorashans_lodestone_spike (trinket) 109998
+	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.buff(Rapid Fire)" } },
+	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.hashero" } },
 	{ "Blackrock Grenade", true, "target.ground" },
 	{ "Arcane Torrent", "player.focus <= 70" },
 	{ "Blood Fury", { "modifier.cooldowns", "target.enemy", "target.alive", "!target.buff(Protection Shield)" } },

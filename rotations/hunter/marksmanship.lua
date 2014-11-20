@@ -23,7 +23,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- FROGING
 	{ {
-		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Flare", "@bbLib.engaugeUnit('Grom', 40, false)" },
 		-- Ordon Candlekeeper, Ordon Fire-Watcher, Ordon Oathguard (Gotta strafe out of fire and ground crap)
 	},{
 		"toggle.frogs",
@@ -79,8 +79,11 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "pause", "target.status.sleep" },
 
 	-- COMMON / COOLDOWNS
+	{ "163539", { "target.exists", "player.debuff(Blackrock Grenades)" }, "target.ground" }, -- Blackrock Grenade /click ExtraActionButton1
 	-- actions=auto_shot
 	-- actions+=/use_item,name=gorashans_lodestone_spike
+	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.buff(Rapid Fire)" } },
+	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.hashero" } },
 	-- actions+=/arcane_torrent,if=focus.deficit>=30
 	{ "Arcane Torrent", { "modifier.cooldowns", "player.focus <= 70" } },
 	-- actions+=/blood_fury
@@ -96,7 +99,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- actions+=/kill_shot
 	{ "Kill Shot" },
 	-- actions+=/rapid_fire
-	{ "Rapid Fire", "modifier.cooldowns" }, -- Only cast if boss target is under 80% to maximize CA?
+	{ "Rapid Fire", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive" } }, -- Only cast if boss target is under 80% to maximize CA?
 	-- actions+=/stampede,if=buff.rapid_fire.up|buff.bloodlust.up|target.time_to_die<=25
 	{ "Stampede", { "modifier.cooldowns", "player.buff(Rapid Fire)" } },
 	{ "Stampede", { "modifier.cooldowns", "player.hashero" } },
@@ -201,11 +204,10 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- FROGING
 	{ {
-		{ "Flare", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Flare", "@bbLib.engaugeUnit('Grom', 40, false)" },
 		{ "!Auto Shot", { "target.exists", "target.health > 1" } },
-		{ "Glaive Toss", "talent(6, 1)" },
-		{ "Explosive Shot" },
-		{ "Arcane Shot" },
+		{ "Chimaera Shot", "target.exists" },
+		{ "Glaive Toss", "target.exists" },
 	},{
 		"toggle.frogs",
 	} },
