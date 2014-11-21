@@ -61,23 +61,23 @@ PossiblyEngine.rotation.register_custom(262, "bbShaman Elemental", {
 	--{ "#109218", { "modifier.cooldowns", "toggle.consume", "target.boss", "player.buff(Ascendance)" } }, -- Draenic Intellect Potion (109218)
 	--{ "#109218", { "modifier.cooldowns", "toggle.consume", "target.boss", "target.deathin <= 30" } }, -- Draenic Intellect Potion (109218)
 -- actions+=/berserking,if=!buff.bloodlust.up&!buff.elemental_mastery.up&(set_bonus.tier15_4pc_caster=1|(buff.ascendance.cooldown_remains=0&(dot.flame_shock.remains>buff.ascendance.duration|level<87)))
-	{ "Berserking", { "!player.hashero", "!player.buff(Elemental Mastery)" } },
-	{ "Blood Fury", { "player.hashero" } },
-	{ "Blood Fury", { "player.buff(Ascendance)" } },
-	{ "Blood Fury", { "player.spell(Ascendance).cooldown > 10", "player.spell(Fire Elemental Totem).cooldown > 10" } },
-	{ "Blood Fury", { "player.level < 87", "player.spell(Fire Elemental Totem).cooldown > 10" } },
+	{ "Berserking", { "modifier.cooldowns", "!player.hashero", "!player.buff(Elemental Mastery)" } },
+	{ "Blood Fury", { "modifier.cooldowns", "player.hashero" } },
+	{ "Blood Fury", { "modifier.cooldowns", "player.buff(Ascendance)" } },
+	{ "Blood Fury", { "modifier.cooldowns", "player.spell(Ascendance).cooldown > 10", "player.spell(Fire Elemental Totem).cooldown > 10" } },
+	{ "Blood Fury", { "modifier.cooldowns", "player.level < 87", "player.spell(Fire Elemental Totem).cooldown > 10" } },
 	{ "Arcane Torrent" },
 	{ "Elemental Mastery", "player.spell(Lava Burst).castingtime >= 1.2" },
 	{ "Ancestral Swiftness", "!player.buff(Ascendance)" },
-	{ "Storm Elemental Totem" },
-	{ "Fire Elemental Totem", { "!player.totem(Fire Elemental Totem)" } },
+	{ "Storm Elemental Totem", "modifier.cooldowns" },
+	{ "Fire Elemental Totem", { "modifier.cooldowns", "!player.totem(Fire Elemental Totem)" } },
 -- actions+=/ascendance,if=active_enemies>1|(dot.flame_shock.remains>buff.ascendance.duration&(target.time_to_die<20|buff.bloodlust.up|time>=60)&cooldown.lava_burst.remains>0)
-	{ "Ascendance", "target.area(8).enemies > 1" },
-	{ "Ascendance", { "target.debuff(Flame Shock).duration > 15", "player.spell(Lava Burst).cooldown > 0", "target.deathin < 20" } },
-	{ "Ascendance", { "target.debuff(Flame Shock).duration > 15", "player.spell(Lava Burst).cooldown > 0", "player.hashero" } },
-	{ "Ascendance", { "target.debuff(Flame Shock).duration > 15", "player.spell(Lava Burst).cooldown > 0", "player.time >=60" } },
-	{ "Liquid Magma", { "player.totem(Searing Totem).duration >= 15" } },
-	{ "Liquid Magma", { "player.totem(Fire Elemental Totem).duration >= 15" } },
+	{ "Ascendance", { "modifier.cooldowns", "target.area(8).enemies > 1" } },
+	{ "Ascendance", { "modifier.cooldowns", "target.debuff(Flame Shock).duration > 15", "player.spell(Lava Burst).cooldown > 0", "target.deathin < 20" } },
+	{ "Ascendance", { "modifier.cooldowns", "target.debuff(Flame Shock).duration > 15", "player.spell(Lava Burst).cooldown > 0", "player.hashero" } },
+	{ "Ascendance", { "modifier.cooldowns", "target.debuff(Flame Shock).duration > 15", "player.spell(Lava Burst).cooldown > 0", "player.time >=60" } },
+	{ "Liquid Magma", { "modifier.cooldowns", "player.totem(Searing Totem).duration >= 15" } },
+	{ "Liquid Magma", { "modifier.cooldowns", "player.totem(Fire Elemental Totem).duration >= 15" } },
 
 	-- AOE
 	{ {

@@ -59,7 +59,7 @@ PossiblyEngine.rotation.register_custom(269, "bbMonk Windwalker", {
 		{ "Spinning Crane Kick", "player.chi < 4" },
 		-- TODO: To effectively use Storm, Earth, and Fire you need to be facing 2-3 targets with an equal DPS priority, expect the targets to live for 10 or more seconds, and be able to remain in range of the targets at all times.
 	},{
-		"modifier.multitarget"
+		"modifier.multitarget", --"target.area(10).enemies >= 4"
 	} },
 
 -- SINGLE TARGET

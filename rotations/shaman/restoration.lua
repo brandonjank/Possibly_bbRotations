@@ -7,7 +7,7 @@ PossiblyEngine.library.register('coreHealing', {
 	end,
 })
 
-PossiblyEngine.rotation.register_custom(264, "bbRestorationShaman", {
+PossiblyEngine.rotation.register_custom(264, "bbShaman Restoration", {
 -- PLAYER CONTROLLED:
 -- SUGGESTED TALENTS:
 -- CONTROLS: Pause - Left Control, Healing Rain - Left Shift

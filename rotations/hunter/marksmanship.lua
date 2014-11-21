@@ -79,7 +79,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "pause", "target.status.sleep" },
 
 	-- COMMON / COOLDOWNS
-	{ "163539", { "target.exists", "player.debuff(Blackrock Grenades)" }, "target.ground" }, -- Blackrock Grenade /click ExtraActionButton1
+	{ "161060", { "target.exists", "player.debuff(Blackrock Grenades)" }, "target.ground" }, -- Blackrock Grenade /click ExtraActionButton1
 	-- actions=auto_shot
 	-- actions+=/use_item,name=gorashans_lodestone_spike
 	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.buff(Rapid Fire)" } },
