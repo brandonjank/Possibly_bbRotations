@@ -97,15 +97,15 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Revive", { "target.exists", "target.dead", "target.player", "!player.moving" }, "target" },
 
 	-- AUTO FORMS
-	{ "Bear Form", { "!toggle.forms", "!player.form = 1", "!player.flying" } },
 	{ {
-		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "!player.flying", "target.range <= 1" } },
+		{ "pause", { "target.exists", "target.istheplayer" } },
+		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "target.range <= 1" } },
 		{ "pause", { "target.exists", "target.friend", "target.range <= 1" } },
 		{ "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
-		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving", "!player.flying" } },
-		{ "Bear Form", { "!player.form = 1", "target.exists", "target.enemy", "target.distance < 30", "!player.flying" } },
+		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving" } },
+		{ "Bear Form", { "!player.form = 1", "target.exists", "target.enemy", "target.distance < 30" } },
 	},{
-		"toggle.forms",
+		"toggle.forms", "!player.flying",
 	} },
 
 	-- FROGGING

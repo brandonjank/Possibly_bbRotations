@@ -148,15 +148,15 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Remove Corruption", "player.dispellable(Remove Corruption)", "player" },
 
 	-- AUTO FORMS
-	{ "Moonkin Form", { "!toggle.forms", "!player.form = 5", "!player.flying" } },
 	{ {
-		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "!player.flying", "target.range <= 1" } },
+		{ "pause", { "target.exists", "target.istheplayer" } },
+		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "target.range <= 1" } },
 		{ "pause", { "target.exists", "target.friend", "target.range <= 1" } },
 		{ "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
-		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving", "!player.flying" } },
-		{ "Moonkin Form", { "!player.form = 5", "target.exists", "target.enemy", "target.range < 30", "!player.flying" } },
+		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving" } },
+		{ "Moonkin Form", { "!player.form = 5", "target.exists", "target.enemy", "target.range < 30" } },
 	},{
-		"toggle.forms",
+		"toggle.forms", "!player.flying",
 	} },
 
 	-- FROGGING

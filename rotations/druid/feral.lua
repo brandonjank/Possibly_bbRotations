@@ -16,6 +16,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 
 	-- DPS ROTATION
 	-- actions=cat_form
+	{ "Cat Form", { "!player.form = 2", "!player.flying" } },
 	-- actions+=/wild_charge
 	-- actions+=/displacer_beast,if=movement.distance>10
 	-- actions+=/dash,if=movement.distance&buff.displacer_beast.down&buff.wild_charge_movement.down
@@ -93,21 +94,21 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 	{ "Mark of the Wild", "!player.buffs.stats" },
 
 	-- Rez and Heal
-	{ "Revive", { "target.exists", "target.dead", "target.isPlayer", "target.range < 40", "player.level >= 12" }, "target" },
+	{ "Revive", { "target.exists", "target.dead", "target.player", "target.range < 40", "!player.moving" }, "target" },
 	{ "Rejuvenation", { "!player.buff(Prowl)", "!player.casting", "player.alive", "!player.buff(Rejuvenation)", "player.health <= 70" }, "player" },
 
 	-- Cleanse Debuffs
 	{ "Remove Corruption", "player.dispellable(Remove Corruption)", "player" },
 
 	-- AUTO FORMS
-	{ "Cat Form", { "!toggle.forms", "!player.form = 2", "!player.flying" } },
 	{ {
-		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.flying", "target.range <= 1", "!player.ininstance" } },
+		{ "pause", { "target.exists", "target.istheplayer" } },
+		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "target.range <= 1" } },
 		{ "pause", { "target.exists", "target.friend", "target.range <= 1" } },
-		{ "Travel Form", { "!target.exists", "!player.form = 3", "!player.form = 4", "player.outdoors", "!player.ininstance", "player.moving" } },
-		{ "Cat Form", { "!player.form = 2", "target.exists", "target.enemy", "!player.flying" } },
+		{ "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
+		{ "Cat Form", { "!player.form = 2", "target.exists", "target.enemy", "target.range < 30" } },
 	},{
-		"toggle.forms",
+		"toggle.forms", "!player.flying",
 	} },
 
 	-- Pre-Combat
@@ -127,7 +128,7 @@ function()
 	PossiblyEngine.toggle.create('consume', 'Interface\\Icons\\inv_alchemy_endlessflask_06', 'Use Consumables', 'Toggle the usage of Flasks/Food/Potions etc..')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_nature_faeriefire', 'Use Mouseovers', 'Toggle usage of Moonfire/Sunfire on mouseover targets.')
-	PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\ability_pet_cat', 'Auto Form', 'Toggle usage of smart forms out of combat.')
+	PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\ability_druid_catform', 'Auto Form', 'Toggle usage of smart forms out of combat.')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
 	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target un-tapped Gulp Frogs.')
 end)

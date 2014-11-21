@@ -24,7 +24,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
   { "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
-  { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last" } },
+  { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last", "player.ininstance" } },
 
   -- BATTLE REZ
   --{ "Rebirth", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
@@ -95,30 +95,41 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "pause", "player.buff(Food)" },
 
   -- BUFFS
-  { "Mark of the Wild", { (function() return select(1,GetRaidBuffTrayAuraInfo(1)) == nil end), "lowest.distance <= 30", "player.form = 0" }, "lowest" },
+  { "Mark of the Wild", "!player.buffs.stats" },
+
+  -- HEALING
+  { "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
+  { "Rejuvenation", { "player.health < 90", "!player.buff(Rejuvenation)" }, "player" },
+  { "Healing Touch", { "player.health < 70" }, "player" },
+  { "Lifebloom", { "focus.exists", "focus.alive", "!focus.buff(Lifebloom)", "focus.distance < 40" }, "focus" },
+  { "Rejuvenation", { "lowest.health < 90", "!lowest.buff(Rejuvenation)", "lowest.distance < 40" }, "lowest" },
+  { "Regrowth", { "lowest.health < 80", "!lowest.buff(Regrowth)", "lowest.distance < 40" }, "lowest" },
 
   -- REZ
-  { "50769", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" }, -- Revive (50769)
+  { "Revive", { "target.exists", "target.player", "target.dead", "!player.moving"  }, "target" },
 
-  -- HEAL
-  { "Lifebloom", { "focus.exists", "focus.alive", "!focus.buff(Lifebloom)" }, "focus" },
-  { "Rejuvenation", { "lowest.health < 99", "!lowest.buff(Rejuvenation)" }, "lowest" },
-  { "Regrowth", { "lowest.health < 99", "!lowest.buff(Regrowth)" }, "lowest" },
-
-  -- PAUSE FORM
-  { "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
-  { "pause", { "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
-
-  -- AUTO FORM
-  { "Travel Form", { "!player.buff(Travel Form)", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
-  { "Cat Form", { "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
+  -- Cleanse Debuffs
+  { "Remove Corruption", "player.dispellable(Remove Corruption)", "player" },
 
   -- AUTO FOLLOW
   { "Mark of the Wild", { "toggle.autofollow", "focus.exists", "focus.alive", (function() return GetFollowTarget() == nil end), (function() SetFollowTarget('focus') end) } }, -- TODO: NYI: isFollowing()
 
+  -- AUTO FORMS
+  { {
+    { "pause", { "target.exists", "target.istheplayer" } },
+    { "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "target.range <= 1" } },
+    { "pause", { "target.exists", "target.friend", "target.range <= 1" } },
+    { "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
+    { "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving" } },
+    { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last", "player.ininstance" } },
+  },{
+    "toggle.forms", "!player.flying",
+  } },
+
 },
 function()
   PossiblyEngine.toggle.create('dispel', 'Interface\\Icons\\ability_shaman_cleansespirit', 'Dispel', 'Toggle Dispel')
-  PossiblyEngine.toggle.create('mouseover', 'Interface\\Icons\\spell_nature_resistnature', 'Mouseover Regrowth', 'Toggle Mouseover Regrowth For SoO NPC Healing')
-  PossiblyEngine.toggle.create('autofollow', 'Interface\\Icons\\achievement_guildperk_everybodysfriend', 'Auto Follow', 'Automaticaly follows your focus target. Must be another player.')
+  PossiblyEngine.toggle.create('mouseover', 'Interface\\Icons\\spell_nature_faeriefire', 'Mouseover Regrowth', 'Toggle Mouseover Regrowth For SoO NPC Healing')
+  PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\ability_druid_treeoflife', 'Auto Form', 'Toggle usage of smart forms out of combat.')
+  PossiblyEngine.toggle.create('autofollow', 'Interface\\Icons\\achievement_guildperk_everybodysfriend', 'Auto Follow', 'Automaticaly follows your focus target, including NPCs.')
 end)
