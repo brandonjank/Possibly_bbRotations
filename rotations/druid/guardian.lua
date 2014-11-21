@@ -28,7 +28,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	} },
 
 	-- BEAR FORM
-	{ "Bear Form", "!player.buff(Bear Form)" },
+	{ "Bear Form", { "!player.form = 1", "!player.flying" } },
 
 	-- INTERRUPTS
 	{ "Skull Bash", "modifier.interrupt" },
@@ -60,7 +60,8 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "Blood Fury", { "modifier.cooldowns", "target.enemy", "target.alive" } },
 	{ "Berserking", { "modifier.cooldowns", "target.enemy", "target.alive" } },
 	{ "Arcane Torrent", "player.rage <= 75" },
-	-- actions+=/use_item,slot=trinket1
+	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive" } },
+	{ "#trinket2", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive" } },
 	{ "Barkskin", { "player.health < 90", "target.distance < 5" } },
 	{ "Maul", { "player.rage > 79", "player.buff(Tooth and Claw)", "player.spell(Mangle).cooldown > 0.5" } },
 	{ "Maul", "player.rage > 94" },
@@ -76,9 +77,9 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	-- actions+=/lacerate,if=talent.pulverize.enabled&buff.pulverize.remains<=(3-dot.lacerate.stack)*gcd&buff.berserk.down
 	{ "Incarnation: Son of Ursoc", { "modifier.cooldowns", "player.health < 70", "target.distance < 5" } },
 	{ "Lacerate", "target.debuff(Lacerate).remains <= 3" },
-	{ "Thrash", "!target.debuff(Thrash)" },
+	{ "Thrash", { "modifier.multitarget", "!target.debuff(Thrash)" } },
 	{ "Mangle" },
-	{ "Thrash", { "target.debuff(Thrash)", "target.debuff(Thrash).duration <= 1" } },
+	{ "Thrash", { "modifier.multitarget", "target.debuff(Thrash)", "target.debuff(Thrash).duration <= 1" } },
 	{ "Lacerate" },
 
 
@@ -90,10 +91,22 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	{ "pause", "modifier.looting" },
 
 	-- BUFFS
-	{ "Mark of the Wild", { "!player.buffs.stats", "lowest.distance <= 30" }, "lowest" },
+	{ "Mark of the Wild", "!player.buffs.stats" },
 
 	-- REZ
 	{ "Revive", { "target.exists", "target.dead", "target.player", "!player.moving" }, "target" },
+
+	-- AUTO FORMS
+	{ "Bear Form", { "!toggle.forms", "!player.form = 1", "!player.flying" } },
+	{ {
+		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "!player.flying", "target.range <= 1" } },
+		{ "pause", { "target.exists", "target.friend", "target.range <= 1" } },
+		{ "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
+		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving", "!player.flying" } },
+		{ "Bear Form", { "!player.form = 1", "target.exists", "target.enemy", "target.distance < 30", "!player.flying" } },
+	},{
+		"toggle.forms",
+	} },
 
 	-- FROGGING
 	{ {
@@ -103,21 +116,12 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 		"toggle.frogs",
 	} },
 
-	{ "Bear Form", { "player.ininstance", "!player.form = 1"} },
-
-	-- PAUSE FORM
-	--{ "/cancelform", { "!player.ininstance", "target.exists", "target.friend", "!player.form = 0", "target.range < 1" } },
-	--{ "pause", { "!player.ininstance", "target.exists", "target.friend", "target.range < 1", "@bbLib.isNPC('target')" } },
-
-	-- AUTO FORM
-	--{ "Travel Form", { "!player.ininstance", "!player.buff(Travel Form)", "player.moving", "!target.enemy", (function() return not IsIndoors() end) } },
-	--{ "Cat Form", { "!player.ininstance", "!player.form = 2", "!player.buff(Travel Form)", "player.moving", "!target.enemy" } },
-
 },
 -- TOGGLE BUTTONS
 function()
 	PossiblyEngine.toggle.create('consume', 'Interface\\Icons\\inv_alchemy_endlessflask_06', 'Use Consumables', 'Toggle the usage of Flasks/Food/Potions etc..')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
-	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\ability_hunter_quickshot', 'Use Mouseovers', 'Toggle usage of mouseover Faerie Fire.')
+	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_nature_faeriefire', 'Use Mouseovers', 'Toggle usage of Faerie Fire on mouseover targets.')
+	PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\ability_pet_cat', 'Auto Form', 'Toggle usage of smart forms out of combat.')
 	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and attack Gulp Frogs.')
 end)

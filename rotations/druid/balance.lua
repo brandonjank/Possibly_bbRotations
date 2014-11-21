@@ -32,7 +32,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	}, "toggle.frogs" },
 
 	-- Forms
-	{ "Moonkin Form", { "!player.buff(Moonkin Form)", "!player.buff(Swift Flight Form)", "!player.buff(Flight Form)" } }, -- Force Moonkin Form
+	{ "Moonkin Form", { "!player.form = 5", "!player.flying" } },
 
 	-- DEFENSIVES / UTILITY
 	--{ "Rebirth", { "target.friend", "!target.alive" } },
@@ -77,7 +77,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	-- AOE
 	{ {
 		-- actions.aoe=celestial_alignment,if=lunar_max<8|target.time_to_die<20
-		{ "Celestial Alignment", { "modifier.cooldowns", "target.exists", "target.deathin < 20" } },
+		{ "Celestial Alignment", { "modifier.cooldowns", "target.exists", "target.boss", "target.deathin < 20" } },
 		{ "Celestial Alignment", { "modifier.cooldowns", "target.exists", "player.balance.lunarmax < 8" } },
 		-- actions.aoe+=/incarnation,if=buff.celestial_alignment.up
 		{ "Incarnation: Chosen of Elune", "player.buff(Celestial Alignment)" },
@@ -135,7 +135,6 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 
 	-- BUFFS
 	{ "Mark of the Wild", "!player.buffs.stats" },
-	{ "Moonkin Form", { "!player.buff(Moonkin Form)", "!player.buff(Swift Flight Form)", "!player.buff(Flight Form)", "!player.buff(Travel Form)" } }, -- Force Moonkin Form
 
 	-- HEALING
 	{ "Renewal", { "talent(2, 2)", "player.health < 80" }, "player" },
@@ -143,7 +142,22 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	{ "Healing Touch", { "player.health < 70" }, "player" },
 
 	--REZ Revive (50769)
-	{ "Revive", { "target.exists", "target.player", "target.dead" }, "target" },
+	{ "Revive", { "target.exists", "target.player", "target.dead", "!player.moving"  }, "target" },
+
+	-- Cleanse Debuffs
+	{ "Remove Corruption", "player.dispellable(Remove Corruption)", "player" },
+
+	-- AUTO FORMS
+	{ "Moonkin Form", { "!toggle.forms", "!player.form = 5", "!player.flying" } },
+	{ {
+		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "!player.flying", "target.range <= 1" } },
+		{ "pause", { "target.exists", "target.friend", "target.range <= 1" } },
+		{ "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
+		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving", "!player.flying" } },
+		{ "Moonkin Form", { "!player.form = 5", "target.exists", "target.enemy", "target.range < 30", "!player.flying" } },
+	},{
+		"toggle.forms",
+	} },
 
 	-- FROGGING
 	{ {
@@ -170,7 +184,8 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 function()
 	PossiblyEngine.toggle.create('consume', 'Interface\\Icons\\inv_alchemy_endlessflask_06', 'Use Consumables', 'Toggle the usage of Flasks/Food/Potions etc..')
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
-	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\ability_hunter_quickshot', 'Use Mouseovers', 'Toggle automatic usage of stings/scatter/etc on eligible mouseover targets.')
+	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_nature_faeriefire', 'Use Mouseovers', 'Toggle usage of Moonfire/Sunfire on mouseover targets.')
+	PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\ability_pet_cat', 'Auto Form', 'Toggle usage of smart forms out of combat.')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
-	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and follow Gulp Frogs.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and attack Gulp Frogs.')
 end)
