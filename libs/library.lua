@@ -776,7 +776,6 @@ end
 PossiblyEngine.library.register("bbLib", bbLib)
 
 -- TODO: Auto accept rez AcceptResurrect()
-
 if not myErrorFrame then
 	local myErrorFrame = CreateFrame('Frame')
 	myErrorFrame:RegisterEvent('UI_ERROR_MESSAGE')
@@ -787,13 +786,15 @@ if not myErrorFrame then
 				FaceUnit("target")
 			end
 
-			-- Class Specific Errors
-			if UnitClass("player") == "Druid" then -- Get out of shapeshift when needed.
-				if string.find(message, "shapeshift") and GetShapeshiftForm() ~= 0 then
-					CancelShapeshiftForm()
-				end
+			-- Shapeshift Errors
+			--local ssmessages = { ERR_MOUNT_SHAPESHIFTED, ERR_NO_ITEMS_WHILE_SHAPESHIFTED, ERR_NOT_WHILE_SHAPESHIFTED, ERR_TAXIPLAYERSHAPESHIFTED, ERR_CANT_INTERACT_SHAPESHIFTED }
+			if string.find(message, "shapeshifted") and GetShapeshiftForm() ~= 0 then
+				--for amessage in ssmessages do
+					--if message == amessage then
+						CancelShapeshiftForm()
+					--end
+				--end
 			end
-
 		end
 	end)
 end
