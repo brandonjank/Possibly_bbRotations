@@ -108,7 +108,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 		{ "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
 		{ "Cat Form", { "!player.form = 2", "target.exists", "target.enemy", "target.range < 30" } },
 	},{
-		"toggle.forms", "!player.flying",
+		"toggle.forms", "!player.flying", "!player.buff(Dash)",
 	} },
 
 	-- Pre-Combat

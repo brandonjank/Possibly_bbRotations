@@ -24,7 +24,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
   { "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
 
-  { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last", "player.ininstance" } },
+  { "Treant Form", { "!player.buff(Treant Form)", "!player.buff(Dash)", "!modifier.last", "player.ininstance" } },
 
   -- BATTLE REZ
   --{ "Rebirth", { "target.exists", "target.dead", "!player.moving", "target.player" }, "target" },
@@ -123,7 +123,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
     { "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving" } },
     { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last", "player.ininstance" } },
   },{
-    "toggle.forms", "!player.flying",
+    "toggle.forms", "!player.flying", "!player.buff(Dash)",
   } },
 
 },

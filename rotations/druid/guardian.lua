@@ -28,7 +28,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	} },
 
 	-- BEAR FORM
-	{ "Bear Form", { "!player.form = 1", "!player.flying" } },
+	{ "Bear Form", { "!player.form = 1", "!player.flying", "!player.buff(Dash)" } },
 
 	-- INTERRUPTS
 	{ "Skull Bash", "modifier.interrupt" },
@@ -105,7 +105,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving" } },
 		{ "Bear Form", { "!player.form = 1", "target.exists", "target.enemy", "target.distance < 30" } },
 	},{
-		"toggle.forms", "!player.flying",
+		"toggle.forms", "!player.flying", "!player.buff(Dash)",
 	} },
 
 	-- FROGGING
