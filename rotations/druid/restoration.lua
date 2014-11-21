@@ -117,10 +117,10 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   -- AUTO FORMS
   { {
     { "pause", { "target.exists", "target.istheplayer" } },
-    { "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "target.range <= 1" } },
-    { "pause", { "target.exists", "target.friend", "target.range <= 1" } },
-    { "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
-    { "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving" } },
+    { "/cancelform", { "target.isfriendlynpc", "!player.form = 0", "!player.ininstance", "target.range <= 2" } },
+    { "pause", { "target.isfriendlynpc", "target.range <= 2" } },
+    { "Travel Form", { "!player.form = 3", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
+    { "Cat Form", { "!player.form = 2", "!player.form = 3", "!target.exists", "player.moving" } },
     { "Treant Form", { "!player.buff(Treant Form)", "!modifier.last", "player.ininstance" } },
   },{
     "toggle.forms", "!player.flying", "!player.buff(Dash)",

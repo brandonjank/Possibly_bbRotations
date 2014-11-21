@@ -99,10 +99,10 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 	-- AUTO FORMS
 	{ {
 		{ "pause", { "target.exists", "target.istheplayer" } },
-		{ "/cancelform", { "target.exists", "target.friend", "!player.form = 0", "!player.ininstance", "target.range <= 1" } },
-		{ "pause", { "target.exists", "target.friend", "target.range <= 1" } },
-		{ "Travel Form", { "!player.form = 3", "!player.form = 4", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
-		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!player.form = 4", "!target.exists", "player.moving" } },
+		{ "/cancelform", { "target.isfriendlynpc", "!player.form = 0", "!player.ininstance", "target.range <= 2" } },
+		{ "pause", { "target.isfriendlynpc", "target.range <= 2" } },
+		{ "Travel Form", { "!player.form = 3", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
+		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!target.exists", "player.moving" } },
 		{ "Bear Form", { "!player.form = 1", "target.exists", "target.enemy", "target.distance < 30" } },
 	},{
 		"toggle.forms", "!player.flying", "!player.buff(Dash)",
