@@ -54,6 +54,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
     { "Ironbark", "boss1target.health < 70", "boss1target" },
     { "Lifebloom", "!boss1target.buff(Lifebloom)", "boss1target" },
     { "Rejuvenation", "!boss1target.buff(Rejuvenation)", "boss1target" },
+    { "Rejuvenation", { "talent(7, 2)", "boss1target.buff(Rejuvenation).count < 2" }, "boss1target" },
     { "Wild Mushroom", { "boss1target.health < 90", "!boss1target.moving", (function() return GetTotemInfo(1) == false end) }, "boss1target" }, -- If Glyph of the Sprouting Mushroom then use NeedHealsAroundUnit with lowest.ground target
     { "Swiftmend", { "boss1target.health < 75", "boss1target.buff(Rejuvenation)" }, "boss1target" },
     { "Swiftmend", { "boss1target.health < 75", "boss1target.buff(Regrowth)" }, "boss1target" },
@@ -64,6 +65,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
     { "Ironbark", "focus.health <= 70", "focus" },
     { "Lifebloom", "!focus.buff(Lifebloom)", "focus" },
     { "Rejuvenation", "!focus.buff(Rejuvenation)", "focus" },
+    { "Rejuvenation", { "talent(7, 2)", "focus.buff(Rejuvenation).count < 2" }, "focus" },
     { "Wild Mushroom", { "focus.health < 90", "!focus.moving", (function() return GetTotemInfo(1) == false end) }, "focus" },
     { "Swiftmend", { "focus.health <= 75", "focus.buff(Rejuvenation)" }, "focus" },
     { "Swiftmend", { "focus.health <= 75", "focus.buff(Regrowth)" }, "focus" },
