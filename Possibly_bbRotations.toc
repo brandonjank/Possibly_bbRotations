@@ -23,5 +23,6 @@ rotations\hunter\beastmastery.lua
 rotations\hunter\marksmanship.lua
 rotations\monk\windwalker.lua
 rotations\monk\brewmaster.lua
+rotations\warrior\gladiator.lua
 rotations\warrior\protection.lua
 rotations\warrior\fury.lua
