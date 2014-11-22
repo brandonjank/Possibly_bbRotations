@@ -55,18 +55,18 @@ PossiblyEngine.rotation.register_custom(268, "bbMonk Brewmaster (2H Serenity)", 
 	-- actions+=/dampen_harm,if=incoming_damage_1500ms&buff.fortifying_brew.down&buff.elusive_brew_activated.down
 	{ "Dampen Harm", { "player.health < 100", "target.exists", "target.enemy", "target.agro", "targettarget.istheplayer", "!player.buff(Fortifying Brew)", "!player.buff(115308)" } },
 	-- actions+=/fortifying_brew,if=incoming_damage_1500ms&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down
-	{ "Fortifying Brew", { "player.health < 100", "target.exists", "target.enemy", "target.agro", "targettarget.istheplayer", "!player.buff(115308)", "!player.buff(Dampen Harm)" } },
-	{ "Fortifying Brew", { "player.health < 100", "target.exists", "target.enemy", "target.agro", "targettarget.istheplayer", "!player.buff(115308)", "!player.buff(Diffuse Magic)" } },
+	{ "Fortifying Brew", { "player.health < 100", "target.exists", "target.enemy", "target.distance < 5", "targettarget.istheplayer", "!player.buff(115308)", "!player.buff(Dampen Harm)" } },
+	{ "Fortifying Brew", { "player.health < 100", "target.exists", "target.enemy", "target.distance < 5", "targettarget.istheplayer", "!player.buff(115308)", "!player.buff(Diffuse Magic)" } },
 	-- actions+=/elusive_brew,if=buff.elusive_brew_stacks.react>=9&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down
-	{ "Elusive Brew", { "target.exists", "target.enemy", "target.agro", "targettarget.istheplayer", "player.buff(Elusive Brew).count >= 9", "!player.buff(115308)", "!player.buff(Dampen Harm)" } },
-	{ "Elusive Brew", { "target.exists", "target.enemy", "target.agro", "targettarget.istheplayer", "player.buff(Elusive Brew).count >= 9", "!player.buff(115308)", "!player.buff(Diffuse Magic)" } },
+	{ "Elusive Brew", { "target.exists", "target.enemy", "target.distance < 5", "targettarget.istheplayer", "player.buff(Elusive Brew).count >= 9", "!player.buff(115308)", "!player.buff(Dampen Harm)" } },
+	{ "Elusive Brew", { "target.exists", "target.enemy", "target.distance < 5", "targettarget.istheplayer", "player.buff(Elusive Brew).count >= 9", "!player.buff(115308)", "!player.buff(Diffuse Magic)" } },
 	-- actions+=/invoke_xuen,if=talent.invoke_xuen.enabled&time>5
 	{ "Invoke Xuen, the White Tiger", { "modifier.cooldowns", "player.time > 5" } },
 	-- actions+=/serenity,if=talent.serenity.enabled&energy<=40
 	{ "Serenity", "player.energy <= 40" },
 
-	{ "Dizzying Haze", { "target.exists", "target.enemy", "target.distance > 8", "target.distance < 40", "!target.debuff(Dizzying Haze)" }, "target.ground" },
-	{ "Dizzying Haze", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "mouseover.distance > 8", "mouseover.distance < 40", "!mouseover.debuff(Dizzying Haze)" }, "mouseover.ground" },
+	{ "Dizzying Haze", { "target.exists", "target.enemy", "target.combat", "target.distance > 8", "target.distance < 40", "!target.debuff(Dizzying Haze)" }, "target.ground" },
+	{ "Dizzying Haze", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "mouseover.combat", "mouseover.distance > 8", "mouseover.distance < 40", "!mouseover.debuff(Dizzying Haze)" }, "mouseover.ground" },
 
 	{ {
 		-- actions.aoe=guard
