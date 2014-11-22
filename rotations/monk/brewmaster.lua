@@ -4,7 +4,7 @@
 
 -- PLAYER CONTROLLED:
 -- TALENTS: 0130223
--- GLYPHS: fortifying_brew,expel_harm,fortuitous_spheres
+-- GLYPHS: fortifying_brew, expel_harm, fortuitous_spheres
 -- CONTROLS: Pause - Left Control;  Black Ox Statue - Left Alt;  Dizzying Haze - Left Shift;  Healing Sphere - Right Alt
 
 PossiblyEngine.rotation.register_custom(268, "bbMonk Brewmaster (2H Serenity)", {
@@ -30,25 +30,24 @@ PossiblyEngine.rotation.register_custom(268, "bbMonk Brewmaster (2H Serenity)", 
 	{ "Nimble Brew", "player.state.root" },
 	{ "Nimble Brew", "player.state.horror" },
 
+	-- Interrupts
+	{ "Leg Sweep", { "modifier.interrupt", "target.range <= 5", "player.area(5).enemies > 1" } },
+	{ "Spear Hand Strike", "modifier.interrupt" },
+
 	-- Keybinds
 	{ "Dizzying Haze", "modifier.lshift", "ground" },
 	{ "Summon Black Ox Statue", "modifier.lalt", "ground" },
 	{ "Healing Sphere", "modifer.ralt", "ground" },
 	{ "Spinning Crane Kick", "modifier.rshift" },
 
-	-- Interrupts
-	{ "Spear Hand Strike", "modifier.interrupts" },
-	{ "Grapple Weapon", "modifier.interrupts" },
-	{ "Leg Sweep", "modifier.interrupts", "target.range <= 10" },
-
 	-- COOLDOWNS / COMMON
 	-- actions=auto_attack
 	-- actions+=/blood_fury,if=energy<=40
-	{ "Blood Fury", "player.energy <= 40" },
+	{ "Blood Fury", { "modifier.cooldowns", "player.energy <= 40" } },
 	-- actions+=/berserking,if=energy<=40
-	{ "Berserking", "player.energy <= 40" },
+	{ "Berserking", { "modifier.cooldowns", "player.energy <= 40" } },
 	-- actions+=/arcane_torrent,if=energy<=40
-	{ "Arcane Torrent", "player.energy <= 40" },
+	{ "Arcane Torrent", { "modifier.cooldowns", "player.energy <= 40" } },
 	-- actions+=/chi_brew,if=talent.chi_brew.enabled&chi.max-chi>=2&buff.elusive_brew_stacks.stack<=10
 	{ "Chi Brew", { "talent(3, 3)", "player.chimaxchi >= 2", "player.buff(128939).count <= 10" } },
 	-- actions+=/diffuse_magic,if=incoming_damage_1500ms&buff.fortifying_brew.down
@@ -66,6 +65,8 @@ PossiblyEngine.rotation.register_custom(268, "bbMonk Brewmaster (2H Serenity)", 
 	-- actions+=/serenity,if=talent.serenity.enabled&energy<=40
 	{ "Serenity", "player.energy <= 40" },
 
+	{ "Dizzying Haze", { "target.exists", "target.enemy", "target.distance > 8", "target.distance < 40", "!target.debuff(Dizzying Haze)" }, "target.ground" },
+	{ "Dizzying Haze", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "mouseover.distance > 8", "mouseover.distance < 40", "!mouseover.debuff(Dizzying Haze)" }, "mouseover.ground" },
 
 	{ {
 		-- actions.aoe=guard
