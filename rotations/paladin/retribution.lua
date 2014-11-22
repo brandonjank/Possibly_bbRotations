@@ -3,8 +3,8 @@
 -- Updated on Oct 25th 2013
 
 -- PLAYER CONTROLLED:
--- SUGGESTED TALENTS: Long Arm of the Law, Repentance, Selfless Healer, Unbreakable Spirit, Sanctified Wrath, Execution Sentence
--- SUGGESTED GLYPHS: Glyph of Judgment, Glyph of Templar's Verdict, Glyph of Divine Storm
+-- SUGGESTED TALENTS: 2112333
+-- SUGGESTED GLYPHS: Glyph of Double Jeopardy, Glyph of Divine Protection, Glyph of Fire From the Heavens, Glyph of the Luminous Charger, Glyph of Righteous Retreat, Glyph of Hand of Sacrifice
 -- CONTROLS: Pause - Left Control
 
 PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
@@ -44,7 +44,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
   { "Cleanse", { "!modifier.last", "player.dispellable(Cleanse)" }, "player" }, -- Cleanse Poison or Disease
 
   -- BossMods
-  { "Hand of Sacrifice", { "toggle.usehands", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "mouseover.debuff(Assassin's Mark)" }, "mouseover" }, -- Off GCD now
+  --{ "Hand of Sacrifice", { "toggle.usehands", "mouseover.exists", "mouseover.alive", "mouseover.friend", "mouseover.range <= 40", "mouseover.debuff(Assassin's Mark)" }, "mouseover" }, -- Off GCD now
 
   -- Raid Survivability
   { "Hand of Protection", { "toggle.usehands", "lowest.exists", "lowest.alive", "lowest.friend", "lowest.isPlayer", "!lowest.role(tank)", "!lowest.immune.melee", "lowest.health <= 15" }, "lowest" }, -- TODO: Don't cast on tanks.
@@ -64,102 +64,172 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
     "toggle.mouseovers", "player.health > 50",
   }},
 
-  -- COOLDOWNS
-  { "Speed of Light", { "player.moving", "target.distance > 5" } },
-  { "Execution Sentence", { "talent(6, 3)", "player.health < 71" }, "player" },
-  { "Execution Sentence", { "talent(6, 3)", "player.health > 70", "target.deathin > 8" }, "target" },
+  -- COOLDOWNS / COMMON
+  -- actions+=/auto_attack
+  -- actions+=/speed_of_light,if=movement.distance>5
+  { "Speed of Light", { "player.moving", "target.exists", "target.distance > 5" } },
+  -- actions+=/execution_sentence
+  { "Execution Sentence", { "player.health <= 70" }, "player" },
+  { "Execution Sentence", { "player.health > 70", "target.deathin > 8" }, "target" },
+  -- actions+=/lights_hammer
   { "Light's Hammer", "talent(6, 2)", "target.ground" },
   { {
-    -- potion,name=mogu_power,if=(buff.bloodlust.react|buff.avenging_wrath.up|target.time_to_die<=40)
-    -- auto_attack
+    -- actions+=/potion,name=draenic_strength,if=(buff.bloodlust.react|buff.avenging_wrath.up|target.time_to_die<=40)
+    { "#109219", { "toggle.consume", "target.exists", "target.boss", "player.hashero" } }, -- Draenic Strength Potion
+    { "#109219", { "toggle.consume", "target.exists", "target.boss", "player.buff(Avenging Wrath)" } }, -- Draenic Strength Potion
+    { "#109219", { "toggle.consume", "target.exists", "target.boss", "target.deathin <= 40" } }, -- Draenic Strength Potion
+    -- actions+=/holy_avenger,sync=seraphim,if=talent.seraphim.enabled
     { "Holy Avenger", { "talent(7, 2)", "player.buff(Seraphim)" } },
-    { "Holy Avenger", { "!talent(7, 2)", "player.holypower < 3" } },
+    -- actions+=/holy_avenger,if=holy_power<=2&!talent.seraphim.enabled
+    { "Holy Avenger", { "!talent(7, 2)", "player.holypower <= 2" } },
+    -- actions+=/avenging_wrath,sync=seraphim,if=talent.seraphim.enabled
     { "Avenging Wrath", { "talent(7, 2)", "player.buff(Seraphim)" } },
+    -- actions+=/avenging_wrath,if=!talent.seraphim.enabled
     { "Avenging Wrath", "!talent(7, 2)" },
+    -- actions+=/use_item,name=bonemaws_big_toe,if=buff.avenging_wrath.up
+    -- actions+=/blood_fury
     { "Blood Fury" },
+    -- actions+=/berserking
     { "Berserking" },
+    -- actions+=/arcane_torrent
     { "Arcane Torrent", "player.holypower < 5" },
+    -- actions+=/seraphim
     { "Seraphim" },
   },{
-    "target.exists", "target.distance < 5",
+    "modifier.cooldowns", "target.exists", "target.distance < 5",
   } },
 
   -- AOE 5+
   { {
     { "Seal of Righteousness", { "!talent(7, 1)", "!player.seal == 2" } },
+    -- actions.aoe=divine_storm,if=holy_power=5&(!talent.seraphim.enabled|cooldown.seraphim.remains>4)
     { "Divine Storm", { "player.holypower > 4", "!talent(7, 2)" } },
     { "Divine Storm", { "player.holypower > 4", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
-    { "Exorcism", { "player.holypower < 3", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
+    -- actions.aoe+=/exorcism,if=buff.blazing_contempt.up&holy_power<=2&buff.holy_avenger.down
+    { "Exorcism", { "player.holypower <= 2", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
+    -- actions.aoe+=/hammer_of_the_righteous
     { "Hammer of the Righteous" },
-    --actions.aoe+=/judgment,if=talent.empowered_seals.enabled&seal.righteousness&buff.liadrins_righteousness.remains<=5
+    -- actions.aoe+=/judgment,if=talent.empowered_seals.enabled&seal.righteousness&buff.liadrins_righteousness.remains<=5
+    { "Judgment", { "talent(7, 1)", "player.buff(Seal of Righteousness)", "player.buff(Liadrin's Righteousness).remains <= 5" } },
+    -- actions.aoe+=/hammer_of_wrath
     { "Hammer of Wrath", true, "target" },
+    -- actions.aoe+=/divine_storm,if=(!talent.seraphim.enabled|cooldown.seraphim.remains>4)
     { "Divine Storm", "!talent(7, 2)" },
     { "Divine Storm", { "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+    -- actions.aoe+=/exorcism,if=glyph.mass_exorcism.enabled
     { "Exorcism", "player.glyph(122028)" },
+    -- actions.aoe+=/judgment
     { "Judgment" },
+    -- actions.aoe+=/exorcism
     { "Exorcism" },
-    { "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
-    { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
+    -- actions.aoe+=/holy_prism
+    { "Holy Prism", { "talent(6, 1)", "player.health < 70" }, "player" },
+    { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health >= 70" }, "target" },
   },{
-    "target.area(8).enemies > 4", "modifier.multitarget",
+    "player.area(10).enemies >= 5", "modifier.multitarget",
   } },
 
   -- CLEAVE 3+
   { {
     { "Seal of Righteousness", { "!talent(7, 1)", "!player.seal == 2" } },
+    -- actions.cleave=final_verdict,if=buff.final_verdict.down&holy_power=5
     { "Final Verdict", { "player.holypower > 4", "!player.buff(Final Verdict)" } },
+    -- actions.cleave+=/divine_storm,if=holy_power=5&buff.final_verdict.up
     { "Divine Storm", { "player.holypower > 4", "player.buff(Final Verdict)" } },
+    -- actions.cleave+=/divine_storm,if=holy_power=5&(!talent.seraphim.enabled|cooldown.seraphim.remains>4)&!talent.final_verdict.enabled
     { "Divine Storm", { "player.holypower > 4", "!talent(7, 3)", "!talent(7, 2)" } },
-    { "Divine Storm", { "player.holypower > 4", "!talent(7, 3)", "talent(7, 2)", "player.spell(Seraphim).cooldown <= 4" } },
-    { "Exorcism", { "player.holypower < 3", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
+    { "Divine Storm", { "player.holypower > 4", "!talent(7, 3)", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+    -- actions.cleave+=/exorcism,if=buff.blazing_contempt.up&holy_power<=2&buff.holy_avenger.down
+    { "Exorcism", { "player.holypower <= 2", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
+    -- actions.cleave+=/hammer_of_wrath
     { "Hammer of Wrath", true, "target" },
-    --actions.cleave+=/judgment,if=talent.empowered_seals.enabled&seal.righteousness&buff.liadrins_righteousness.remains<=5
+    -- actions.cleave+=/judgment,if=talent.empowered_seals.enabled&seal.righteousness&buff.liadrins_righteousness.remains<=5
+    { "Judgment", { "talent(7, 1)", "player.buff(Seal of Righteousness)", "player.buff(Liadrin's Righteousness).remains <= 5" } },
+    -- actions.cleave+=/divine_storm,if=(!talent.seraphim.enabled|cooldown.seraphim.remains>4)&!talent.final_verdict.enabled
     { "Divine Storm", { "!talent(7, 3)", "!talent(7, 2)" } },
     { "Divine Storm", { "!talent(7, 3)", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+    -- actions.cleave+=/crusader_strike
     { "Crusader Strike" },
+    -- actions.cleave+=/final_verdict,if=buff.final_verdict.down
+    { "Final Verdict", "!player.buff(Final Verdict)" },
+    -- actions.cleave+=/divine_storm,if=buff.final_verdict.up
     { "Divine Storm", "player.buff(Final Verdict)" },
-    { "Judgment" },
+    -- actions.cleave+=/judgment
+    { "Judgment" }
+    -- actions.cleave+=/exorcism
     { "Exorcism" },
-    { "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
-    { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
+    -- actions.cleave+=/holy_prism
+    { "Holy Prism", { "talent(6, 1)", "player.health < 70" }, "player" },
+    { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health >= 70" }, "target" },
   },{
-    "target.area(8).enemies > 2", "modifier.multitarget",
+    "target.area(8).enemies >= 3", "modifier.multitarget",
   } },
 
   -- SINGLE TARGET
   { "Seal of Truth", { "!talent(7, 1)", "!player.seal == 1" } },
+  -- actions.single=divine_storm,if=buff.divine_crusader.react&holy_power=5&buff.final_verdict.up
   { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "player.buff(Final Verdict)" } },
-  { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "!talent(7, 3)" } },
-  { "Divine Storm", { "player.holypower > 4", "player.buff(Final Verdict)" } },
+  -- actions.single+=/divine_storm,if=buff.divine_crusader.react&holy_power=5&active_enemies=2&!talent.final_verdict.enabled
+  { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "!talent(7, 3)", "player.area(8).enemies = 2" } },
+  -- actions.single+=/divine_storm,if=holy_power=5&active_enemies=2&buff.final_verdict.up
+  { "Divine Storm", { "player.holypower > 4", "player.buff(Final Verdict)", "player.area(8).enemies = 2" } },
+  -- actions.single+=/divine_storm,if=buff.divine_crusader.react&holy_power=5&(talent.seraphim.enabled&cooldown.seraphim.remains<=4)
   { "Divine Storm", { "player.holypower > 4", "player.buff(Divine Crusader)", "talent(7, 2)", "player.spell(Seraphim).cooldown <= 4" } },
+  -- actions.single+=/templars_verdict,if=holy_power=5|buff.holy_avenger.up&holy_power>=3&(!talent.seraphim.enabled|cooldown.seraphim.remains>4)
   { "Templar's Verdict", { "player.holypower > 4" } },
-  { "Templar's Verdict", { "player.holypower > 2", "player.buff(Holy Avenger)", "!talent(7, 2)" } },
-  { "Templar's Verdict", { "player.holypower > 2", "player.buff(Holy Avenger)", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
-  { "Templar's Verdict", { "player.buff(Divine Purpose)", "player.buff(Divine Purpose).duration < 4" } },
+  { "Templar's Verdict", { "player.holypower >= 3", "player.buff(Holy Avenger)", "!talent(7, 2)" } },
+  { "Templar's Verdict", { "player.holypower >= 3", "player.buff(Holy Avenger)", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+  -- actions.single+=/templars_verdict,if=buff.divine_purpose.react&buff.divine_purpose.remains<4
+  { "Templar's Verdict", { "player.buff(Divine Purpose)", "player.buff(Divine Purpose).remains < 4" } },
+  -- actions.single+=/divine_storm,if=buff.divine_crusader.react&buff.divine_crusader.remains<4&!talent.final_verdict.enabled
+  { "Divine Storm", { "player.buff(Divine Crusader)", "player.buff(Divine Crusader).remains < 4", "!talent(7, 3)" } },
+  -- actions.single+=/final_verdict,if=holy_power=5|buff.holy_avenger.up&holy_power>=3
   { "Final Verdict", "player.holypower > 4" },
-  { "Final Verdict", { "player.holypower > 2", "player.buff(Holy Avenger)" } },
-  { "Final Verdict", { "player.buff(Divine Purpose)", "player.buff(Divine Purpose).duration < 4" } },
+  { "Final Verdict", { "player.holypower >= 3", "player.buff(Holy Avenger)" } },
+  -- actions.single+=/final_verdict,if=buff.divine_purpose.react&buff.divine_purpose.remains<4
+  { "Final Verdict", { "player.buff(Divine Purpose)", "player.buff(Divine Purpose).remains < 4" } },
+  -- actions.single+=/hammer_of_wrath
   { "Hammer of Wrath", true, "target" },
--- judgment,if=talent.empowered_seals.enabled&((seal.truth&buff.maraads_truth.remains<cooldown.judgment.duration*2)|(seal.righteousness&buff.liadrins_righteousness.remains<cooldown.judgment.duration*2))
-  { "Exorcism", { "player.holypower < 3", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
--- seal_of_truth,if=talent.empowered_seals.enabled&buff.maraads_truth.remains<(cooldown.judgment.duration)&buff.maraads_truth.remains<=3
-  { "Divine Storm", { "player.buff(Divine Crusader)", "player.buff(Final Verdict)" } },
+  -- actions.single+=/judgment,if=talent.empowered_seals.enabled&((seal.truth&buff.maraads_truth.remains<cooldown.judgment.duration*2)|(seal.righteousness&buff.liadrins_righteousness.remains<cooldown.judgment.duration*2))
+  -- actions.single+=/exorcism,if=buff.blazing_contempt.up&holy_power<=2&buff.holy_avenger.down
+  { "Exorcism", { "player.holypower <= 2", "player.buff(Blazing Contempt)", "!player.buff(Holy Avenger)" } },
+  -- actions.single+=/seal_of_truth,if=talent.empowered_seals.enabled&buff.maraads_truth.remains<(cooldown.judgment.duration)&buff.maraads_truth.remains<=3
+  -- actions.single+=/divine_storm,if=buff.divine_crusader.react&buff.final_verdict.up&(buff.avenging_wrath.up|target.health.pct<35)
+  { "Divine Storm", { "player.buff(Divine Crusader)", "player.buff(Final Verdict)", "player.buff(Avenging Wrath)" } },
+  { "Divine Storm", { "player.buff(Divine Crusader)", "player.buff(Final Verdict)", "target.health < 35" } },
+  -- actions.single+=/final_verdict,if=buff.divine_purpose.react|target.health.pct<35
   { "Final Verdict", "player.buff(Divine Purpose)" },
-  { "Templar's Verdict", { "player.buff(Avenging Wrath)", "!talent(7, 2)" } },
+  { "Final Verdict", "target.health < 35" },
+  -- actions.single+=/templars_verdict,if=buff.avenging_wrath.up|target.health.pct<35&(!talent.seraphim.enabled|cooldown.seraphim.remains>4)
+  { "Templar's Verdict", "player.buff(Avenging Wrath)" },
   { "Templar's Verdict", { "player.buff(Avenging Wrath)", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
-  { "Templar's Verdict", { "talent(5, 3)", "!talent(7, 2)" } },
-  { "Templar's Verdict", { "talent(5, 3)", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
-  { "Divine Storm", { "talent(5, 3)", "player.buff(Divine Crusader)", "!talent(7, 3)" } },
+  { "Templar's Verdict", { "target.health < 35", "!talent(7, 2)" } },
+  { "Templar's Verdict", { "target.health < 35", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+  -- actions.single+=/crusader_strike
   { "Crusader Strike" },
+  -- actions.single+=/divine_storm,if=buff.divine_crusader.react&(buff.avenging_wrath.up|target.health.pct<35)&!talent.final_verdict.enabled
+  { "Divine Storm", { "!talent(7, 3)", "player.buff(Divine Crusader)", "player.buff(Avenging Wrath)" } },
+  { "Divine Storm", { "!talent(7, 3)", "player.buff(Divine Crusader)", "target.health < 35" } },
+  -- actions.single+=/divine_storm,if=buff.divine_crusader.react&buff.final_verdict.up
+  { "Divine Storm", { "player.buff(Divine Crusader)", "player.buff(Final Verdict)" } },
+  -- actions.single+=/final_verdict
   { "Final Verdict" },
--- seal_of_righteousness,if=talent.empowered_seals.enabled&buff.liadrins_righteousness.remains<(cooldown.judgment.duration)&buff.liadrins_righteousness.remains<=3
+  -- actions.single+=/seal_of_righteousness,if=talent.empowered_seals.enabled&buff.liadrins_righteousness.remains<(cooldown.judgment.duration)&buff.liadrins_righteousness.remains<=3
+  -- actions.single+=/judgment
   { "Judgment" },
+  -- actions.single+=/templars_verdict,if=buff.divine_purpose.react
+  { "Templar's Verdict", "player.buff(Divine Purpose)" },
+  -- actions.single+=/divine_storm,if=buff.divine_crusader.react&!talent.final_verdict.enabled
   { "Divine Storm", { "player.buff(Divine Crusader)", "!talent(7, 3)" } },
-  { "Templar's Verdict", { "player.holypower > 3", "!talent(7, 2)" } },
-  { "Templar's Verdict", { "player.holypower > 3", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+  -- actions.single+=/templars_verdict,if=holy_power>=4&(!talent.seraphim.enabled|cooldown.seraphim.remains>4)
+  { "Templar's Verdict", { "player.holypower >= 4", "!talent(7, 2)" } },
+  { "Templar's Verdict", { "player.holypower >= 4", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+  -- actions.single+=/exorcism
   { "Exorcism" },
-  { "Templar's Verdict", { "player.holypower > 2", "!talent(7, 2)" } },
-  { "Templar's Verdict", { "player.holypower > 2", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+  -- actions.single+=/templars_verdict,if=holy_power>=3&(!talent.seraphim.enabled|cooldown.seraphim.remains>4)
+  { "Templar's Verdict", { "player.holypower >= 3", "!talent(7, 2)" } },
+  { "Templar's Verdict", { "player.holypower >= 3", "talent(7, 2)", "player.spell(Seraphim).cooldown > 4" } },
+  -- actions.single+=/holy_prism
   { "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
   { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
 
