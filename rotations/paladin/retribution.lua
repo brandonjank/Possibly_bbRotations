@@ -154,7 +154,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
     -- actions.cleave+=/divine_storm,if=buff.final_verdict.up
     { "Divine Storm", "player.buff(Final Verdict)" },
     -- actions.cleave+=/judgment
-    { "Judgment" }
+    { "Judgment" },
     -- actions.cleave+=/exorcism
     { "Exorcism" },
     -- actions.cleave+=/holy_prism
@@ -249,7 +249,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
     { "Judgment", true, "target" },
     { "Reckoning", true, "target" },
   },{
-    "toggle.frogs"
+    "toggle.frogs",
   } },
 
 },
