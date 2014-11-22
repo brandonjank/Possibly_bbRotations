@@ -32,7 +32,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 	}, "toggle.frogs" },
 
 	-- Forms
-	{ "Moonkin Form", { "!player.form = 5", "!player.buff(Dash)", "!player.flying" } },
+	{ "Moonkin Form", { "!player.form = 4", "!player.buff(Dash)", "!player.flying" } },
 
 	-- DEFENSIVES / UTILITY
 	--{ "Rebirth", { "target.friend", "!target.alive" } },
@@ -154,7 +154,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 		{ "pause", { "target.isfriendlynpc", "target.range <= 2" } },
 		{ "Travel Form", { "!player.form = 3", "!target.exists", "!player.ininstance", "player.moving", "player.outdoors" } },
 		{ "Cat Form", { "!player.form = 2", "!player.form = 3", "!target.exists", "player.moving" } },
-		{ "Moonkin Form", { "!player.form = 5", "target.exists", "target.enemy", "target.range < 30" } },
+		{ "Moonkin Form", { "!player.form = 4", "target.exists", "target.enemy", "target.range < 30" } },
 	},{
 		"toggle.forms", "!player.flying", "!player.buff(Dash)",
 	} },

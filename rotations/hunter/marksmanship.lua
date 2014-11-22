@@ -182,6 +182,8 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "pause", "player.buff(Food)" },
 	{ "pause", "modifier.looting" },
 
+	--{ "/stopcasting", "player.casting(Aimed Shot)" }
+
 	-- AUTO LOOT
 	{ "Fetch", { "!talent(7, 3)", "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
 

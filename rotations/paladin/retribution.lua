@@ -101,7 +101,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
     { "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
     { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
   },{
-    "target.area(8).enemies > 4",
+    "target.area(8).enemies > 4", "modifier.multitarget",
   } },
 
   -- CLEAVE 3+
@@ -123,7 +123,7 @@ PossiblyEngine.rotation.register_custom(70, "bbPaladin Retribution", {
     { "Holy Prism", { "talent(6, 1)", "player.health < 71" }, "player" },
     { "Holy Prism", { "talent(6, 1)", "!toggle.limitaoe", "player.health > 70" }, "target" },
   },{
-    "target.area(8).enemies > 2",
+    "target.area(8).enemies > 2", "modifier.multitarget",
   } },
 
   -- SINGLE TARGET
