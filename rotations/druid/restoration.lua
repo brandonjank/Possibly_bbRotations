@@ -43,35 +43,38 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Nature's Swiftness", "lowest.health < 90" },
 
   -- SELF HEALING
-  { "Rejuvenation", { "player.health < 100", "!player.buff(Rejuvenation)" }, "player" },
-  { "Wild Mushroom", { "player.health < 100", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "player" }, -- If Glyph of the Sprouting Mushroom then use NeedHealsAroundUnit with lowest.ground target
+  { "Rejuvenation", { "player.health < 95", "!player.buff(Rejuvenation)" }, "player" },
+  { "Wild Mushroom", { "player.health < 90", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "player" }, -- If Glyph of the Sprouting Mushroom then use NeedHealsAroundUnit with lowest.ground target
+  { "Swiftmend", { "player.health < 70", "player.buff(Rejuvenation)" }, "player" },
+  { "Swiftmend", { "player.health < 70", "player.buff(Regrowth)" }, "player" },
   { "Regrowth", { "player.health < 70", "!player.buff(Regrowth)", "!player.moving" }, "player" },
-  { "Swiftmend", { "player.health < 90", "player.buff(Rejuvenation)" }, "player" },
-  { "Swiftmend", { "player.health < 90", "player.buff(Regrowth)" }, "player" },
 
   -- TANK HEALING
   { {
-    { "Ironbark", "boss1target.health < 80", "boss1target" },
+    { "Ironbark", "boss1target.health < 70", "boss1target" },
     { "Lifebloom", "!boss1target.buff(Lifebloom)", "boss1target" },
     { "Rejuvenation", "!boss1target.buff(Rejuvenation)", "boss1target" },
-    { "Wild Mushroom", { "boss1target.health < 90", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "boss1target" }, -- If Glyph of the Sprouting Mushroom then use NeedHealsAroundUnit with lowest.ground target
-    { "Swiftmend", { "boss1target.health < 80", "boss1target.buff(Rejuvenation)" }, "boss1target" },
-    { "Swiftmend", { "boss1target.health < 80", "boss1target.buff(Regrowth)" }, "boss1target" },
+    { "Wild Mushroom", { "boss1target.health < 90", "!boss1target.moving", (function() return GetTotemInfo(1) == false end) }, "boss1target" }, -- If Glyph of the Sprouting Mushroom then use NeedHealsAroundUnit with lowest.ground target
+    { "Swiftmend", { "boss1target.health < 75", "boss1target.buff(Rejuvenation)" }, "boss1target" },
+    { "Swiftmend", { "boss1target.health < 75", "boss1target.buff(Regrowth)" }, "boss1target" },
   },{
     "@bbLib.isTank('boss1target')", "boss1target.alive", "boss1target.distance < 40",
   } },
   { {
-    { "Ironbark", "focus.health <= 80", "focus" },
+    { "Ironbark", "focus.health <= 70", "focus" },
     { "Lifebloom", "!focus.buff(Lifebloom)", "focus" },
     { "Rejuvenation", "!focus.buff(Rejuvenation)", "focus" },
-    { "Wild Mushroom", { "focus.health < 100", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "focus" },
-    { "Swiftmend", { "focus.health <= 80", "focus.buff(Rejuvenation)" }, "focus" },
-    { "Swiftmend", { "focus.health <= 80", "focus.buff(Regrowth)" }, "focus" },
+    { "Wild Mushroom", { "focus.health < 90", "!focus.moving", (function() return GetTotemInfo(1) == false end) }, "focus" },
+    { "Swiftmend", { "focus.health <= 75", "focus.buff(Rejuvenation)" }, "focus" },
+    { "Swiftmend", { "focus.health <= 75", "focus.buff(Regrowth)" }, "focus" },
   },{
     "focus.exists", "@bbLib.isNotTank('boss1target')", "focus.alive", "!focus.enemy", "focus.distance < 40",
   } },
 
   { {
+    { "Genesis", { "@coreHealing.needsHealing(50, 3)", "player.buff(Rejuvenation)", "player.spell(Swiftmend).cooldown > 0" }, "player" },
+    { "Genesis", { "focus.exists", "@coreHealing.needsHealing(50, 3)", "focus.buff(Rejuvenation)", "player.spell(Swiftmend).cooldown > 0" }, "focus" },
+    { "Genesis", { "party1.exists", "@coreHealing.needsHealing(50, 3)", "party1.buff(Rejuvenation)", "player.spell(Swiftmend).cooldown > 0" }, "party1" },
     { "Rejuvenation", { "party1.exists", "party1.health < 95", "!party1.buff(Rejuvenation)", "party1.distance < 40" }, "party1" },
     { "Rejuvenation", { "party2.exists", "party2.health < 95", "!party2.buff(Rejuvenation)", "party2.distance < 40" }, "party2" },
     { "Rejuvenation", { "party3.exists", "party3.health < 95", "!party3.buff(Rejuvenation)", "party3.distance < 40" }, "party3" },
@@ -81,19 +84,19 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   } },
 
   -- MOUSEOVER HEALS
-  { "Rejuvenation", { "mouseover.exists", "!mouseover.enemy", "!mouseover.buff(Rejuvenation)", "mouseover.range < 40" }, "mouseover" },
-  { "Regrowth", { "toggle.mouseover", "!mouseover.buff(Regrowth)", "mouseover.health < 100", "!mouseover.range > 40" }, "mouseover" },
-  { "Healing Touch", { "toggle.mouseover", "mouseover.buff(Regrowth)", "mouseover.health < 100", "!mouseover.range > 40" }, "mouseover" },
+  { "Rejuvenation", { "mouseover.exists", "!mouseover.enemy", "!mouseover.buff(Rejuvenation)", "mouseover.distance < 40" }, "mouseover" },
+  { "Regrowth", { "toggle.mouseover", "!mouseover.buff(Regrowth)", "mouseover.health < 70", "mouseover.distance < 40" }, "mouseover" },
 
   -- RAID HEALING
+
   { "Regrowth", { "lowest.health < 80", "!lowest.buff(Regrowth)", "player.buff(Clearcasting)" }, "lowest" },
-  { "774", { "lowest.health < 100", "!lowest.buff(774)" }, "lowest" },
+  { "Swiftmend", { "lowest.health <= 50", "lowest.buff(Rejuvenation)" }, "lowest" },
+  { "Swiftmend", { "lowest.health <= 50", "lowest.buff(Regrowth)" }, "lowest" },
+  { "Regrowth", { "lowest.health <= 70", "!lowest.buff(Regrowth)", "!player.moving" }, "lowest" },
+  { "Rejuvenation", { "lowest.health < 100", "!lowest.buff(Rejuvenation)" }, "lowest" },
   { "Wild Growth", { "lowest.health <= 80", "!player.moving", "@coreHealing.needsHealing(80, 3)" }, "lowest" },
-  { "Swiftmend", { "lowest.health <= 80", "lowest.buff(Rejuvenation)" }, "lowest" },
-  { "Swiftmend", { "lowest.health <= 80", "lowest.buff(Regrowth)" }, "lowest" },
-  { "Wild Mushroom", { "lowest.health < 100", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "lowest" },
-  { "Regrowth", { "lowest.health <= 50", "!lowest.buff(Regrowth)", "!player.moving" }, "lowest" },
-  { "Healing Touch", { "lowest.health < 100", "!player.moving" }, "lowest" },
+  { "Wild Mushroom", { "lowest.health < 90", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "lowest" },
+  { "Healing Touch", { "lowest.health < 98", "!player.moving" }, "lowest" },
 
   --{ "Wrath", "lowest.health > 99", "target" },
 
