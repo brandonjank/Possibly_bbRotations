@@ -38,7 +38,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 	-- DREAM PROCS
 	{ {
-		{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
+		--{ "Remove Corruption", { "!modifier.last", "player.dispellable" }, "player" },
 		{ "Rebirth", { "target.exists", "target.friend", "target.dead" }, "target" },
 	},{
 		"player.buff(Dream of Cenarius)",
