@@ -1,8 +1,7 @@
 -- PossiblyEngine Rotation
--- Protection Paladin - WoD 6.0.2
--- Updated on Oct 25th 2013
+-- Retribution Paladin - WoD 6.0.3
+-- Updated on Nov 21st 2014
 
--- PLAYER CONTROLLED:
 -- SUGGESTED TALENTS: 2112333
 -- SUGGESTED GLYPHS: Glyph of Double Jeopardy, Glyph of Divine Protection, Glyph of Fire From the Heavens, Glyph of the Luminous Charger, Glyph of Righteous Retreat, Glyph of Hand of Sacrifice
 -- CONTROLS: Pause - Left Control
