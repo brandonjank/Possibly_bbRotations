@@ -71,6 +71,15 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
     "focus.exists", "@bbLib.isNotTank('boss1target')", "focus.alive", "!focus.enemy", "focus.distance < 40",
   } },
 
+  { {
+    { "Rejuvenation", { "party1.exists", "party1.health < 95", "!party1.buff(Rejuvenation)", "party1.distance < 40" }, "party1" },
+    { "Rejuvenation", { "party2.exists", "party2.health < 95", "!party2.buff(Rejuvenation)", "party2.distance < 40" }, "party2" },
+    { "Rejuvenation", { "party3.exists", "party3.health < 95", "!party3.buff(Rejuvenation)", "party3.distance < 40" }, "party3" },
+    { "Rejuvenation", { "party4.exists", "party4.health < 95", "!party4.buff(Rejuvenation)", "party4.distance < 40" }, "party4" },
+  },{
+    "player.ininstance(party)",
+  } },
+
   -- MOUSEOVER HEALS
   { "Rejuvenation", { "mouseover.exists", "!mouseover.enemy", "!mouseover.buff(Rejuvenation)", "mouseover.range < 40" }, "mouseover" },
   { "Regrowth", { "toggle.mouseover", "!mouseover.buff(Regrowth)", "mouseover.health < 100", "!mouseover.range > 40" }, "mouseover" },
