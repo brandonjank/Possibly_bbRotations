@@ -2,9 +2,9 @@
 -- Protection Gladiator Warrior - WoD 6.0.3
 -- Updated on Nov 21st 2014
 
--- PLAYER CONTROLLED: Banners, Charge, Rallying Cry,
--- SUGGESTED TALENTS:
--- SUGGESTED GLYPHS:
+-- PLAYER CONTROLLED: Charge, Heroic Leap
+-- SUGGESTED TALENTS: 2133323
+-- SUGGESTED GLYPHS: Glyph of Unending Rage, Glyph of Enraged Speed, Glyph of the Blazing Trail, Glyph of Cleave
 -- CONTROLS: Pause - Left Control
 
 PossiblyEngine.rotation.register_custom(73, "bbWarrior Gladiator", {
@@ -26,20 +26,18 @@ PossiblyEngine.rotation.register_custom(73, "bbWarrior Gladiator", {
 	-- DEFENSIVE COOLDOWNS
 	{ "Rallying Cry", { "player.health < 10", "modifier.cooldowns" } },
 	{ "Last Stand", { "player.health < 20", "modifier.cooldowns" } },
-	{ "Shield Wall", { "player.health < 50", "modifier.cooldowns" } },
 	{ "Impending Victory", "player.health < 70" },
 	{ "Enraged Regeneration", "player.buff(Enrage)" },
 	{ "Victory Rush" },
 	{ "Shield Block", { "!player.buff(Shield Block)", "toggle.shieldblock" } }, -- for heavy physical dmg
 	{ "Shield Barrier", { "!player.buff(Shield Barrier)", "player.rage > 60", "toggle.shieldbarrier" } }, -- for magic/bleed/unblockable dmg
-	{ "#5512", { "modifier.cooldowns", "player.health < 30" } }, -- Healthstone (5512)
+	{ "#89640", { "toggle.consume", "player.health < 40", "!player.buff(130649)", "target.boss" } }, -- Life Spirit (130649)
+	{ "#5512", { "toggle.consume", "player.health < 35" } }, -- Healthstone (5512)
+	{ "#76097", { "toggle.consume", "player.health < 15", "target.boss" } }, -- Master Healing Potion (76097)
 
 	-- INTERRUPTS
-	{{
-		{ "Pummel" },
-		{ "Disrupting Shout" },
-	}, "modifier.interrupts" },
-
+	{ "Disrupting Shout", { "target.exists", "target.range < 10", "modifier.interrupt", "player.area(10).enemies > 1"  } },
+	{ "Pummel", "modifier.interrupt" },
 
 	-- actions=charge
 	-- actions+=/auto_attack
@@ -56,8 +54,8 @@ PossiblyEngine.rotation.register_custom(73, "bbWarrior Gladiator", {
 		{ "Avatar" },
 		-- actions+=/bloodbath
 		{ "Bloodbath" },
-		-- actions+=/use_item,name=bonemaws_big_toe,if=buff.bloodbath.up|buff.avatar.up|buff.shield_charge.up|target.time_to_die<15
-		-- actions+=/use_item,name=turbulent_emblem,if=buff.bloodbath.up|buff.avatar.up|buff.shield_charge.up|target.time_to_die<15
+		-- actions+=/use_item,name=bonemaws_big_toe,if=buff.bloodbath.up|buff.avatar.up|buff.shield_charge.up|target.time_to_die<15 (#trinket1)
+		-- actions+=/use_item,name=turbulent_emblem,if=buff.bloodbath.up|buff.avatar.up|buff.shield_charge.up|target.time_to_die<15 (#trinket2)
 		-- actions+=/blood_fury,if=buff.bloodbath.up|buff.avatar.up|buff.shield_charge.up|target.time_to_die<10
 		{ "Blood Fury", "player.buff(Bloodbath)" },
 		{ "Blood Fury", "player.buff(Avatar)" },
