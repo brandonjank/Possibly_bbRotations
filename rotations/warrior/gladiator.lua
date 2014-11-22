@@ -20,70 +20,25 @@ PossiblyEngine.rotation.register_custom(73, "bbWarrior Gladiator", {
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },
 	{ "/script TargetNearestEnemy()", { "toggle.autotarget", "target.exists", "target.dead" } },
 
-	-- OFF GCD
-	{ "Cleave", { "player.rage >= 90", "modifier.multitarget" } },
-	{ "Cleave", { "player.buff(Incite)", "modifier.multitarget" } },
-	{ "Cleave", { "player.buff(Ultimatum)", "modifier.multitarget" } },
-	{ "Heroic Strike", { "player.rage >= 90", "!modifier.multitarget" } },
-	{ "Heroic Strike", { "player.buff(Incite)", "!modifier.multitarget" } },
-	{ "Heroic Strike", { "player.buff(Ultimatum)", "!modifier.multitarget" } },
-	{ "Demoralizing Shout", { "target.spell(Heroic Strike).range", "target.threat > 99" } },
+	-- AUTO TAUNT
+	{ "Taunt", { "toggle.autotaunt", "@bbLib.bossTaunt" } },
 
-	-- Survival CDs
+	-- DEFENSIVE COOLDOWNS
 	{ "Rallying Cry", { "player.health < 10", "modifier.cooldowns" } },
 	{ "Last Stand", { "player.health < 20", "modifier.cooldowns" } },
 	{ "Shield Wall", { "player.health < 50", "modifier.cooldowns" } },
 	{ "Impending Victory", "player.health < 70" },
 	{ "Enraged Regeneration", "player.buff(Enrage)" },
 	{ "Victory Rush" },
-
-	-- BossMods
-	{ "Taunt", { "toggle.autotaunt", "@bbLib.bossTaunt" } },
-
-	-- Survival Buffs
 	{ "Shield Block", { "!player.buff(Shield Block)", "toggle.shieldblock" } }, -- for heavy physical dmg
 	{ "Shield Barrier", { "!player.buff(Shield Barrier)", "player.rage > 60", "toggle.shieldbarrier" } }, -- for magic/bleed/unblockable dmg
 	{ "#5512", { "modifier.cooldowns", "player.health < 30" } }, -- Healthstone (5512)
 
-	-- Kicks
+	-- INTERRUPTS
 	{{
 		{ "Pummel" },
 		{ "Disrupting Shout" },
 	}, "modifier.interrupts" },
-
-	-- Spell Reflection
-	-- FIX ME
-
-	-- Vigilance
-	-- FIX ME
-
-	-- Ranged
-	{ "Heroic Throw", "target.range >= 10" },
-	{ "Throw", { "target.range >= 10", "!player.moving" } },
-	-- Shattering Throw?
-
-	-- Cooldowns
-	{ "Berserker Rage", "player.rage <= 90" },
-	{{
-		{ "Avatar" },
-		{ "Recklessness" },
-		{ "Blood Fury" },
-		{ "Berserker Rage" },
-	}, { "modifier.cooldowns", "player.buff(Skull Banner)" } },
-
-	-- Rotation
-	{ "Thunder Clap", { "modifier.multitarget", "target.spell(Heroic Strike).range" } },
-	{ "Shield Slam" },
-	{ "Revenge", "player.rage <= 80" },
-	{ "Devastate", "!target.debuff(Deep Wounds)" },
-	{ "Devastate", "target.debuff(Weakened Armor).count < 3" },
-	{ "Dragon Roar", "target.spell(Heroic Strike).range" },
-	{ "Sunder Armor", { "player.level < 26", "target.debuff(Weakened Armor).count < 3" } },
-	{ "Thunder Clap", { "!target.debuff(Weakened Blows).any", "target.spell(Heroic Strike).range" } },
-	{ "Battle Shout", { "toggle.shout", "player.rage <= 80" } },
-	{ "Commanding Shout", { "!toggle.shout", "player.rage <= 80" } },
-	{ "Devastate" },
-
 
 
 	-- actions=charge
@@ -95,6 +50,7 @@ PossiblyEngine.rotation.register_custom(73, "bbWarrior Gladiator", {
 	-- actions.movement+=/storm_bolt
 	-- actions.movement+=/heroic_throw
 
+	-- OFFENSIVE COOLDOWNS / COMMON
 	{ {
 		-- actions+=/avatar
 		{ "Avatar" },
@@ -129,7 +85,6 @@ PossiblyEngine.rotation.register_custom(73, "bbWarrior Gladiator", {
 	},{
 		"modifier.cooldowns", "target.exists", "target.distance < 5",
 	} },
-
 	-- actions+=/heroic_leap,if=(raid_event.movement.distance>25&raid_event.movement.in>45)|!raid_event.movement.exists
 	-- actions+=/heroic_strike,if=((buff.shield_charge.up|buff.unyielding_strikes.up)&target.health.pct>20)|buff.ultimatum.up|rage>=100|buff.unyielding_strikes.stack>4|target.time_to_die<10
 	{ "Heroic Strike", { "target.health > 20", "player.buff(Shield Charge)" } },
