@@ -86,7 +86,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Regrowth", { "lowest.health <= 50", "!lowest.buff(Regrowth)", "!player.moving" }, "lowest" },
   { "Healing Touch", { "lowest.health < 100", "!player.moving" }, "lowest" },
 
-  { "Wrath", "lowest.health > 99", "target" },
+  --{ "Wrath", "lowest.health > 99", "target" },
 
 }, {
 -- OUT OF COMBAT ROTATION
