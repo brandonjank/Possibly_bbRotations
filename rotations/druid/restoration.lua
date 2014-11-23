@@ -19,10 +19,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
 -- COMBAT ROTATION
   -- PAUSE
   { "pause", "modifier.lcontrol" },
-  { "pause", "player.buff(Food)" },
-  { "pause", "modifier.looting" },
-  { "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
-  { "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
+  { "pause", "@bbLib.bossMods" },
 
   { "Treant Form", { "!player.buff(Treant Form)", "!player.buff(Dash)", "!modifier.last", "player.ininstance" } },
 
@@ -106,7 +103,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
 -- OUT OF COMBAT ROTATION
   -- PAUSE
   { "pause", "modifier.lalt" },
-  { "pause", "player.buff(Food)" },
+  { "pause", "@bbLib.bossMods" },
 
   -- BUFFS
   { "Mark of the Wild", "!player.buffs.stats" },

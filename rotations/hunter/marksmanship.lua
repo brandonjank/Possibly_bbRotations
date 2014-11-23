@@ -167,6 +167,8 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- actions+=/aimed_shot,if=focus+cast_regen>=85
 	-- actions+=/aimed_shot,if=buff.thrill_of_the_hunt.react&focus+cast_regen>=65
 	{ "Aimed Shot", "@bbLib.aimedShot" },
+	-- Cheetah!
+	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!modifier.last" } },
 	-- # Allow FS to over-cap by 10 if we have nothing else to do
 	-- actions+=/focusing_shot,if=50+cast_regen-10<focus.deficit
 	{ "Focusing Shot", "@bbLib.focusingShot" },
@@ -178,18 +180,14 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 -- OUT OF COMBAT ROTATION
 	-- PAUSES
 	{ "pause", "modifier.lcontrol" },
+	{ "pause", "@bbLib.bossMods" },
 	{ "pause", "player.buff(Feign Death)" },
-	{ "pause", "player.buff(Food)" },
-	{ "pause", "modifier.looting" },
+	{ "pause", "player.buff(Camouflage)" },
 
 	--{ "/stopcasting", "player.casting(Aimed Shot)" }
 
 	-- AUTO LOOT
 	{ "Fetch", { "!talent(7, 3)", "timeout(Fetch, 9)", "player.ooctime < 30", "!player.moving", "!target.exists", "!player.busy" } }, --/targetlasttarget /use [@target,exists,dead] Fetch
-
-	-- ASPECTS
-	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
-	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.lastmoved < 30", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- PET MANAGEMENT
 	-- TODO: Use proper pet when raid does not provide buff. http://www.icy-veins.com/wow/survival-hunter-pve-dps-buffs-debuffs-useful-abilities
@@ -203,6 +201,11 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Explosive Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" }, -- mouseover.ground?
 	{ "Ice Trap", { "modifier.lalt", "player.buff(Trap Launcher)" }, "ground" },
 	{ "Freezing Trap", { "modifier.ralt", "player.buff(Trap Launcher)" }, "ground" },
+
+	-- ASPECTS
+	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
+	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.health < 95", "!player.debuff(Orb of Power)", "!modifier.last" } },
+	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.focus < 100", "!player.debuff(Orb of Power)", "!modifier.last" } },
 
 	-- FROGING
 	{ {

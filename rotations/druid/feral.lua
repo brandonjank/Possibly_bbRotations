@@ -9,10 +9,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 -- COMBAT ROTATION
 	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "player.buff(Food)" },
-	{ "pause", "modifier.looting" },
-	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
-	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
+	{ "pause", "@bbLib.bossMods" },
 
 	-- DPS ROTATION
 	-- actions=cat_form
@@ -88,7 +85,7 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 -- OUT OF COMBAT ROTATION
 	-- Pauses
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "player.buff(Food)" },
+	{ "pause", "@bbLib.bossMods" },
 
 	-- Buffs
 	{ "Mark of the Wild", "!player.buffs.stats" },

@@ -10,10 +10,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 -- COMBAT
 	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "player.buff(Food)" },
-	{ "pause", "modifier.looting" },
-	{ "pause", "target.buff(Reckless Provocation)" }, -- Iron Docks - Fleshrender
-	{ "pause", "target.buff(Sanguine Sphere)" }, -- Iron Docks - Enforcers
+	{ "pause", "@bbLib.bossMods" },
 
 	-- AUTO TARGET
 	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" } },
@@ -131,7 +128,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 -- OUT OF COMBAT ROTATION
 	-- PAUSE
 	{ "pause", "modifier.lcontrol" },
-	{ "pause", "player.buff(Food)" },
+	{ "pause", "@bbLib.bossMods" },
 
 	-- BUFFS
 	{ "Mark of the Wild", "!player.buffs.stats" },

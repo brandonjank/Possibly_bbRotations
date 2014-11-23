@@ -196,11 +196,17 @@ function bbLib.bossMods()
 	-- 		end
 	-- 	end
 	-- end
+	-- StrafeRightStart() StrafeRightStop()
 
-	if (UnitExists("target") and (UnitBuff("target", "Reckless Provocation") -- Iron Docks - Fleshrender
-		or UnitBuff("target", "Sanguine Sphere"))) -- Iron Docks - Enforcers
-		or UnitBuff("player", "Food")
-		then
+	if UnitExists("target") and (UnitBuff("target", "Reckless Provocation") -- Iron Docks - Fleshrender
+		or UnitBuff("target", "Sanguine Sphere")) then -- Iron Docks - Enforcers
+			SpellStopCasting()
+			--StopAttack()
+			return true
+	end
+
+	if UnitBuff("player", "Food")
+		or GetNumLootItems() > 0 then
 			return true
 	end
 
