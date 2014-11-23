@@ -65,8 +65,8 @@ PossiblyEngine.rotation.register_custom(268, "bbMonk Brewmaster (2H Serenity)", 
 	-- actions+=/serenity,if=talent.serenity.enabled&energy<=40
 	{ "Serenity", "player.energy <= 40" },
 
-	{ "Dizzying Haze", { "target.exists", "target.enemy", "target.combat", "target.distance > 8", "target.distance < 40", "!target.debuff(Dizzying Haze)" }, "target.ground" },
-	{ "Dizzying Haze", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "mouseover.combat", "mouseover.distance > 8", "mouseover.distance < 40", "!mouseover.debuff(Dizzying Haze)" }, "mouseover.ground" },
+	{ "Dizzying Haze", { "target.exists", "target.enemy", "target.combat", "target.distance > 15", "target.distance < 40", "!target.debuff(Dizzying Haze)" }, "target.ground" },
+	{ "Dizzying Haze", { "toggle.mouseovers", "mouseover.exists", "mouseover.enemy", "mouseover.combat", "mouseover.distance > 15", "mouseover.distance < 40", "!mouseover.debuff(Dizzying Haze)" }, "mouseover.ground" },
 
 	{ {
 		-- actions.aoe=guard

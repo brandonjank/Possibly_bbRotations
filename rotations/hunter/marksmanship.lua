@@ -82,8 +82,10 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "161060", { "target.exists", "player.debuff(Blackrock Grenades)" }, "target.ground" }, -- Blackrock Grenade /click ExtraActionButton1
 	-- actions=auto_shot
 	-- actions+=/use_item,name=gorashans_lodestone_spike
-	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.buff(Rapid Fire)" } },
+	{ "#trinket1", { "target.exists", "target.enemy", "target.alive", "player.buff(Rapid Fire)" } },
 	{ "#trinket1", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.hashero" } },
+	{ "#trinket2", { "target.exists", "target.enemy", "target.alive", "player.buff(Rapid Fire)" } },
+	{ "#trinket2", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive", "player.hashero" } },
 	-- actions+=/arcane_torrent,if=focus.deficit>=30
 	{ "Arcane Torrent", { "modifier.cooldowns", "player.focus <= 70" } },
 	-- actions+=/blood_fury
@@ -92,7 +94,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	{ "Berserking", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive" } },
 	-- actions+=/potion,name=draenic_agility,if=((buff.rapid_fire.up|buff.bloodlust.up)&(cooldown.stampede.remains<1))|target.time_to_die<=25
 	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.hashero" } }, -- Draenic Agility Potion
-	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "player.buff(Rapid Fire)" } }, -- Draenic Agility Potion
+	{ "#109217", { "toggle.consume", "target.exists", "target.boss", "player.buff(Rapid Fire)" } }, -- Draenic Agility Potion
 	{ "#109217", { "modifier.cooldowns", "toggle.consume", "target.exists", "target.boss", "target.deathin <= 25" } }, -- Draenic Agility Potion
 	-- actions+=/chimaera_shot
 	{ "Chimaera Shot" },
@@ -101,7 +103,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- actions+=/rapid_fire
 	{ "Rapid Fire", { "modifier.cooldowns", "target.exists", "target.enemy", "target.alive" } }, -- Only cast if boss target is under 80% to maximize CA?
 	-- actions+=/stampede,if=buff.rapid_fire.up|buff.bloodlust.up|target.time_to_die<=25
-	{ "Stampede", { "modifier.cooldowns", "player.buff(Rapid Fire)" } },
+	{ "Stampede", { "player.buff(Rapid Fire)" } },
 	{ "Stampede", { "modifier.cooldowns", "player.hashero" } },
 	{ "Stampede", { "modifier.cooldowns", "target.boss","target.deathin <= 25" } },
 
@@ -204,8 +206,8 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- ASPECTS
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
-	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.health < 95", "!player.debuff(Orb of Power)", "!modifier.last" } },
-	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.focus < 100", "!player.debuff(Orb of Power)", "!modifier.last" } },
+	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.health < 95", "!player.debuff(Orb of Power)", "!modifier.last", "player.ooctime > 3" } },
+	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.focus < 100", "!player.debuff(Orb of Power)", "!modifier.last", "player.ooctime > 3" } },
 
 	-- FROGING
 	{ {
