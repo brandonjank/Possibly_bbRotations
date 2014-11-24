@@ -91,37 +91,28 @@ function bbLib.rateLimit(miliseconds)
     return ((GetTime()*1000) % miliseconds) == 0
 end
 
-
 function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 	if UnitIsDeadOrGhost("player")
-		or ( UnitExists("target") and UnitIsFriend("player", "target") )
-		or ((UnitHealth("player") / UnitHealthMax("player")) * 100) < 60 then
-			return false
+	or ( UnitExists("target") and UnitIsFriend("player", "target") )
+	or ((UnitHealth("player") / UnitHealthMax("player")) * 100) < 70
+	or GetUnitSpeed("player") > 0 then
+		return false
 	end
 
 	if UnitClass("player") == "Hunter" and UnitBuff("player", "Sniper Training") ~= nil then
 		searchRange = searchRange + 5
 	end
 
-	-- local toxin = select(4,UnitDebuff("player", "Gulp Frog Toxin")) or 0
-	-- if toxin > 3 then
-	-- 	if UnitClass("player") == "Paladin" and GetSpellCooldown("Divine Shield") == 0 then
-	-- 		Cast("Divine Shield", "player")
-	-- 	elseif UnitClass("player") == "Shaman" and GetSpellCooldown("Earth Elemental Totem") == 0 then
-	-- 		Cast("Earth Elemental Totem", "player")
-	-- 	end
-	-- 	searchRange = 3
-	-- end
-
 	if UnitExists("target") then
 		if UnitIsDeadOrGhost("target")
-			or ( UnitIsTapped("target") and not UnitIsTappedByPlayer("target")
-			and UnitThreatSituation("player", "target")
-			and UnitThreatSituation("player", "target") < 2 ) then
-				ClearTarget()
+		or ( UnitIsTapped("target") and not UnitIsTappedByPlayer("target")
+		and UnitThreatSituation("player", "target")
+		and UnitThreatSituation("player", "target") < 2 ) then
+			ClearTarget()
 		end
 	end
 
+	-- ObjectTypes={Object=0x1,Item=0x2,Container=0x4,Unit=0x8,Player=0x10,GameObject=0x20,DynamicObject=0x40,Corpse=0x80,AreaTrigger=0x100,SceneObject=0x200,All=0xFFFFFFFF,}
 	-- Find closest unit.
 	if not UnitExists("target") then
 		local totalObjects = ObjectCount() or 0
@@ -130,45 +121,44 @@ function bbLib.engaugeUnit(unitName, searchRange, isMelee)
 		local objectCount = 0
 		for i = 1, totalObjects do
 			local object = ObjectWithIndex(i)
-			if ObjectExists(object) then
-				local objectName = ObjectName(object) or 0
-				if string.find(objectName, unitName) ~= nil then
-					-- TODO: Loot lootable objects! /script print(ObjectInteract("target")) ObjectTypes.Corpse = 128 ObjectTypes.Container = 4
-					if UnitExists(object) and UnitIsVisible(object) and not UnitIsDeadOrGhost(object) then
-						if not UnitIsTapped(object) or UnitIsTappedByPlayer(object)
-							or ( UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1 ) then
-								local objectDistance = Distance("player", object)
-								if objectDistance <= searchRange and objectDistance < closestUnitDistance and LineOfSight("player", object) then
-									closestUnitObject = object
-									closestUnitDistance = objectDistance
-									objectCount = objectCount + 1
-								end
+			if ObjectExists(object) and ObjectIsType(object, 0x8) then
+				local canAttack = UnitCanAttack("player", object)
+				local isDeadOrGhost = UnitIsDeadOrGhost(object)
+				local objectName = ObjectName(object)
+				local isVisible = UnitIsVisible(object)
+				local isTapped = UnitIsTapped(object)
+				local isTappedByPlayer = UnitIsTappedByPlayer(object)
+				local reaction = UnitReaction(object, "player")
+				if canAttack and isVisible and not isDeadOrGhost and reaction and reaction < 4 and (unitName == "ANY" or string.find(objectName, unitName) ~= nil) then
+					if not isTapped or isTappedByPlayer or ( UnitThreatSituation("player", object) and UnitThreatSituation("player", object) > 1 ) then
+						local objectDistance = Distance("player", object)
+						if objectDistance <= searchRange and objectDistance < closestUnitDistance and LineOfSight("player", object) then
+							closestUnitObject = object
+							closestUnitDistance = objectDistance
+							objectCount = objectCount + 1
 						end
 					end
 				end
-			else
-				return false
 			end
 		end
 		if objectCount == 0 or closestUnitObject == nil then return false end
 		TargetUnit(closestUnitObject)
 		FaceUnit(closestUnitObject)
+		if not UnitAffectingCombat("player") then AttackTarget() end
+		if isMelee and closestUnitDistance >= 5 then
+			MoveTo(ObjectPosition(closestUnitObject))
+		end
 	end
+	return false
+end
 
-	-- Always Face Target
-	--if UnitExists("target") then
-	--	FaceUnit("target")
-	--end
-
-	-- Move to unit.
-	-- TODO: Move back to original position after kill.
-	--if closestUnitObject and UnitExists("target") and UnitExists(closestUnitObject) and UnitIsUnit(closestUnitObject, "target") and ( not UnitIsTapped(closestUnitObject) or UnitIsTappedByPlayer(closestUnitObject) ) then
-		--if isMelee and closestUnitDistance <= searchRange and closestUnitDistance > 0 then
-			--MoveTo(ObjectPosition(closestUnitObject))
-		--	FaceUnit(closestUnitObject)
-		--end
-	--end
-
+function bbLib.stopFalling()
+	local movementFlags = UnitMovementFlags("player")
+	-- MovementFlags={Forward=0x1,Backward=0x2,StrafeLeft=0x4,StrafeRight=0x8,TurnLeft=0x10,TurnRight=0x20,PitchUp=0x40,PitchDown=0x80,Walking=0x100,Levitating=0x200,Immobilized=0x400,Falling=0x800,FallingFar=0x1000,PendingStop=0x2000,PendingStrafeStop=0x4000,PendingForward=0x8000,PendingBackward=0x10000,PendingStrafeLeft=0x20000,PendingStrafeRight=0x40000,PendingImmobilize=0x80000,Swimming=0x100000,Ascending=0x200000,Descending=0x400000,CanFly=0x800000,Flying=0x1000000,SplineElevation=0x2000000,SplineEnabled=0x4000000,WaterWalking=0x8000000,SlowFall=0x10000000,Hover=0x20000000,}
+	-- /script print(bit.band(UnitMovementFlags("player"), 0x1) > 0)
+	if bit.band(movementFlags, 0x1000) > 0 then
+		StopFalling()
+	end
 	return false
 end
 

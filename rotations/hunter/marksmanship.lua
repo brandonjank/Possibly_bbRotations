@@ -23,8 +23,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- FROGING
 	{ {
-		{ "Flare", "@bbLib.engaugeUnit('Grom', 40, false)" },
-		-- Ordon Candlekeeper, Ordon Fire-Watcher, Ordon Oathguard (Gotta strafe out of fire and ground crap)
+		{ "Flare", "@bbLib.engaugeUnit('ANY', 40, false)" },
 	},{
 		"toggle.frogs",
 	} },
@@ -183,6 +182,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- PAUSES
 	{ "pause", "modifier.lcontrol" },
 	{ "pause", "@bbLib.bossMods" },
+	{ "pause", "@bbLib.stopFalling" },
 	{ "pause", "player.buff(Feign Death)" },
 	{ "pause", "player.buff(Camouflage)" },
 
@@ -206,15 +206,13 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- ASPECTS
 	{ "Aspect of the Cheetah", { "player.movingfor > 1", "!player.buff", "!player.buff(Aspect of the Pack)", "!modifier.last" } }, -- 10sec cd now unless glyphed
-	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.health < 95", "!player.debuff(Orb of Power)", "!modifier.last", "player.ooctime > 3" } },
-	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.focus < 100", "!player.debuff(Orb of Power)", "!modifier.last", "player.ooctime > 3" } },
+	{ "Camouflage", { "toggle.camomode", "!player.buff", "player.health < 90", "!player.debuff(Orb of Power)", "!modifier.last", "player.ooctime > 3" } },
 
 	-- FROGING
 	{ {
-		{ "Flare", "@bbLib.engaugeUnit('Grom', 40, false)" },
-		{ "!Auto Shot", { "target.exists", "target.health > 1" } },
-		{ "Chimaera Shot", "target.exists" },
-		{ "Glaive Toss", "target.exists" },
+		{ "Flare", "@bbLib.engaugeUnit('ANY', 40, false)" },
+		{ "Chimaera Shot", { "target.exists", "target.enemy" }, "target" },
+		{ "Glaive Toss", { "target.exists", "target.enemy" }, "target" },
 	},{
 		"toggle.frogs",
 	} },
@@ -237,5 +235,5 @@ function()
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\ability_hunter_quickshot', 'Use Mouseovers', 'Toggle automatic usage of stings/scatter/etc on eligible mouseover targets.')
 	PossiblyEngine.toggle.create('camomode', 'Interface\\Icons\\ability_hunter_displacement', 'Use Camouflage', 'Toggle the usage Camouflage when out of combat.')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
-	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target un-tapped Gulp Frogs.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Auto Engauge', 'Automaticly target and attack units in range.')
 end)
