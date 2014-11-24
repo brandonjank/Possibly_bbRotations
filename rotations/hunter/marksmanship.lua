@@ -110,11 +110,11 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- CAREFUL AIM
 	{ {
 	  -- actions.careful_aim=glaive_toss,if=active_enemies>2
-	  { "Glaive Toss", "target.area(10).enemies > 2" },
+	  { "Glaive Toss", { "modifier.multitarget", "target.area(10).enemies > 2" } },
 	  -- actions.careful_aim+=/powershot,if=active_enemies>1&cast_regen<focus.deficit
-	  { "Powershot", { "target.area(10).enemies > 1", "player.spell(Powershot).wontcap" } },
+	  { "Powershot", { "target.area(10).enemies > 1", "!player.moving" } },
 	  -- actions.careful_aim+=/barrage,if=active_enemies>1
-	  { "Barrage", "target.area(10).enemies > 1" },
+	  { "Barrage", { "modifier.multitarget", "target.area(10).enemies > 1" } },
 	  -- actions.careful_aim+=/aimed_shot
 	  { "Aimed Shot" },
 	  -- actions.careful_aim+=/focusing_shot,if=50+cast_regen<focus.deficit
@@ -126,11 +126,11 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	} },
 	{ {
 	  -- actions.careful_aim=glaive_toss,if=active_enemies>2
-	  { "Glaive Toss", "target.area(10).enemies > 2" },
+	  { "Glaive Toss", { "modifier.multitarget", "target.area(10).enemies > 2" } },
 	  -- actions.careful_aim+=/powershot,if=active_enemies>1&cast_regen<focus.deficit
-	  { "Powershot", { "target.area(10).enemies > 1", "player.spell(Powershot).wontcap" } },
+	  { "Powershot", { "target.area(10).enemies > 1", "!player.moving" } },
 	  -- actions.careful_aim+=/barrage,if=active_enemies>1
-	  { "Barrage", "target.area(10).enemies > 1" },
+	  { "Barrage", { "modifier.multitarget", "target.area(10).enemies > 1" } },
 	  -- actions.careful_aim+=/aimed_shot
 	  { "Aimed Shot" },
 	  -- actions.careful_aim+=/focusing_shot,if=50+cast_regen<focus.deficit
@@ -143,17 +143,17 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 
 	-- DPS ROTATION
 	-- actions+=/explosive_trap,if=active_enemies>1
-	{ "Explosive Trap", { "!target.moving", "target.area(8).enemies > 1" }, "target.ground" },
+	{ "Explosive Trap", { "modifier.multitarget", "!target.moving", "target.area(8).enemies > 1" }, "target.ground" },
 	-- actions+=/a_murder_of_crows
 	{ "A Murder of Crows" },
 	-- actions+=/dire_beast,if=cast_regen+action.aimed_shot.cast_regen<focus.deficit
 	{ "Dire Beast", "@bbLib.canDireBeast" },
 	-- actions+=/glaive_toss
-	{ "Glaive Toss" },
+	{ "Glaive Toss", "modifier.multitarget" },
 	-- actions+=/powershot,if=cast_regen<focus.deficit
-	{ "Powershot", "player.spell(Powershot).wontcap" },
+	{ "Powershot", "!player.moving" },
 	-- actions+=/barrage
-	{ "Barrage" },
+	{ "Barrage", "modifier.multitarget" },
 	-- # Pool max focus for rapid fire so we can spam AimedShot with Careful Aim buff
 	-- actions+=/steady_shot,if=focus.deficit*cast_time%(14+cast_regen)>cooldown.rapid_fire.remains
 	{ "Steady Shot", "@bbLib.poolSteady" },
@@ -163,7 +163,7 @@ PossiblyEngine.rotation.register_custom(254, "bbHunter Marksmanship", {
 	-- actions+=/steady_shot,if=buff.pre_steady_focus.up&(14+cast_regen+action.aimed_shot.cast_regen)<=focus.deficit
 	{ "Steady Shot", { "talent(4, 1)", "modifier.last(Steady Shot)", "!player.buff(Steady Focus)", "@bbLib.steadyFocus" } },
 	-- actions+=/multishot,if=active_enemies>6
-	{ "Multi-Shot", "target.area(8).enemies > 6" },
+	{ "Multi-Shot", { "modifier.multitarget", "target.area(8).enemies > 6" } },
 	-- actions+=/aimed_shot,if=talent.focusing_shot.enabled
 	{ "Aimed Shot", "talent(7, 2)" },
 	-- actions+=/aimed_shot,if=focus+cast_regen>=85
