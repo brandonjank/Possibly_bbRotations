@@ -42,6 +42,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   -- SELF HEALING
   { "Rejuvenation", { "player.health < 95", "!player.buff(Rejuvenation)" }, "player" },
   { "Wild Mushroom", { "!player.glyph(146654)", "player.health < 90", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "player" }, -- If Glyph of the Sprouting Mushroom then use NeedHealsAroundUnit with lowest.ground target
+  { "Wild Mushroom", { "player.glyph(146654)", "player.health < 90", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "player.ground" },
   { "Swiftmend", { "player.health < 70", "player.buff(Rejuvenation)" }, "player" },
   { "Swiftmend", { "player.health < 70", "player.buff(Regrowth)" }, "player" },
   { "Regrowth", { "player.health < 70", "!player.buff(Regrowth)", "!player.moving" }, "player" },
@@ -53,6 +54,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
     { "Rejuvenation", "!boss1target.buff(Rejuvenation)", "boss1target" },
     { "Rejuvenation", { "talent(7, 2)", "boss1target.buff(Rejuvenation).count < 2" }, "boss1target" },
     { "Wild Mushroom", { "!player.glyph(146654)", "boss1target.health < 90", "!boss1target.moving", (function() return GetTotemInfo(1) == false end) }, "boss1target" }, -- If Glyph of the Sprouting Mushroom then use NeedHealsAroundUnit with lowest.ground target
+    { "Wild Mushroom", { "player.glyph(146654)", "boss1target.health < 90", "!boss1target.moving", (function() return GetTotemInfo(1) == false end) }, "boss1target.ground" },
     { "Swiftmend", { "boss1target.health < 75", "boss1target.buff(Rejuvenation)" }, "boss1target" },
     { "Swiftmend", { "boss1target.health < 75", "boss1target.buff(Regrowth)" }, "boss1target" },
   },{
@@ -64,6 +66,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
     { "Rejuvenation", "!focus.buff(Rejuvenation)", "focus" },
     { "Rejuvenation", { "talent(7, 2)", "focus.buff(Rejuvenation).count < 2" }, "focus" },
     { "Wild Mushroom", { "!player.glyph(146654)", "focus.health < 90", "!focus.moving", (function() return GetTotemInfo(1) == false end) }, "focus" },
+    { "Wild Mushroom", { "player.glyph(146654)", "focus.health < 90", "!focus.moving", (function() return GetTotemInfo(1) == false end) }, "focus.ground" },
     { "Swiftmend", { "focus.health <= 75", "focus.buff(Rejuvenation)" }, "focus" },
     { "Swiftmend", { "focus.health <= 75", "focus.buff(Regrowth)" }, "focus" },
   },{
@@ -95,6 +98,7 @@ PossiblyEngine.rotation.register_custom(105, "bbDruid Restoration", {
   { "Rejuvenation", { "lowest.health < 100", "!lowest.buff(Rejuvenation)" }, "lowest" },
   { "Wild Growth", { "lowest.health <= 80", "!player.moving", "@coreHealing.needsHealing(80, 3)" }, "lowest" },
   { "Wild Mushroom", { "!player.glyph(146654)", "lowest.health < 90", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "lowest" },
+  --{ "Wild Mushroom", { "player.glyph(146654)", "lowest.health < 90", "!player.moving", (function() return GetTotemInfo(1) == false end) }, "lowest.ground" },
   { "Healing Touch", { "lowest.health < 98", "!player.moving" }, "lowest" },
 
   --{ "Wrath", "lowest.health > 99", "target" },
