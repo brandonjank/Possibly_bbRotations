@@ -1,6 +1,6 @@
 -- PossiblyEngine Rotation
--- Marksmanship Hunter - WoD 6.0.2
--- Updated on Nov 14th 2014
+-- Marksmanship Hunter - WoD 6.0.3
+-- Updated on Nov 24th 2014
 
 -- SUGGESTED TALENTS: Crouching Tiger, Binding Shot, Iron Hawk, Thrill of the Hunt, A Murder of Crows, and Barrage or Glaive Toss
 -- SUGGESTED GLYPHS: Major: Animal Bond, Deterrence, Disengage  Minor: Aspect of the Cheetah, Play Dead, Fetch
