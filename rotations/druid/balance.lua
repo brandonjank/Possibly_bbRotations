@@ -158,7 +158,7 @@ PossiblyEngine.rotation.register_custom(102, "bbDruid Balance", {
 
 	-- FROGGING
 	{ {
-		{ "Mark of the Wild", { "player.health > 80", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" } },
+		{ "Mark of the Wild", { "player.health > 80", "@bbLib.engaugeUnit('ANY', 40, false)" } },
 		{ "Rejuvenation", { "party1.exists", "party1.health < 100", "!party1.buff(Rejuvenation)" }, "party1" },
 		{ "Rejuvenation", { "party2.exists", "party2.health < 100", "!party2.buff(Rejuvenation)" }, "party2" },
 		{ "Rejuvenation", { "party3.exists", "party3.health < 100", "!party3.buff(Rejuvenation)" }, "party3" },
@@ -184,5 +184,5 @@ function()
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_nature_faeriefire', 'Use Mouseovers', 'Toggle usage of Moonfire/Sunfire on mouseover targets.')
 	PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\spell_nature_forceofnature', 'Auto Form', 'Toggle usage of smart forms out of combat. Does not work with stag glyph!')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
-	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and attack Gulp Frogs.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Auto Engauge', 'Automaticly target and attack units in range.')
 end)

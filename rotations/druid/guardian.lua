@@ -106,7 +106,7 @@ PossiblyEngine.rotation.register_custom(104, "bbDruid Guardian", {
 
 	-- FROGGING
 	{ {
-		{ "Mark of the Wild", "@bbLib.engaugeUnit('Gulp Frog', 40, false)" },
+		{ "Mark of the Wild", "@bbLib.engaugeUnit('ANY', 30, true)" },
 		{ "Soothe", true, "target" },
 	},{
 		"toggle.frogs",
@@ -119,5 +119,5 @@ function()
 	PossiblyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist.')
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_nature_faeriefire', 'Use Mouseovers', 'Toggle usage of Faerie Fire on mouseover targets.')
 	PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\ability_racial_bearform', 'Auto Form', 'Toggle usage of smart forms out of combat. Does not work with stag glyph!')
-	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target and attack Gulp Frogs.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Auto Engauge', 'Automaticly target and attack units in range.')
 end)

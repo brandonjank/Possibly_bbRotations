@@ -108,6 +108,14 @@ PossiblyEngine.rotation.register_custom(103, "bbDruid Feral", {
 		"toggle.forms", "!player.flying", "!player.buff(Dash)",
 	} },
 
+	-- FROGGING
+	{ {
+		{ "Mark of the Wild", { "player.health > 80", "@bbLib.engaugeUnit('ANY', 30, true)" } },
+		{ "Faerie Fire", true, "target" },
+	},{
+			"toggle.frogs",
+	} },
+
 	-- Pre-Combat
 	-- actions.precombat=flask,type=greater_draenic_agility_flask
 	-- actions.precombat+=/food,type=blackrock_barbecue
@@ -127,5 +135,5 @@ function()
 	PossiblyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_nature_faeriefire', 'Use Mouseovers', 'Toggle usage of Moonfire/Sunfire on mouseover targets.')
 	PossiblyEngine.toggle.create('forms', 'Interface\\Icons\\ability_druid_catform', 'Auto Form', 'Toggle usage of smart forms out of combat. Does not work with stag glyph!')
 	PossiblyEngine.toggle.create('pvpmode', 'Interface\\Icons\\achievement_pvp_o_h', 'Enable PvP', 'Toggle the usage of PvP abilities.')
-	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Gulp Frog Mode', 'Automaticly target un-tapped Gulp Frogs.')
+	PossiblyEngine.toggle.create('frogs', 'Interface\\Icons\\inv_misc_fish_33', 'Auto Engauge', 'Automaticly target and attack units in range.')
 end)
